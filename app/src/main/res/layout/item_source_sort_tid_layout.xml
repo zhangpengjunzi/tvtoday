@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180.0pt"
+    android:layout_height="30.0pt"
+    android:background="@drawable/splash_focus"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/tvSortName"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center|left"
+        android:paddingLeft="8.0pt"
+        android:text="111"
+        android:textColor="@android:color/black"
+        android:textSize="18.0pt" />
+
+    <TextView
+        android:id="@+id/tvSortSelect"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center|right"
+        android:paddingRight="8.0pt"
+        android:text="☆"
+        android:textColor="@color/color_6200EE"
+        android:textSize="18.0pt" />
+</FrameLayout>

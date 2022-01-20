@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/llPlay"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0pt"
+                android:layout_marginLeft="30.0pt"
+                android:layout_marginTop="20.0pt"
+                android:layout_marginRight="30.0pt"
+                android:background="@drawable/setting_model_focus"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20.0pt"
+                android:paddingRight="20.0pt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="播放器"
+                    android:textColor="@android:color/white"
+                    android:textSize="24.0pt" />
+
+                <Space
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:id="@+id/tvPlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="24.0pt" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10.0pt"
+                    android:paddingBottom="5.0pt"
+                    android:text=">"
+                    android:textColor="@android:color/white"
+                    android:textSize="30.0pt" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llMediaCodec"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0pt"
+                android:layout_marginLeft="30.0pt"
+                android:layout_marginTop="20.0pt"
+                android:layout_marginRight="30.0pt"
+                android:background="@drawable/setting_model_focus"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20.0pt"
+                android:paddingRight="20.0pt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IJK解码方式"
+                    android:textColor="@android:color/white"
+                    android:textSize="24.0pt" />
+
+                <Space
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:id="@+id/tvMediaCodec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="24.0pt" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10.0pt"
+                    android:paddingBottom="5.0pt"
+                    android:text=">"
+                    android:textColor="@android:color/white"
+                    android:textSize="30.0pt" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llRender"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0pt"
+                android:layout_marginLeft="30.0pt"
+                android:layout_marginTop="20.0pt"
+                android:layout_marginRight="30.0pt"
+                android:background="@drawable/setting_model_focus"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20.0pt"
+                android:paddingRight="20.0pt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="渲染方式"
+                    android:textColor="@android:color/white"
+                    android:textSize="24.0pt" />
+
+                <Space
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:id="@+id/tvRenderType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="24.0pt" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10.0pt"
+                    android:paddingBottom="5.0pt"
+                    android:text=">"
+                    android:textColor="@android:color/white"
+                    android:textSize="30.0pt" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llAbout"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0pt"
+                android:layout_marginLeft="30.0pt"
+                android:layout_marginTop="20.0pt"
+                android:layout_marginRight="30.0pt"
+                android:background="@drawable/setting_model_focus"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20.0pt"
+                android:paddingRight="20.0pt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="关于"
+                    android:textColor="@android:color/white"
+                    android:textSize="24.0pt" />
+
+                <Space
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10.0pt"
+                    android:paddingBottom="5.0pt"
+                    android:text=">"
+                    android:textColor="@android:color/white"
+                    android:textSize="30.0pt" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

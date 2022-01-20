@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="5.0pt"
+    android:background="@drawable/source_flag_focus"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:paddingLeft="10.0pt"
+    android:paddingRight="10.0pt">
+
+    <TextView
+        android:id="@+id/tvSeriesFlag"
+        android:layout_width="wrap_content"
+        android:layout_height="30.0pt"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:paddingLeft="5.0pt"
+        android:paddingRight="5.0pt"
+        android:singleLine="true"
+        android:text="\ 11111111111"
+        android:textColor="@android:color/white"
+        android:textSize="18.0pt" />
+
+    <View
+        android:id="@+id/tvSeriesFlagSelect"
+        android:layout_width="fill_parent"
+        android:layout_height="4.0pt"
+        android:layout_marginLeft="5.0pt"
+        android:layout_marginRight="5.0pt"
+        android:background="@drawable/source_flag_line" />
+</LinearLayout>
