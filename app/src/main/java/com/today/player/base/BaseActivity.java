@@ -3,6 +3,7 @@ package com.today.player.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,6 +21,8 @@ import com.today.player.util.AppManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import me.jessyan.autosize.AutoSizeCompat;
 
 /**
  * @author pj567
@@ -113,5 +116,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return "";
+    }
+
+    @Override
+    public Resources getResources() {
+        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());
+        return super.getResources();
     }
 }
