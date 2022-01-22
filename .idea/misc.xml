@@ -62,7 +62,10 @@
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/vod_seek_layout.xml" value="0.2552083333333333" />
         <entry key="app/src/main/res/drawable/bottom_shape.xml" value="0.27037037037037037" />
         <entry key="app/src/main/res/drawable/error_loading.xml" value="0.40512820512820513" />
+        <entry key="app/src/main/res/drawable/user_focus.xml" value="0.27037037037037037" />
+        <entry key="app/src/main/res/layout/activity_setting.xml" value="0.19224924012158054" />
         <entry key="app/src/main/res/layout/item_grid_layout.xml" value="0.19224924012158054" />
+        <entry key="app/src/main/res/layout/item_sort_setting_layout.xml" value="0.19224924012158054" />
       </map>
     </option>
   </component>

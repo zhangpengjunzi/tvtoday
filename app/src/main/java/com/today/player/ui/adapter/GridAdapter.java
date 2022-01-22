@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-
 import com.squareup.picasso.Picasso;
 import com.today.player.R;
 import com.today.player.bean.Movie;
@@ -51,7 +50,11 @@ public class GridAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
             tvArea.setText(item.area);
             tvArea.setVisibility(View.VISIBLE);
         }
-        helper.setText(R.id.tvNote, item.note);
+        if (TextUtils.isEmpty(item.note)) {
+            helper.getView(R.id.tvNote).setVisibility(View.GONE);
+        } else {
+            helper.setText(R.id.tvNote, item.note);
+        }
         helper.setText(R.id.tvName, item.name);
         helper.setText(R.id.tvActor, item.actor);
         ImageView ivThumb = helper.getView(R.id.ivThumb);
@@ -66,7 +69,7 @@ public class GridAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
                     .placeholder(R.drawable.error_loading)
                     .error(R.drawable.error_loading)
                     .into(ivThumb);
-        }else {
+        } else {
             ivThumb.setImageResource(R.drawable.error_loading);
         }
     }
