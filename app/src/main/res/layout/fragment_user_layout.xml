@@ -39,7 +39,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center"
-                android:paddingTop="350pt"
+                android:paddingTop="170pt"
                 android:text="历史记录"
                 android:textColor="@color/color_CCFFFFFF"
                 android:textSize="36pt" />
@@ -72,7 +72,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center"
-                android:paddingTop="350pt"
+                android:paddingTop="170pt"
                 android:text="直播"
                 android:textColor="@color/color_CCFFFFFF"
                 android:textSize="36pt" />
@@ -105,14 +105,14 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center"
-                android:paddingTop="350pt"
+                android:paddingTop="170pt"
                 android:text="搜索"
                 android:textColor="@color/color_CCFFFFFF"
                 android:textSize="36pt" />
 
             <ImageView
-                android:layout_width="150pt"
-                android:layout_height="150pt"
+                android:layout_width="160pt"
+                android:layout_height="160pt"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20pt"
                 android:alpha="0.75"
@@ -138,14 +138,14 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center"
-                android:paddingTop="350pt"
+                android:paddingTop="170pt"
                 android:text="设置"
                 android:textColor="@color/color_CCFFFFFF"
                 android:textSize="36pt" />
 
             <ImageView
-                android:layout_width="150pt"
-                android:layout_height="150pt"
+                android:layout_width="160pt"
+                android:layout_height="160pt"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20pt"
                 android:alpha="0.75"
