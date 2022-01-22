@@ -35,9 +35,11 @@ import java.util.List;
  * @description:
  */
 public class HistoryNewActivity extends BaseActivity {
-    private TextView tvTitle;
+    private TextView tvTitle, tvDel, tvDelTip;
     private TvRecyclerView mGridView;
     private HistoryAdapter historyAdapter;
+    public boolean g = false;
+
 
     @Override
     protected int getLayoutResID() {
@@ -53,11 +55,19 @@ public class HistoryNewActivity extends BaseActivity {
     private void initView() {
         EventBus.getDefault().register(this);
         tvTitle = findViewById(R.id.tvTitle);
+        tvDel = findViewById(R.id.tvDel);
+        tvDelTip = findViewById(R.id.tvDelTip);
         mGridView = findViewById(R.id.mGridView);
         mGridView.setHasFixedSize(true);
         historyAdapter = new HistoryAdapter();
         mGridView.setAdapter(historyAdapter);
         mGridView.setLayoutManager(new V7GridLayoutManager(this, 5));
+        tvDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                f();
+            }
+        });
         mGridView.setOnItemListener(new TvRecyclerView.OnItemListener() {
             @Override
             public void onItemPreSelected(TvRecyclerView tvRecyclerView, View view, int i) {
@@ -76,36 +86,35 @@ public class HistoryNewActivity extends BaseActivity {
             }
         });
 
+        mGridView.setOnInBorderKeyEventListener(new TvRecyclerView.OnInBorderKeyEventListener() {
+            @Override
+            public boolean onInBorderKeyEvent(int i, View view) {
+                if (i != 33) {
+                    return false;
+                }
+                tvDel.setFocusable(true);
+                tvDel.requestFocus();
+                return false;
+            }
+        });
+
         historyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 FastClickCheckUtil.check(view);
                 VodInfo vodInfo = historyAdapter.getData().get(position);
-                HistoryDialog historyDialog = new HistoryDialog().build(mContext, vodInfo).setOnHistoryListener(new HistoryDialog.OnHistoryListener() {
-                    @Override
-                    public void onLook(VodInfo vodInfo) {
-                        if (vodInfo != null) {
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("id", vodInfo.id);
-                            bundle.putString("sourceUrl", vodInfo.apiUrl);
-                            jumpActivity(DetailActivity.class, bundle);
-                        }
+                if (vodInfo != null) {
+                    if (g) {
+                        historyAdapter.remove(position);
+                        RoomDataManger.deleteVodRecord(vodInfo.apiUrl, vodInfo);
+                        return;
                     }
-
-                    @Override
-                    public void onDelete(VodInfo vodInfo) {
-                        if (vodInfo != null) {
-                            for (int i = 0; i < historyAdapter.getData().size(); i++) {
-                                if (vodInfo.id == historyAdapter.getData().get(i).id) {
-                                    historyAdapter.remove(i);
-                                    break;
-                                }
-                            }
-                            RoomDataManger.deleteVodRecord(vodInfo.apiUrl, vodInfo);
-                        }
-                    }
-                });
-                historyDialog.show();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", vodInfo.id);
+                    bundle.putString("sourceUrl", vodInfo.apiUrl);
+                    bundle.putString("sourceKey", vodInfo.sourceKey);
+                    jumpActivity(DetailActivity.class, bundle);
+                }
             }
         });
     }
@@ -134,4 +143,20 @@ public class HistoryNewActivity extends BaseActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+    public final void f() {
+        g = !g;
+        tvDelTip.setVisibility(g ? View.VISIBLE : View.GONE);
+        tvDel.setTextColor(g ? getResources().getColor(R.color.color_FF0057) : -1);
+    }
+
+
+    public void onBackPressed() {
+        if (this.g) {
+            f();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }

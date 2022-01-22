@@ -115,7 +115,7 @@ public class GridFragment extends BaseLazyFragment {
                 if (video != null) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("id", video.id);
-                    bundle.putString("sourceUrl", ApiConfig.get().getBaseUrl());
+                    bundle.putString("sourceUrl", video.api);
                     bundle.putString("sourceKey", video.sourceKey);
                     jumpActivity(DetailActivity.class, bundle);
                 }

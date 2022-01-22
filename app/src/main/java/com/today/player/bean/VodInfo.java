@@ -46,6 +46,7 @@ public class VodInfo implements Serializable {
     public String apiUrl;
     public int playFlag = 0;
     public LinkedHashMap<String, List<VodSeries>> seriesMap;
+    public String sourceKey;
 
     public void setVideo(Movie.Video video) {
         last = video.last;
@@ -62,6 +63,7 @@ public class VodInfo implements Serializable {
         note = video.note;
         actor = video.actor;
         director = video.director;
+        sourceKey = video.sourceKey;
         des = video.des;
         if (video.urlBean != null && video.urlBean.infoList != null && video.urlBean.infoList.size() > 0) {
             fromList = new ArrayList<>();

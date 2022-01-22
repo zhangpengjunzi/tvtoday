@@ -32,8 +32,10 @@ import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
 import xyz.doikki.videoplayer.exo.ExoMediaPlayer;
 import xyz.doikki.videoplayer.ijk.IjkPlayer;
+import xyz.doikki.videoplayer.player.AndroidMediaPlayer;
 import xyz.doikki.videoplayer.player.PlayerFactory;
 import xyz.doikki.videoplayer.player.VideoView;
+import xyz.doikki.videoplayer.player.VideoViewConfig;
 import xyz.doikki.videoplayer.player.VideoViewManager;
 
 /**
@@ -62,7 +64,7 @@ public class App extends MultiDexApplication {
         initParams();
         AdBlocker.init(this);
         initUpdate();
-        initPlay();
+        // initPlay();
         Intent intent = new Intent();
         intent.setClassName(getPackageName(), getPackageName() + ".ui.activity.HomeActivity");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -86,15 +88,7 @@ public class App extends MultiDexApplication {
             Hawk.put(HawkConfig.MEDIA_CODEC, "");
         }
         if (!Hawk.contains(HawkConfig.PLAY_TYPE)) {
-            Hawk.put(HawkConfig.PLAY_TYPE, 0);
-        }
-        //播放位置不是频道号
-        if (!Hawk.contains(HawkConfig.LIVE_CHANNEL)) {
-            Hawk.put(HawkConfig.LIVE_CHANNEL, 0);
-        }
-        //Ip多余域名
-        if (!Hawk.contains(HawkConfig.LIVE_SOURCE)) {
-            Hawk.put(HawkConfig.LIVE_SOURCE, 0);
+            Hawk.put(HawkConfig.PLAY_TYPE, 1);
         }
         ApiConfig.get().loadSource(this);
     }
@@ -158,29 +152,21 @@ public class App extends MultiDexApplication {
                     return new IjkPlayer(context);
                 }
             };
-        } else if (playType == 2) {
+        } else {
             playerFactory = new PlayerFactory<ExoMediaPlayer>() {
                 @Override
                 public ExoMediaPlayer createPlayer(Context context) {
                     return new ExoMediaPlayer(context);
                 }
             };
-        } else {
-    /*        playerFactory = new PlayerFactory<AndroidMediaPlayer>() {
-                @Override
-                public AndroidMediaPlayer createPlayer(Context context) {
-                    return new AndroidMediaPlayer(context);
-                }
-            };*/
         }
         //播放器配置，注意：此为全局配置，按需开启
-     /*   VideoViewManager.setConfig(
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder()
                 .setLogEnabled(BuildConfig.DEBUG)//调试的时候请打开日志，方便排错
                 .setScreenScaleType(VideoView.SCREEN_SCALE_16_9)
                 .setPlayerFactory(playerFactory)
-                .setEnableMediaCodec(Hawk.get(HawkConfig.MEDIA_CODEC, false))
                 .setProgressManager(new ProgressManagerImpl())
-                .build());*/
+                .build());
     }
 
     public static App getInstance() {

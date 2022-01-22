@@ -66,8 +66,10 @@ public class DetailActivity extends BaseActivity {
     private SeriesAdapter seriesAdapter;
     private SourceFromAdapter sourceFromAdapter;
     private int playIndex = -1;
+    private int playFlag = -1;
     private String sourceUrl;
     private String sourceKey;
+    private int id;
 
     @Override
     protected int getLayoutResID() {
@@ -176,6 +178,11 @@ public class DetailActivity extends BaseActivity {
                     showSuccess();
                     mVideo = absXml.movie.videoList.get(0);
                     vodInfo = new VodInfo();
+                    VodInfo localVod = RoomDataManger.getVodInfo(sourceUrl, id);
+                    if (localVod != null) {
+                        vodInfo.playIndex = localVod.playIndex;
+                        vodInfo.playFlag = localVod.playFlag;
+                    }
                     vodInfo.setVideo(mVideo);
                     if (vodInfo.fromList != null && vodInfo.fromList.size() > 0) {
                         vodInfo.fromList.get(vodInfo.playFlag).selected = true;
@@ -222,13 +229,9 @@ public class DetailActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
             Bundle bundle = intent.getExtras();
-            int id = bundle.getInt("id", -1);
+            id = bundle.getInt("id", -1);
             sourceUrl = bundle.getString("sourceUrl");
             sourceKey = bundle.getString("sourceKey");
-            VodInfo vodInfo = RoomDataManger.getVodInfo(sourceUrl, id);
-            if (vodInfo != null) {
-                playIndex = vodInfo.playIndex;
-            }
             if (id != -1) {
                 showLoading();
                 sourceViewModel.getDetail(sourceUrl, id, sourceKey);

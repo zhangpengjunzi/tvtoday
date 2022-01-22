@@ -9,7 +9,7 @@ import tv.danmaku.ijk.media.player.IjkLibLoader;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory;
 import xyz.doikki.videoplayer.ijk.IjkPlayerFactory;
-import xyz.doikki.videoplayer.player.AndroidMediaPlayerFactory;
+
 import xyz.doikki.videoplayer.player.PlayerFactory;
 import xyz.doikki.videoplayer.player.VideoView;
 import xyz.doikki.videoplayer.player.VideoViewConfig;
@@ -36,7 +36,7 @@ public class PlayUtils {
                 th.printStackTrace();
             }
         } else {
-            playerFactory = intValue == 2 ? ExoMediaPlayerFactory.create() : AndroidMediaPlayerFactory.create();
+            playerFactory = ExoMediaPlayerFactory.create();
         }
         if (Hawk.get(HawkConfig.PLAY_RENDER, 0) != 1) {
             renderViewFactory = TextureRenderViewFactory.create();
@@ -45,6 +45,7 @@ public class PlayUtils {
         }
         videoView.setPlayerFactory(playerFactory);
         videoView.setRenderViewFactory(renderViewFactory);
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setPlayerFactory(playerFactory).setRenderViewFactory(renderViewFactory).setProgressManager(new ProgressManagerImpl()).build());
     }
 
     public static String a(byte[] bArr, String str) {
@@ -73,7 +74,7 @@ public class PlayUtils {
                 th.printStackTrace();
             }
         } else {
-            playerFactory = intValue == 2 ? ExoMediaPlayerFactory.create() : AndroidMediaPlayerFactory.create();
+            playerFactory = ExoMediaPlayerFactory.create();
         }
         if (Hawk.get(HawkConfig.PLAY_RENDER, 0) != 1) {
             renderViewFactory = TextureRenderViewFactory.create();

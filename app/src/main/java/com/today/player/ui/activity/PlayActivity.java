@@ -11,6 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+
 import com.today.player.R;
 import com.today.player.base.BaseActivity;
 import com.today.player.bean.VodInfo;
@@ -29,13 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
-import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory;
-import xyz.doikki.videoplayer.ijk.IjkPlayerFactory;
-import xyz.doikki.videoplayer.player.AndroidMediaPlayerFactory;
-import xyz.doikki.videoplayer.player.PlayerFactory;
 import xyz.doikki.videoplayer.player.VideoView;
-import xyz.doikki.videoplayer.render.RenderViewFactory;
-import xyz.doikki.videoplayer.render.TextureRenderViewFactory;
+
 
 /**
  * @author pj567
@@ -43,7 +40,7 @@ import xyz.doikki.videoplayer.render.TextureRenderViewFactory;
  * @description:
  */
 public class PlayActivity extends BaseActivity {
-    private xyz.doikki.videoplayer.player.VideoView mVideoView;
+    private VideoView mVideoView;
     //private VodPlayView mVideoView;
     private SimonVideoController mController;
     private String playUrl;
@@ -90,10 +87,12 @@ public class PlayActivity extends BaseActivity {
             @Override
             public void onPlayerStateChanged(int playerState) {
                 mController.onPlayStateChanged(playerState);
-                Log.i("_url","aa"+playerState);
+                Log.i("_url", "aa" + playerState);
                 switch (playerState) {
                     case VideoView.STATE_ERROR:
                         Toast.makeText(mContext, "播放错误", Toast.LENGTH_SHORT).show();
+                        finish();
+                        f();
                         break;
                 }
             }
@@ -161,7 +160,7 @@ public class PlayActivity extends BaseActivity {
         public void a(String str, Map<String, String> map) {
             if (mVideoView != null) {
                 mVideoView.release();
-                Log.i("_url",str);
+                Log.i("_url", str);
                 if (map != null) {
                     mVideoView.setUrl(str, map);
                 } else {
@@ -181,7 +180,6 @@ public class PlayActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         return super.onKeyDown(keyCode, event);
 
     }

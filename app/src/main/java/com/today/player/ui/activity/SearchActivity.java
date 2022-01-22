@@ -3,7 +3,7 @@ package com.today.player.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,8 +55,8 @@ import java.util.List;
 public class SearchActivity extends BaseActivity {
     private LinearLayout llLayout;
     private TvRecyclerView mGridView;
-    private TextView tvName;
     private EditText etSearch;
+    private TextView tvName;
     private TextView tvSearch;
     private TextView tvClear;
     private TextView tvAddress;
@@ -83,12 +83,12 @@ public class SearchActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         llLayout = findViewById(R.id.llLayout);
         etSearch = findViewById(R.id.etSearch);
+        tvName = findViewById(R.id.tvName);
         tvSearch = findViewById(R.id.tvSearch);
         tvClear = findViewById(R.id.tvClear);
         tvAddress = findViewById(R.id.tvAddress);
         ivQRCode = findViewById(R.id.ivQRCode);
         mGridView = findViewById(R.id.mGridView);
-        tvName = findViewById(R.id.tvName);
         mGridView.setHasFixedSize(true);
         mGridView.setLayoutManager(new V7LinearLayoutManager(mContext, 1, false));
         searchAdapter = new SearchAdapter();
@@ -102,6 +102,7 @@ public class SearchActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putInt("id", video.id);
                     bundle.putString("sourceUrl", video.api);
+                    bundle.putString("sourceKey", video.sourceKey);
                     jumpActivity(DetailActivity.class, bundle);
                 }
             }
@@ -129,6 +130,13 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void initViewModel() {
+        sourceViewModel = new ViewModelProvider(this).get(SourceViewModel.class);
+        sourceViewModel.searchResult.observe(this, new Observer<AbsXml>() {
+            @Override
+            public void onChanged(AbsXml absXml) {
+                searchData(absXml);
+            }
+        });
     }
 
     private void initData() {
@@ -157,16 +165,13 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void search(String title) {
+        etSearch.setText(title);
         tvName.setText(title);
         sourceIndex = 0;
         cancel();
         showLoading();
         this.searchTitle = title;
         mGridView.setVisibility(View.INVISIBLE);
-        if (searchAdapter.getData() != null && searchAdapter.getData().size() > 0) {
-            searchAdapter.getData().clear();
-            searchAdapter.notifyDataSetChanged();
-        }
         searchAdapter.setNewData(new ArrayList<>());
         searchRequestList = ApiConfig.get().getSourceBeanList();
         if (searchRequestList != null && searchRequestList.size() > 0) {
@@ -182,16 +187,7 @@ public class SearchActivity extends BaseActivity {
             if (isActive) {
                 String api = searchRequestList.get(sourceIndex).getApi();
                 String sourceName = searchRequestList.get(sourceIndex).getName();
-                sourceViewModel = new ViewModelProvider(this).get(SourceViewModel.class);
                 sourceViewModel.getSearch(api, searchTitle, sourceName);
-
-                sourceViewModel.searchResult.observe(this, new Observer<AbsXml>() {
-                    @Override
-                    public void onChanged(AbsXml absXml) {
-                        Log.i("_search","123123");
-                        searchData(absXml);
-                    }
-                });
             } else {
                 sourceIndex++;
                 searchResult();
@@ -205,7 +201,6 @@ public class SearchActivity extends BaseActivity {
             List<Movie.Video> data = new ArrayList<>();
             for (Movie.Video video : absXml.movie.videoList) {
                 if (!DefaultConfig.isContains(video.type)) {
-
                     data.add(video);
                 }
             }
@@ -224,7 +219,6 @@ public class SearchActivity extends BaseActivity {
             }
             cancel();
         } else {
-            Log.i("_search","0000000");
             searchResult();
         }
     }

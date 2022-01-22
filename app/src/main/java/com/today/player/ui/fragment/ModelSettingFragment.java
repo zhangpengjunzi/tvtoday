@@ -140,31 +140,16 @@ public class ModelSettingFragment extends BaseLazyFragment {
             dialog.setCanceledOnTouchOutside(false);
             nkVar.b.setCancelable(true);
             nkVar.b.setContentView(nkVar.a);
-            TextView textView = (TextView) nkVar.a(R.id.tvSystem);
-            TextView textView2 = (TextView) nkVar.a(R.id.tvIjk);
-            TextView textView3 = (TextView) nkVar.a(R.id.tvExo);
-            int intValue = Hawk.get(HawkConfig.PLAY_TYPE, 0);
+            TextView textView2 = nkVar.a(R.id.tvIjk);
+            TextView textView3 = nkVar.a(R.id.tvExo);
+            int intValue = Hawk.get(HawkConfig.PLAY_TYPE, 1);
             if (intValue == 1) {
                 textView2.requestFocus();
                 textView2.setTextColor(mContext.getResources().getColor(R.color.color_058AF4));
-            } else if (intValue == 2) {
+            } else {
                 textView3.requestFocus();
                 textView3.setTextColor(mContext.getResources().getColor(R.color.color_058AF4));
-            } else {
-                textView.requestFocus();
-                textView.setTextColor(mContext.getResources().getColor(R.color.color_058AF4));
             }
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FastClickCheckUtil.check(view);
-                    if (!(intValue == 0 || nkVar.c == null)) {
-                        Hawk.put(HawkConfig.PLAY_TYPE, 0);
-                        ((ModelSettingFragment.c.a) nkVar.c).a();
-                    }
-                    nkVar.a();
-                }
-            });
             textView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -312,13 +297,11 @@ public class ModelSettingFragment extends BaseLazyFragment {
     }
 
     public final void c() {
-        int intValue = Hawk.get(HawkConfig.PLAY_TYPE, 0);
+        int intValue = Hawk.get(HawkConfig.PLAY_TYPE, 1);
         if (intValue == 1) {
             this.n.setText("IJK播放器");
         } else if (intValue == 2) {
             this.n.setText("Exo播放器");
-        } else {
-            this.n.setText("系统播放器");
         }
     }
 

@@ -5,7 +5,7 @@
       "name": "蓝光云",
       "type": 1,
       "api": "http://47.244.124.231:9900/api/vod?ac=list",
-      "playerUrl": "https://msdv.cn/dmplay/?url="
+      "playerUrl": "https://www.rongxingvr.cn/dmplayer/jxplayer.php?v="
     },
     {
       "key": "百度云",

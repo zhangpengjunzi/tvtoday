@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "6b4643252f1e0f1044745e624be74e79",
+    "identityHash": "3159ca523eaa79c8e35b6b48b4b22d54",
     "entities": [
       {
         "tableName": "cache",
@@ -32,7 +32,7 @@
       },
       {
         "tableName": "vodRecord",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `vodId` INTEGER NOT NULL, `updateTime` INTEGER NOT NULL, `apiUrl` TEXT, `data` BLOB)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `vodId` INTEGER NOT NULL, `updateTime` INTEGER NOT NULL, `apiUrl` TEXT, `data` BLOB, `dataJson` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -62,6 +62,12 @@
             "fieldPath": "data",
             "columnName": "data",
             "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dataJson",
+            "columnName": "dataJson",
+            "affinity": "TEXT",
             "notNull": false
           }
         ],
@@ -207,7 +213,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6b4643252f1e0f1044745e624be74e79')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3159ca523eaa79c8e35b6b48b4b22d54')"
     ]
   }
 }

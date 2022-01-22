@@ -22,6 +22,7 @@ public class VodRecord implements Serializable {
     @ColumnInfo(name = "apiUrl")
     public String apiUrl;
     public byte[] data;
+    public String dataJson;
 
     public int getId() {
         return id;

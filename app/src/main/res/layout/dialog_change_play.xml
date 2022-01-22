@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="30.0pt">
 
-    <TextView
+  <!--  <TextView
         android:id="@+id/tvSystem"
         android:layout_width="300.0pt"
         android:layout_height="40.0pt"
@@ -17,7 +17,7 @@
         android:gravity="center"
         android:text="系统播放器"
         android:textColor="@android:color/black"
-        android:textSize="18.0pt" />
+        android:textSize="18.0pt" />-->
 
     <TextView
         android:id="@+id/tvIjk"

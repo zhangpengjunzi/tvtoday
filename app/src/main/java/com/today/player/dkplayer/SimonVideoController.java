@@ -13,6 +13,7 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+
 import com.today.player.R;
 
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.Map;
 import xyz.doikki.videoplayer.controller.GestureVideoController;
 import xyz.doikki.videoplayer.controller.IControlComponent;
 import xyz.doikki.videoplayer.util.PlayerUtils;
+
 
 public class SimonVideoController extends GestureVideoController implements View.OnClickListener {
     public ProgressBar a;

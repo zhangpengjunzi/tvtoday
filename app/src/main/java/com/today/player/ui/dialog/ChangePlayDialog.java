@@ -39,31 +39,16 @@ public class ChangePlayDialog {
     }
 
     private void init(Context context) {
-        TextView tvSystem = findViewById(R.id.tvSystem);
         TextView tvIjk = findViewById(R.id.tvIjk);
         TextView tvExo = findViewById(R.id.tvExo);
-        int playType = Hawk.get(HawkConfig.PLAY_TYPE, 0);
+        int playType = Hawk.get(HawkConfig.PLAY_TYPE, 1);
         if (playType == 1) {
             tvIjk.requestFocus();
             tvIjk.setTextColor(context.getResources().getColor(R.color.color_058AF4));
-        } else if (playType == 2) {
+        } else {
             tvExo.requestFocus();
             tvExo.setTextColor(context.getResources().getColor(R.color.color_058AF4));
-        } else {
-            tvSystem.requestFocus();
-            tvSystem.setTextColor(context.getResources().getColor(R.color.color_058AF4));
         }
-        tvSystem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FastClickCheckUtil.check(v);
-                if (playType != 0 && playListener != null) {
-                    Hawk.put(HawkConfig.PLAY_TYPE, 0);
-                    playListener.onChange();
-                }
-                dismiss();
-            }
-        });
         tvIjk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
