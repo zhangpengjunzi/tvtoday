@@ -5,27 +5,26 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:padding="30pt">
+    android:padding="30.0pt">
 
     <LinearLayout
         android:id="@+id/tvUserHome"
         android:layout_width="wrap_content"
         android:layout_height="500pt"
         android:layout_gravity="center"
-        android:layout_marginTop="-10dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:orientation="horizontal"
-        android:paddingTop="20pt"
-        android:paddingBottom="20pt">
+        android:paddingTop="20.0pt"
+        android:paddingBottom="20.0pt">
 
         <FrameLayout
-            android:layout_width="280pt"
+            android:layout_width="280.0pt"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="10pt"
+            android:layout_margin="10.0pt"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="false"
@@ -39,25 +38,25 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center"
-                android:paddingTop="170pt"
+                android:paddingTop="170.0pt"
                 android:text="历史记录"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="36pt" />
+                android:textSize="36.0pt" />
 
             <ImageView
-                android:layout_width="160pt"
-                android:layout_height="160pt"
+                android:layout_width="150.0pt"
+                android:layout_height="150.0pt"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20pt"
+                android:layout_marginBottom="20.0pt"
                 android:alpha="0.75"
                 android:src="@drawable/ic_history" />
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="280pt"
+            android:layout_width="280.0pt"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="10pt"
+            android:layout_margin="10.0pt"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="false"
@@ -72,25 +71,25 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center"
-                android:paddingTop="170pt"
+                android:paddingTop="170.0pt"
                 android:text="直播"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="36pt" />
+                android:textSize="36.0pt" />
 
             <ImageView
-                android:layout_width="160pt"
-                android:layout_height="160pt"
+                android:layout_width="150.0pt"
+                android:layout_height="150.0pt"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20pt"
+                android:layout_marginBottom="20.0pt"
                 android:alpha="0.75"
                 android:src="@drawable/ic_tv" />
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="280pt"
+            android:layout_width="280.0pt"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="10pt"
+            android:layout_margin="10.0pt"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="false"
@@ -105,25 +104,25 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center"
-                android:paddingTop="170pt"
+                android:paddingTop="170.0pt"
                 android:text="搜索"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="36pt" />
+                android:textSize="36.0pt" />
 
             <ImageView
-                android:layout_width="160pt"
-                android:layout_height="160pt"
+                android:layout_width="150.0pt"
+                android:layout_height="150.0pt"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20pt"
+                android:layout_marginBottom="20.0pt"
                 android:alpha="0.75"
                 android:src="@drawable/ic_search1" />
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="280pt"
+            android:layout_width="280.0pt"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="10pt"
+            android:layout_margin="10.0pt"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="false"
@@ -138,16 +137,16 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center"
-                android:paddingTop="170pt"
+                android:paddingTop="170.0pt"
                 android:text="设置"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="36pt" />
+                android:textSize="36.0pt" />
 
             <ImageView
-                android:layout_width="160pt"
-                android:layout_height="160pt"
+                android:layout_width="150.0pt"
+                android:layout_height="150.0pt"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20pt"
+                android:layout_marginBottom="20.0pt"
                 android:alpha="0.75"
                 android:src="@drawable/ic_setting" />
         </FrameLayout>
