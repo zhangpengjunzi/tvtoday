@@ -4,6 +4,7 @@
     android:layout_height="45.0pt"
     android:background="@drawable/home_sort_focus"
     android:focusable="true"
+    android:id="@+id/fl_sort_root"
     android:focusableInTouchMode="true">
 
     <TextView
