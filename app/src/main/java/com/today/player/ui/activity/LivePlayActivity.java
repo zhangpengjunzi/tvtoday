@@ -162,12 +162,21 @@ public class LivePlayActivity extends BaseActivity {
         }
     }
 
-
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        f();
-        return super.dispatchTouchEvent(ev);
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            f();
+        }
+        return super.onTouchEvent(event);
     }
+    //    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        Log.d("LIVE","dispatchTouchEvent "+ev.getAction());
+//        if (ev.getAction() == MotionEvent.ACTION_DOWN){
+//            f();
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
 
     @Override
     protected int getLayoutResID() {
