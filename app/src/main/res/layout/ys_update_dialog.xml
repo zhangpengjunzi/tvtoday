@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:n1="http://schemas.android.com/apk/res/android"
+    n1:layout_width="fill_parent"
+    n1:layout_height="wrap_content"
+    n1:layout_gravity="center"
+    n1:focusable="false"
+    n1:gravity="center"
+    n1:orientation="vertical"
+    n1:padding="30pt">
+
+    <TextView
+        n1:id="@+id/update_title"
+        n1:layout_width="wrap_content"
+        n1:layout_height="wrap_content"
+        n1:layout_gravity="center"
+        n1:gravity="center"
+        n1:text="发现新版本啦!!!"
+        n1:textColor="@color/black"
+        n1:textSize="20pt"
+        n1:textStyle="bold" />
+
+    <TextView
+        n1:id="@+id/update_content"
+        n1:layout_width="wrap_content"
+        n1:layout_height="wrap_content"
+        n1:layout_above="@id/update_layout"
+        n1:layout_below="@id/update_title"
+        n1:layout_gravity="center"
+        n1:layout_marginTop="30pt"
+        n1:textSize="18pt"
+        n1:layout_marginBottom="20pt"
+        n1:background="@color/white"
+        n1:gravity="center"
+        n1:scrollbars="vertical"
+        n1:text="更新内容"
+        n1:textColor="#ff939191" />
+
+    <LinearLayout
+        n1:id="@+id/update_layout"
+        n1:layout_width="wrap_content"
+        n1:layout_height="wrap_content"
+        n1:layout_gravity="center"
+        n1:layout_marginTop="10pt"
+        n1:focusable="false"
+        n1:gravity="center"
+        n1:orientation="vertical">
+
+        <RelativeLayout
+            n1:layout_width="200pt"
+            n1:layout_height="30pt"
+            n1:focusable="false">
+
+            <com.upa.view.CustomProgressBar
+                n1:id="@+id/update_progress"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                n1:layout_width="fill_parent"
+                n1:layout_height="fill_parent"
+                n1:focusable="true"
+                n1:focusableInTouchMode="true"
+                n1:visibility="gone" />
+
+            <TextView
+                n1:id="@id/update_button"
+                n1:layout_width="fill_parent"
+                n1:layout_height="30pt"
+                n1:background="@drawable/button_bg_focus"
+                n1:focusable="true"
+                n1:focusableInTouchMode="true"
+                n1:gravity="center"
+                n1:nextFocusDown="@id/update_cancle"
+                n1:text="立即升级"
+                n1:textColor="@color/white" />
+        </RelativeLayout>
+
+        <TextView
+            n1:id="@id/update_cancle"
+            n1:layout_width="200pt"
+            n1:layout_height="30pt"
+            n1:background="@drawable/button_bg"
+            n1:focusable="true"
+            n1:focusableInTouchMode="true"
+            n1:gravity="center"
+            n1:nextFocusUp="@id/update_button"
+            n1:text="暂不升级"
+            n1:textColor="#ff100f0f" />
+    </LinearLayout>
+</LinearLayout>

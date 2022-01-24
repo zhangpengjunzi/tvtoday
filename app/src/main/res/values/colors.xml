@@ -23,4 +23,10 @@
     <color name="color_CBF46A">#ffcbf46a</color>
     <color name="color_00FF0A">#ff00ff0a</color>
     <color name="color_FF0057">#ffff0057</color>
+
+    <color name="pb_blue">#ffff9800</color>
+
+    <color name="white">#ffffffff</color>
+
+    <color name="black">#ff000000</color>
 </resources>

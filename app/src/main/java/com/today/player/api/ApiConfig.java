@@ -46,6 +46,7 @@ public class ApiConfig {
     private List<PlayerModel.ParseUrlDTO> praseBeanList;
     private List<String> filterResult;
     private List<MediaCodeDialog.pg> ijkConfigList;
+    private List<String> adsList;
 
     private ApiConfig() {
         sourceBeanList = new ArrayList<>();
@@ -53,6 +54,7 @@ public class ApiConfig {
         channelList = new ArrayList<>();
         praseBeanList = new ArrayList<>();
         ijkConfigList = new ArrayList<>();
+        adsList = new ArrayList<>();
     }
 
     public static ApiConfig get() {
@@ -66,9 +68,8 @@ public class ApiConfig {
         return instance;
     }
 
-    public void loadSource(Context context) {
+    public void loadSource(String json) {
         Gson gson = new Gson();
-        String json = getAssetText(context, "resources.json");
         PlayerModel model = gson.fromJson(json, PlayerModel.class);
         sourceBeanList = model.getSources();
         //添加本地数据
@@ -114,12 +115,14 @@ public class ApiConfig {
         filterResult = model.getFilter().getAdolescent();
 
         channelList = model.getLive();
-        loadLiveSource(context);
+        loadLiveSource();
 
         praseBeanList = model.getParseUrl();
         loadPraseSource();
 
         loadIjkConfigSource(model);
+
+        adsList = model.getAds();
     }
 
     private void loadIjkConfigSource(PlayerModel model) {
@@ -157,7 +160,7 @@ public class ApiConfig {
         }
     }
 
-    private void loadLiveSource(Context context) {
+    private void loadLiveSource() {
         //获取本地数据
         List<LocalLive> parseList = RoomDataManger.getAllLocalLive();
         if (parseList != null && parseList.size() > 0) {
@@ -260,6 +263,10 @@ public class ApiConfig {
 
     public List<PlayerModel.LiveDTO> getChannelList() {
         return channelList;
+    }
+
+    public List<String> getAdsList() {
+        return adsList;
     }
 
     public String getBaseUrl() {

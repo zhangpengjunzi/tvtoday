@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 
 
 import com.today.player.R;
+import com.today.player.ui.activity.PlayActivity;
 
 import xyz.doikki.videoplayer.controller.ControlWrapper;
 import xyz.doikki.videoplayer.controller.IControlComponent;
@@ -64,7 +65,9 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
     public TextView z;
 
     public interface a {
+        void pre();
 
+        void next();
     }
 
     public SimonVodControlView(@NonNull Context context) {
@@ -160,7 +163,7 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
     }
 
     public final void e() {
-        String a2 ="默认";
+        String a2 = "默认";
         int i2 = this.B;
         if (i2 == 0) {
             a2 = "默认";
@@ -196,10 +199,10 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
             this.a.togglePlay();
         } else if (id == R.id.play_next) {
             c();
-           // PlayActivity.a(((fj) this.D).a);
+            this.D.next();
         } else if (id == R.id.play_pre) {
             c();
-         //   ((fj) this.D).a();
+            this.D.pre();
         } else if (id == R.id.video_size) {
             a();
         } else if (id == R.id.video_speed) {
@@ -207,11 +210,11 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
         } else if (id == R.id.tv_play_next) {
             d();
             c();
-           // PlayActivity.a(((fj) this.D).a);
+            this.D.next();
         } else if (id == R.id.tv_play_pre) {
             d();
             c();
-         //   ((fj) this.D).a();
+            this.D.next();
         } else if (id == R.id.tv_video_size) {
             a();
         } else if (id == R.id.tv_video_speed) {

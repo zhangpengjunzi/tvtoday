@@ -90,7 +90,6 @@ public class App extends MultiDexApplication {
         if (!Hawk.contains(HawkConfig.PLAY_TYPE)) {
             Hawk.put(HawkConfig.PLAY_TYPE, 1);
         }
-        ApiConfig.get().loadSource(this);
     }
 
     private void initUpdate() {
@@ -142,7 +141,7 @@ public class App extends MultiDexApplication {
         Bugly.init(getApplicationContext(), "fa57f58a68", false);
     }
 
-    private void initPlay() {
+   /* private void initPlay() {
         int playType = Hawk.get(HawkConfig.PLAY_TYPE, 0);
         PlayerFactory playerFactory;
         if (playType == 1) {
@@ -167,7 +166,7 @@ public class App extends MultiDexApplication {
                 .setPlayerFactory(playerFactory)
                 .setProgressManager(new ProgressManagerImpl())
                 .build());
-    }
+    }*/
 
     public static App getInstance() {
         return instance;

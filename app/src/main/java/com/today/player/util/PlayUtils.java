@@ -19,7 +19,7 @@ import xyz.doikki.videoplayer.render.RenderViewFactory;
 import xyz.doikki.videoplayer.render.TextureRenderViewFactory;
 
 public class PlayUtils {
-    public static void a(VideoView videoView) {
+    public static void a(VideoView videoView, String key) {
         PlayerFactory playerFactory;
         RenderViewFactory renderViewFactory;
         int intValue = Hawk.get(HawkConfig.PLAY_TYPE, 0);
@@ -45,7 +45,7 @@ public class PlayUtils {
         }
         videoView.setPlayerFactory(playerFactory);
         videoView.setRenderViewFactory(renderViewFactory);
-        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setPlayerFactory(playerFactory).setRenderViewFactory(renderViewFactory).setProgressManager(new ProgressManagerImpl()).build());
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setPlayerFactory(playerFactory).setRenderViewFactory(renderViewFactory).setProgressManager(new ProgressManagerImpl(key)).build());
     }
 
     public static String a(byte[] bArr, String str) {

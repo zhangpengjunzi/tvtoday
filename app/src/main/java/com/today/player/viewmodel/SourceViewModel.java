@@ -312,7 +312,6 @@ public class SourceViewModel extends ViewModel {
                     video.sourceKey = sourceName;
                 }
             }
-            Log.i("_search","123123123");
             result.postValue(data);
         } catch (Exception e) {
             result.postValue(null);

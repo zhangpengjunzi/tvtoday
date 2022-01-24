@@ -29,8 +29,17 @@ public class SimonVideoController extends GestureVideoController implements View
     public boolean c;
     public int d;
     public long e;
+    private OnPlayStateChangeListener listener;
 
     public interface a {
+    }
+
+    public interface OnPlayStateChangeListener {
+        void playStateChanged(int state);
+    }
+
+    public void setListener(OnPlayStateChangeListener listener) {
+        this.listener = listener;
     }
 
     public SimonVideoController(@NonNull Context context) {
@@ -149,6 +158,9 @@ public class SimonVideoController extends GestureVideoController implements View
                 this.a.setVisibility(View.VISIBLE);
                 break;
             default:
+        }
+        if (listener != null) {
+            listener.playStateChanged(i);
         }
     }
 

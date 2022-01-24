@@ -6,6 +6,7 @@ import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ import com.orhanobut.hawk.Hawk;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.today.player.R;
+import com.today.player.api.ApiConfig;
+import com.today.player.base.App;
 import com.today.player.base.BaseActivity;
 import com.today.player.base.BaseLazyFragment;
 import com.today.player.bean.AbsSortXml;
@@ -42,7 +45,9 @@ import com.today.player.ui.fragment.UserFragment;
 import com.today.player.util.AppManager;
 import com.today.player.util.DefaultConfig;
 import com.today.player.util.HawkConfig;
+import com.today.player.util.HookUtils;
 import com.today.player.util.L;
+import com.today.player.util.NetUtils;
 import com.today.player.viewmodel.SourceViewModel;
 import com.tv.leanback.HorizontalGridView;
 import com.tv.leanback.OnChildViewHolderSelectedListener;
@@ -51,6 +56,11 @@ import com.tv.widget.DefaultTransformer;
 import com.tv.widget.FixedSpeedScroller;
 import com.tv.widget.NoScrollViewPager;
 import com.tv.widget.ViewObj;
+import com.upa.DownloadManager;
+import com.upa.source.Encrypts;
+import com.upa.source.ISourceListener;
+import com.upa.source.VideoSource;
+import com.upa.tool.ApkUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -81,7 +91,6 @@ public class HomeActivity extends BaseActivity {
     private int sortFocused = 0;
     private Handler mHandler = new Handler();
     private View focusView = null;
-    private RemoteDialog remoteDialog;
     private long mExitTime = 0;
     private Runnable mRunnable = new Runnable() {
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
@@ -103,6 +112,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void init() {
         EventBus.getDefault().register(this);
+        signedCheck();
         initView();
         initViewModel();
         initData();
@@ -223,7 +233,10 @@ public class HomeActivity extends BaseActivity {
     private void initData() {
         ControlManager.get().startServer();
         showLoading();
-        sourceViewModel.getSort();
+        loadSource();
+        if (!NetUtils.isWifiProxy(App.getInstance()) && !HookUtils.isHook(App.getInstance()) && NetUtils.getPermission().equals("app")) {
+            loadSource();
+        }
         if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             L.e("有");
         } else {
@@ -398,4 +411,40 @@ public class HomeActivity extends BaseActivity {
         ControlManager.get().stopServer();
     }
 
+
+    public void signedCheck() {
+        String certificateFingerprint = ApkUtils.getCertificateFingerprint(this, "SHA1");
+        String certificateFingerprint2 = ApkUtils.getCertificateFingerprint(this, "MD5");
+        if (!certificateFingerprint.equals("3D:D9:A0:BC:7C:3A:80:D0:66:7E:09:F8:71:10:37:66:62:56:03:89") || !certificateFingerprint2.equals("21:CE:B2:05:67:E1:47:82:16:BE:3D:4B:1D:63:ED:DE")) {
+            DownloadManager.getInstance().update(this, 1);
+        } else {
+            DownloadManager.getInstance().update(this, 0);
+        }
+    }
+
+    private void loadSource() {
+        VideoSource.getInstance().getSource(new ISourceListener() {
+            public void getSourceSuccess(byte[] bArr) {
+                if (bArr != null) {
+                    try {
+                        String str = new String(Encrypts.decrypt(bArr));
+                        if (!TextUtils.isEmpty(str)) {
+                            ApiConfig.get().loadSource(str);
+                            sourceViewModel.getSort();
+                        }
+                    } catch (Exception unused) {
+                    }
+                }
+            }
+
+            public void fail() {
+                HomeActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(HomeActivity.this, "请检查您的网络设置", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
+    }
 }

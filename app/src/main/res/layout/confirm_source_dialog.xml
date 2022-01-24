@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:n1="http://schemas.android.com/apk/res/android"
+    n1:layout_width="wrap_content"
+    n1:layout_height="wrap_content"
+    n1:layout_gravity="center"
+    n1:focusable="false"
+    n1:gravity="center"
+    n1:orientation="vertical"
+    n1:padding="30pt">
+
+    <TextView
+        n1:layout_width="wrap_content"
+        n1:layout_height="wrap_content"
+        n1:layout_gravity="center"
+        n1:gravity="center"
+        n1:text="提示"
+        n1:textColor="#ff434242"
+        n1:textSize="25pt" />
+
+    <TextView
+        n1:layout_width="wrap_content"
+        n1:layout_height="wrap_content"
+        n1:layout_gravity="center"
+        n1:layout_marginTop="25pt"
+        n1:layout_marginBottom="30pt"
+        n1:background="@color/white"
+        n1:gravity="center"
+        n1:scrollbars="vertical"
+        n1:text="影视资源已更新,是否设置为最新数据源？"
+        n1:textColor="#ff1e1e1e"
+        n1:textSize="22pt"
+        n1:textStyle="bold" />
+
+    <LinearLayout
+        n1:layout_width="fill_parent"
+        n1:layout_height="wrap_content"
+        n1:layout_gravity="center"
+        n1:focusable="false"
+        n1:gravity="center"
+        n1:orientation="horizontal">
+
+        <TextView
+            n1:id="@+id/source_confirm_button"
+            n1:layout_width="0pt"
+            n1:layout_height="35pt"
+            n1:layout_weight="1.0"
+            n1:background="@drawable/button_bg_focus"
+            n1:focusable="true"
+            n1:focusableInTouchMode="true"
+            n1:gravity="center"
+            n1:nextFocusDown="@+id/update_cancle"
+            n1:text="是"
+            n1:textColor="@color/white"
+            n1:textSize="20pt" />
+
+        <TextView
+            n1:id="@+id/source_cancle"
+            n1:layout_width="0pt"
+            n1:layout_height="35pt"
+            n1:layout_weight="1.0"
+            n1:background="@drawable/button_bg"
+            n1:focusable="true"
+            n1:focusableInTouchMode="true"
+            n1:gravity="center"
+            n1:nextFocusUp="@+id/update_button"
+            n1:text="否"
+            n1:textColor="#ff100f0f"
+            n1:textSize="20pt" />
+    </LinearLayout>
+</LinearLayout>
