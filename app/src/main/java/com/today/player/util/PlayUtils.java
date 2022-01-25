@@ -81,7 +81,7 @@ public class PlayUtils {
         } else {
             renderViewFactory = new bi();
         }
-        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setPlayerFactory(playerFactory).setRenderViewFactory(renderViewFactory).setProgressManager(new ProgressManagerImpl()).build());
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setPlayerFactory(playerFactory).setRenderViewFactory(renderViewFactory).build());
     }
 
 

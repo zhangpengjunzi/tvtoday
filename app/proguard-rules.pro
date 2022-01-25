@@ -156,3 +156,20 @@
 }
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+
+-keep class org.xmlpull.v1.** { *;}
+-dontwarn org.xmlpull.v1.**
+
+-keep class xyz.doikki.videoplayer.** { *; }
+-dontwarn xyz.doikki.videoplayer.**
+
+# IjkPlayer
+-keep class tv.danmaku.ijk.** { *; }
+-dontwarn tv.danmaku.ijk.**
+
+# ExoPlayer
+-keep class com.google.android.exoplayer2.** { *; }
+-dontwarn com.google.android.exoplayer2.**
+
+-keep class com.thoughtworks.xstream.** { *; }
+-dontwarn com.thoughtworks.xstream.**

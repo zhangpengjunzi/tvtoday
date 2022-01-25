@@ -1,5 +1,6 @@
 package com.today.player.viewmodel;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -21,7 +22,10 @@ import com.today.player.bean.LiveChannel;
 import com.today.player.bean.Movie;
 import com.today.player.bean.MovieSort;
 import com.today.player.bean.SortTitle;
+import com.today.player.event.RefreshEvent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -325,5 +329,47 @@ public class SourceViewModel extends ViewModel {
         OkGo.getInstance().cancelTag(ApiConfig.get().getBaseUrl());
         OkGo.getInstance().cancelTag("search");
         OkGo.getInstance().cancelTag("detail");
+    }
+
+
+    public void getFenCi(String url) {
+        OkGo.<String>get(url)
+                .tag("fenci")
+                .execute(new AbsCallback<String>() {
+
+                    @Override
+                    public String convertResponse(okhttp3.Response response) throws Throwable {
+                        if (response.body() != null) {
+                            return response.body().string();
+                        } else {
+                            throw new IllegalStateException("网络请求错误");
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String xml = response.body();
+                        if (!TextUtils.isEmpty(xml)) {
+                            try {
+                                JSONArray object = new JSONArray(xml);
+                                if (object != null && object.length() > 0) {
+                                    List<String> fenciList = new ArrayList<>();
+                                    for (int i = 0; i < object.length(); i++) {
+                                        JSONObject item = object.optJSONObject(i);
+                                        fenciList.add(item.optString("t"));
+                                    }
+                                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_SEARCH_FENCI, fenciList));
+                                }
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        detailResult.postValue(null);
+                    }
+                });
     }
 }

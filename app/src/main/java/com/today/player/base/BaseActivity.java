@@ -122,5 +122,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());
         return super.getResources();
     }
-
 }

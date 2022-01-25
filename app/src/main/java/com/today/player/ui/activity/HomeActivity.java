@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -323,6 +324,12 @@ public class HomeActivity extends BaseActivity {
                 focusView.requestFocus();
             }
             changeTop(false);
+        } else if (event.type == TopStateEvent.REFRESH) {
+            Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            //杀掉以前进程
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 

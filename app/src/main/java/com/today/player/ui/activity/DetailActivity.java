@@ -1,10 +1,14 @@
 package com.today.player.ui.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,20 +19,27 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lzy.okgo.OkGo;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.squareup.picasso.Picasso;
 import com.today.player.R;
+import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
 import com.today.player.bean.AbsXml;
 import com.today.player.bean.Movie;
+import com.today.player.bean.PlayerModel;
 import com.today.player.bean.VodInfo;
 import com.today.player.cache.RoomDataManger;
 import com.today.player.event.RefreshEvent;
 import com.today.player.picasso.RoundTransformation;
+import com.today.player.ui.adapter.QuickSearchAdapter;
+import com.today.player.ui.adapter.SearchAdapter;
 import com.today.player.ui.adapter.SeriesAdapter;
 import com.today.player.ui.adapter.SourceFromAdapter;
+import com.today.player.ui.dialog.QuickSearchDialog;
+import com.today.player.util.DefaultConfig;
 import com.today.player.util.FastClickCheckUtil;
 import com.today.player.viewmodel.SourceViewModel;
 
@@ -36,6 +47,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.jessyan.autosize.utils.AutoSizeUtils;
@@ -57,6 +70,7 @@ public class DetailActivity extends BaseActivity {
     private TextView tvDirector;
     private TextView tvDes;
     private TextView tvPlay;
+    private TextView tvQuickSearch;
     private TextView tvSite;
     private TvRecyclerView mGridView;
     private TvRecyclerView mGridViewFlag;
@@ -97,6 +111,7 @@ public class DetailActivity extends BaseActivity {
         tvDirector = findViewById(R.id.tvDirector);
         tvDes = findViewById(R.id.tvDes);
         tvPlay = findViewById(R.id.tvPlay);
+        tvQuickSearch = findViewById(R.id.tvQuickSearch);
         mGridView = findViewById(R.id.mGridView);
         mGridViewFlag = findViewById(R.id.mGridViewFlag);
         mGridView.setHasFixedSize(true);
@@ -166,6 +181,19 @@ public class DetailActivity extends BaseActivity {
                 }
             }
         });
+
+        tvQuickSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FastClickCheckUtil.check(v);
+                if (mVideo != null) {
+                    sourceIndex = 0;
+                    title = mVideo.name;
+                    quickSearch();
+                }
+
+            }
+        });
         setLoadSir(llLayout);
     }
 
@@ -193,7 +221,7 @@ public class DetailActivity extends BaseActivity {
                         mGridView.scrollToPosition(vodInfo.playIndex);
                     }
                     tvName.setText(mVideo.name);
-                    tvSite.setText(sourceKey);
+                    tvSite.setText(mVideo.sourceKey);
                     tvYear.setText(Html.fromHtml(getHtml("年份：", String.valueOf(mVideo.year))));
                     tvArea.setText(Html.fromHtml(getHtml("地区：", mVideo.area)));
                     tvLang.setText(Html.fromHtml(getHtml("语言：", mVideo.lang)));
@@ -217,6 +245,12 @@ public class DetailActivity extends BaseActivity {
                 } else {
                     showEmpty();
                 }
+            }
+        });
+        sourceViewModel.searchResult.observe(this, new Observer<AbsXml>() {
+            @Override
+            public void onChanged(AbsXml absXml) {
+                searchData(absXml);
             }
         });
     }
@@ -249,13 +283,20 @@ public class DetailActivity extends BaseActivity {
                     seriesAdapter.notifyItemChanged(vodInfo.playIndex);
                     seriesAdapter.getData().get(index).selected = true;
                     seriesAdapter.notifyItemChanged(index);
-                    mGridView.scrollToPosition(index);
+                    mGridView.setSelection(index);
                     vodInfo.playIndex = index;
                     //保存历史
                     insertVod(sourceUrl, vodInfo);
                 }
             }
+        } else if (event.type == RefreshEvent.TYPE_SEARCH_LIST) {
+            if (event.obj != null) {
+                jlVar.d.addData((List) event.obj);
+            }
+        } else if (event.type == RefreshEvent.TYPE_SEARCH_FENCI && event.obj != null) {
+            jlVar.c.addData((List) event.obj);
         }
+
     }
 
     private void insertVod(String sourceUrl, VodInfo vodInfo) {
@@ -267,5 +308,111 @@ public class DetailActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+
+    private void quickSearch() {
+        if (TextUtils.isEmpty(title)) return;
+        sourceViewModel.getFenCi("http://api.pullword.com/get.php?source=" + URLEncoder.encode(title) + "&param1=0&param2=0&json=1");
+        searchList();
+        jlVar = new QuickSearchDialog();
+        jlVar.a = LayoutInflater.from(this).inflate(R.layout.dialog_quick_search, (ViewGroup) null);
+        Dialog dialog = new Dialog(this, R.style.CustomDialogStyle);
+        jlVar.b = dialog;
+        dialog.setCanceledOnTouchOutside(false);
+        jlVar.b.setCancelable(true);
+        jlVar.b.setContentView(jlVar.a);
+        jlVar.b.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                OkGo.getInstance().cancelAll();
+            }
+        });
+        View view3 = jlVar.a;
+        jlVar.e = (TvRecyclerView) (view3 != null ? view3.findViewById(R.id.mGridView) : null);
+        jlVar.d = new SearchAdapter();
+        jlVar.e.setHasFixedSize(true);
+        jlVar.e.setLayoutManager(new V7LinearLayoutManager(this, 1, false));
+        jlVar.e.setAdapter(jlVar.d);
+        jlVar.d.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                FastClickCheckUtil.check(view);
+                Dialog dialog = jlVar.b;
+                if (dialog != null && dialog.isShowing()) {
+                    jlVar.b.dismiss();
+                }
+                showLoading();
+                Movie.Video video = jlVar.d.getData().get(position);
+                sourceViewModel.getDetail(video.api, video.id, video.sourceKey);
+            }
+        });
+        jlVar.d.setNewData(new ArrayList());
+        jlVar.c = new QuickSearchAdapter();
+        jlVar.f = jlVar.a.findViewById(R.id.mGridViewWord);
+        jlVar.f.setAdapter(jlVar.c);
+        jlVar.f.setLayoutManager(new V7LinearLayoutManager(this, 0, false));
+        jlVar.c.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                FastClickCheckUtil.check(view);
+                jlVar.d.getData().clear();
+                jlVar.d.notifyDataSetChanged();
+                sourceIndex = 0;
+                title = jlVar.c.getData().get(position);
+                searchList();
+            }
+        });
+        jlVar.c.setNewData(new ArrayList());
+        Dialog dialog2 = jlVar.b;
+        if (dialog2 != null && !dialog2.isShowing()) {
+            jlVar.b.show();
+        }
+    }
+
+    private List<PlayerModel.SourcesDTO> searchRequestList;
+    private int sourceIndex;
+    private String title;
+    private QuickSearchDialog jlVar;
+
+    private void searchList() {
+        searchRequestList = ApiConfig.get().getSourceBeanList();
+        if (searchRequestList != null && searchRequestList.size() > 0) {
+            searchRequestList.remove(ApiConfig.get().getDefaultSourceBean());
+            searchRequestList.add(0, ApiConfig.get().getDefaultSourceBean());
+            searchResult();
+        }
+    }
+
+    private void searchResult() {
+        if (sourceIndex < searchRequestList.size()) {
+            boolean isActive = searchRequestList.get(sourceIndex).isActive();
+            if (isActive) {
+                String api = searchRequestList.get(sourceIndex).getApi();
+                String sourceName = searchRequestList.get(sourceIndex).getName();
+                sourceViewModel.getSearch(api, title, sourceName);
+            } else {
+                sourceIndex++;
+                searchResult();
+            }
+        }
+    }
+
+    private void searchData(AbsXml absXml) {
+        if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
+            List<Movie.Video> data = new ArrayList<>();
+            for (Movie.Video video : absXml.movie.videoList) {
+                if (!DefaultConfig.isContains(video.type)) {
+                    data.add(video);
+                }
+            }
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_SEARCH_LIST, data));
+        }
+
+        if (++sourceIndex == searchRequestList.size()) {
+            OkGo.getInstance().cancelAll();
+        } else {
+            searchResult();
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.today.player.ui.fragment;
 
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
 import android.widget.TextView;
 
 
@@ -32,6 +33,17 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     private TextView tvSetting;
     private TextView tvHistory;
     private RemoteDialog remoteDialog;
+    private final View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (b) {
+                view.animate().scaleX(1.05f).scaleY(1.05f).setDuration(300L).setInterpolator(new BounceInterpolator()).start();
+            } else {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300L).setInterpolator(new BounceInterpolator()).start();
+            }
+        }
+    };
+
 
     public static UserFragment newInstance() {
         return new UserFragment();
@@ -57,6 +69,13 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvSearch.setOnClickListener(this);
         tvSetting.setOnClickListener(this);
         tvHistory.setOnClickListener(this);
+
+        tvLive.setOnFocusChangeListener(focusChangeListener);
+        tvSearch.setOnFocusChangeListener(focusChangeListener);
+        tvSetting.setOnFocusChangeListener(focusChangeListener);
+        tvHistory.setOnFocusChangeListener(focusChangeListener);
+
+
     }
 
     private View.OnKeyListener onKeyListener = new View.OnKeyListener() {

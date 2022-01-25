@@ -1,184 +1,167 @@
 package com.today.player.ui.activity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
-
 
 import com.today.player.R;
 import com.today.player.base.BaseActivity;
-import com.today.player.widget.VodSeekLayout;
+import com.today.player.dkplayer.SimonVideoController;
+import com.today.player.dkplayer.SimonVodControlView;
+import com.today.player.dkplayer.VideoAnalysis;
+import com.today.player.ui.weight.GestureView;
+import com.today.player.util.PlayUtils;
+
+import java.util.Map;
 
 import xyz.doikki.videoplayer.player.VideoView;
 
 
-/**
- * @author pj567
- * @date :2021/3/5
- * @description:
- */
 public class ProjectionPlayActivity extends BaseActivity {
-    private VideoView mVideoView;
-    private ProgressBar mProgressBar;
-    private VodSeekLayout mVodSeekLayout;
-    private String playUrl;
-    private boolean isPause = false;
-    private boolean isChangedState = true;
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (isChangedState) {
-                int mCurrentPosition = (int) mVideoView.getCurrentPosition();
-                int mDuration = (int) mVideoView.getDuration();
-                int progress = mDuration == 0 ? 0 : (int) (mCurrentPosition * 1.0 / mDuration * mVodSeekLayout.getMaxProgress());
-                mVodSeekLayout.setProgress(progress);
-                mVodSeekLayout.setCurrentPosition(mCurrentPosition);
-                mHandler.removeCallbacks(this);
-                mHandler.postDelayed(this, 1000);
-            }
-        }
-    };
+    public VideoView c;
+    public SimonVideoController d;
+    public VideoAnalysis e = null;
 
     @Override
     protected int getLayoutResID() {
         return R.layout.activity_projection_play;
     }
 
-    @Override
-    protected void init() {
-        initView();
-        initData();
-    }
 
-    private void initView() {
-        mVideoView = findViewById(R.id.mVideoView);
-        mProgressBar = findViewById(R.id.mProgressBar);
-        mVodSeekLayout = findViewById(R.id.mVodSeekLayout);
-    /*    mVideoView.addOnStateChangeListener(new VideoView.OnSimpleStateChangeListener() {
+    public void init() {
+        this.c = findViewById(R.id.mVideoView);
+        PlayUtils.a(this.c, null);
+        SimonVideoController simonVideoController = new SimonVideoController(this);
+        simonVideoController.setListener(new SimonVideoController.OnPlayStateChangeListener() {
             @Override
-            public void OnPlayerState(int state) {
-                switch (state) {
-                    case VideoView.STATE_IDLE:
-                        break;
-                    case VideoView.STATE_PREPARED:
-                    case VideoView.STATE_PLAYING:
-                        mHandler.post(mRunnable);
-                        mVodSeekLayout.start();
-                        mVodSeekLayout.setDuration(mVideoView.getDuration());
-                    case VideoView.STATE_BUFFERED:
-                        mProgressBar.setVisibility(View.INVISIBLE);
-                        break;
-                    case VideoView.STATE_PAUSED:
-                        break;
-                    case VideoView.STATE_BUFFERING:
-                    case VideoView.STATE_PREPARING:
-                        mProgressBar.setVisibility(View.VISIBLE);
-                        break;
-                    case VideoView.STATE_PLAYBACK_COMPLETED:
-                        mHandler.removeCallbacks(mRunnable);
-                        mVodSeekLayout.setVisibility(View.VISIBLE);
-                        mVodSeekLayout.setProgress(0);
-                        mVodSeekLayout.setCurrentPosition(0);
-                        mVodSeekLayout.setDuration(0);
-                        mVodSeekLayout.pause();
-                        break;
-                    case VideoView.STATE_ERROR:
-                        finish();
-                        Toast.makeText(mContext, "播放错误", Toast.LENGTH_SHORT).show();
-                        break;
+            public void playStateChanged(int state) {
+                if (state == -1) {
+                    finish();
+                    e();
+                    Toast.makeText(ProjectionPlayActivity.this, "播放错误", Toast.LENGTH_LONG).show();
+                } else if (state == 5) {
+                    finish();
                 }
-            }
-        });*/
-        mVodSeekLayout.setOnSeekStateListener(new VodSeekLayout.OnSeekStateListener() {
-            @Override
-            public void onSeekState(int state, int progress) {
-                if (state == VodSeekLayout.SEEK_START) {
-                    isChangedState = false;
-                    mHandler.removeCallbacks(mRunnable);
-                } else if (state == VodSeekLayout.SEEK_STOP) {
-                    mVideoView.seekTo(progress * mVideoView.getDuration() / mVodSeekLayout.getMaxProgress());
-                    isChangedState = true;
-                    mHandler.removeCallbacks(mRunnable);
-                    mHandler.postDelayed(mRunnable, 1000);
-                }
-            }
-
-            @Override
-            public void onShowState(boolean show) {
             }
         });
-    }
-
-    private void initData() {
+        this.d = simonVideoController;
+        simonVideoController.addControlComponent(new GestureView(this));
+        SimonVodControlView simonVodControlView = new SimonVodControlView(this);
+        simonVodControlView.i.setVisibility(View.GONE);
+        simonVodControlView.f160j.setVisibility(View.GONE);
+        simonVodControlView.r.setVisibility(View.GONE);
+        simonVodControlView.x.setVisibility(View.GONE);
+        simonVodControlView.y.setVisibility(View.GONE);
+        ViewGroup.LayoutParams layoutParams2 = simonVodControlView.q.getLayoutParams();
+        if (layoutParams2 instanceof FrameLayout.LayoutParams) {
+            ((FrameLayout.LayoutParams) layoutParams2).gravity = 17;
+        }
+        this.d.addControlComponent(simonVodControlView);
+        this.d.setCanChangePosition(true);
+        this.d.setEnableInNormal(true);
+        this.d.setGestureEnabled(true);
+        this.c.setVideoController(this.d);
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
-            Bundle bundle = intent.getExtras();
-            playUrl = bundle.getString("playUrl");
-            mVodSeekLayout.setVodName("播放地址:" + playUrl);
-            mVideoView.setUrl(playUrl);
-            mVideoView.start();
+            String string = intent.getExtras().getString("html");
+            e();
+            this.e = new VideoAnalysis();
+            this.e.a(this, new VideoAnalysis.j() {
+                @Override
+                public void finish() {
+                    finish();
+                    e();
+                }
+            });
+            Dialog dialog = this.e.b;
+            if (dialog != null && !dialog.isShowing()) {
+                this.e.b.show();
+            }
+            e.a("", "", string, new PlayStart());
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                if (mVideoView.isPlaying()) {
-                    mVodSeekLayout.setVisibility(View.VISIBLE);
+    public class PlayStart implements VideoAnalysis.play {
+        public PlayStart() {
+        }
+
+        public void a(String str, Map<String, String> map) {
+            d.a(str);
+            if (c != null) {
+                c.release();
+                c.setUrl(str);
+                c.start();
+            }
+            e();
+        }
+
+        public void a() {
+            finish();
+            e();
+        }
+    }
+
+    public boolean dispatchKeyEvent(KeyEvent keyEvent) {
+        int keyCode = keyEvent.getKeyCode();
+        int action = keyEvent.getAction();
+        int i = 1;
+        if (action == 0) {
+            if (keyCode == 22 || keyCode == 21) {
+                SimonVideoController simonVideoController = this.d;
+                if (keyCode != 22) {
+                    i = -1;
                 }
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                if (!isPause) {
-                    isPause = true;
-                    mHandler.removeCallbacks(mRunnable);
-                    mVideoView.pause();
-                    mVodSeekLayout.setVisibility(View.VISIBLE);
-                    int mCurrentPosition = (int) mVideoView.getCurrentPosition();
-                    int mDuration = (int) mVideoView.getDuration();
-                    int progress = mDuration == 0 ? 0 : mCurrentPosition * mVodSeekLayout.getMaxProgress() / mDuration;
-                    mVodSeekLayout.setProgress(progress);
-                    mVodSeekLayout.pause();
-                } else {
-                    isPause = false;
-                    mHandler.removeCallbacks(mRunnable);
-                    mHandler.postDelayed(mRunnable, 1000);
-                    mVideoView.resume();
-                    mVodSeekLayout.start();
+                simonVideoController.a(i);
+            } else if (keyCode == 23 || keyCode == 85 || keyCode == 7) {
+                this.d.d();
+            }
+        } else if (action == 1 && (keyCode == 22 || keyCode == 21)) {
+            this.d.c();
+        }
+        return super.dispatchKeyEvent(keyEvent);
+    }
+
+    public void e() {
+        if (e != null) {
+            try {
+                Dialog dialog = e.b;
+                if (dialog != null && dialog.isShowing()) {
+                    e.b.dismiss();
                 }
+            } catch (Throwable th) {
+                th.printStackTrace();
             }
         }
-        return super.onKeyDown(keyCode, event);
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mVideoView != null) {
-            mVideoView.resume();
-        }
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mVideoView != null) {
-            mVideoView.pause();
-        }
-        mHandler.removeCallbacks(mRunnable);
-    }
-
-    @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
-        if (mVideoView != null) {
-            mVideoView.release();
+        VideoView videoView = this.c;
+        if (videoView != null) {
+            videoView.release();
+            this.c = null;
+        }
+        e();
+    }
+
+    public void onPause() {
+        super.onPause();
+        VideoView videoView = this.c;
+        if (videoView != null) {
+            videoView.pause();
+        }
+    }
+
+    public void onResume() {
+        super.onResume();
+        VideoView videoView = this.c;
+        if (videoView != null) {
+            videoView.resume();
         }
     }
 }

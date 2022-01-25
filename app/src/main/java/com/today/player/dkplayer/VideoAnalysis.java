@@ -116,7 +116,7 @@ public class VideoAnalysis {
         void a(String str, Map<String, String> map);
     }
 
-    public final void a(String str, String str2, String str3, PlayActivity.PlayStart kVar) {
+    public final void a(String str, String str2, String str3, VideoAnalysis.play kVar) {
         this.d.setText("资源解析中，请稍后");
         if (this.webView != null) {
             b(str, str2, str3);
@@ -142,7 +142,7 @@ public class VideoAnalysis {
         }
     }
 
-    public final void a(PlayActivity.PlayStart kVar) {
+    public final void a(VideoAnalysis.play kVar) {
         webView = new WebView(mContext);
         if (webView != null) {
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(1, 1);
@@ -192,7 +192,7 @@ public class VideoAnalysis {
 
 
     public class l extends WebViewClient {
-        public PlayActivity.PlayStart a;
+        public VideoAnalysis.play a;
 
         public class a implements Runnable {
             public final WebView a;
@@ -209,7 +209,7 @@ public class VideoAnalysis {
             }
         }
 
-        public l(PlayActivity.PlayStart aVar) {
+        public l(VideoAnalysis.play aVar) {
             this.a = aVar;
         }
 

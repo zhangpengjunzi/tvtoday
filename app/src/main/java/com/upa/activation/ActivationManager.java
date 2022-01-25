@@ -30,7 +30,7 @@ public class ActivationManager {
         HttpRequest.getInstance().httpPost(codeUrl, new ActivationHttpListener() {
             @Override
             public void active(int code) {
-                if (code != 200) {
+                if (code == 200) {
                     if (activationView == null && context != null) {
                         activationView = new ActivationView(context);
                     }

@@ -18,6 +18,7 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="false"
+            android:layout_marginTop="30.0pt"
             android:focusableInTouchMode="false"
             android:orientation="vertical">
 

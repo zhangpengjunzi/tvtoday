@@ -1,6 +1,7 @@
 package com.today.player.api;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.text.TextUtils;
 
@@ -17,9 +18,14 @@ import com.today.player.cache.LocalLive;
 import com.today.player.cache.LocalParse;
 import com.today.player.cache.RoomDataManger;
 import com.today.player.cache.SourceState;
+import com.today.player.event.TopStateEvent;
 import com.today.player.ui.dialog.MediaCodeDialog;
 import com.today.player.util.HawkConfig;
 import com.today.player.util.L;
+import com.upa.source.HintSource;
+import com.upa.view.ConfirmSourceDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -285,5 +291,20 @@ public class ApiConfig {
         Hawk.put(HawkConfig.DEFAULT_PRASE_ID, tgVar.getParseName());
         tgVar.setDefault(true);
     }
+
+
+    public void cc(PlayerModel.SourcesDTO ugVar) {
+        HintSource.getInstance().notify(ugVar.getKey(), new ConfirmSourceDialog.ConfirmCLickListener() {
+            public void cancelClick() {
+            }
+
+            public void confirmClick() {
+                setSourceBean(ugVar);
+                HintSource.getInstance().saveOldSource(ugVar.getKey());
+                EventBus.getDefault().post(new TopStateEvent(TopStateEvent.REFRESH));
+            }
+        });
+    }
+
 
 }

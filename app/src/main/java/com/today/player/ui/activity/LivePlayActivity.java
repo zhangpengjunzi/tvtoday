@@ -48,7 +48,7 @@ public class LivePlayActivity extends BaseActivity {
     public Handler i = new Handler();
 
     /* renamed from: j  reason: collision with root package name */
-    public List<PlayerModel.LiveDTO> f166j = new ArrayList();
+    public List<PlayerModel.LiveDTO> liveList = new ArrayList();
     public PlayerModel.LiveDTO k = null;
     public Runnable l = new b();
     public Runnable m = new c();
@@ -101,11 +101,11 @@ public class LivePlayActivity extends BaseActivity {
                 int parseInt = Integer.parseInt(livePlayActivity.f167p);
                 int i = 0;
                 while (true) {
-                    if (i >= livePlayActivity.f166j.size()) {
+                    if (i >= livePlayActivity.liveList.size()) {
                         qgVar = null;
                         break;
                     }
-                    qgVar = livePlayActivity.f166j.get(i);
+                    qgVar = livePlayActivity.liveList.get(i);
                     if (qgVar.getChannelNum() == parseInt) {
                         break;
                     }
@@ -162,12 +162,21 @@ public class LivePlayActivity extends BaseActivity {
         }
     }
 
-
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        f();
-        return super.dispatchTouchEvent(ev);
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            f();
+        }
+        return super.onTouchEvent(event);
     }
+    //    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        Log.d("LIVE","dispatchTouchEvent "+ev.getAction());
+//        if (ev.getAction() == MotionEvent.ACTION_DOWN){
+//            f();
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
 
     @Override
     protected int getLayoutResID() {
@@ -177,7 +186,7 @@ public class LivePlayActivity extends BaseActivity {
     @Override
     public void init() {
         this.c = findViewById(R.id.mVideoView);
-        PlayUtils.a(this.c,null);
+        PlayUtils.a(this.c, null);
         this.g = findViewById(R.id.mGridView);
         this.f = findViewById(R.id.tvChannel);
         this.d = findViewById(R.id.tvHint);
@@ -210,17 +219,17 @@ public class LivePlayActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 FastClickCheckUtil.check(view);
                 LivePlayActivity livePlayActivity = LivePlayActivity.this;
-                if (livePlayActivity.a(livePlayActivity.f166j.get(position), false)) {
+                if (livePlayActivity.a(livePlayActivity.liveList.get(position), false)) {
                     livePlayActivity.i.post(livePlayActivity.l);
                 }
 
             }
         });
         String str = Hawk.get(HawkConfig.LAST_LIVE_CHANNEL_NAME, "");
-        this.f166j.clear();
-        this.f166j.addAll(ApiConfig.get().getChannelList());
+        this.liveList.clear();
+        this.liveList.addAll(ApiConfig.get().getChannelList());
         int i2 = 500;
-        for (PlayerModel.LiveDTO next : this.f166j) {
+        for (PlayerModel.LiveDTO next : this.liveList) {
             if (next.getChannelName().equals(str)) {
                 qgVar = next;
             }
@@ -230,11 +239,11 @@ public class LivePlayActivity extends BaseActivity {
             }
         }
         if (qgVar == null) {
-            qgVar = this.f166j.get(0);
+            qgVar = this.liveList.get(0);
         }
         this.g.setVisibility(View.INVISIBLE);
         this.d.setVisibility(View.INVISIBLE);
-        this.h.setNewData(this.f166j);
+        this.h.setNewData(this.liveList);
         a(qgVar, false);
     }
 
@@ -244,17 +253,17 @@ public class LivePlayActivity extends BaseActivity {
         if (event.getAction() == 0) {
             int keyCode = event.getKeyCode();
             if (keyCode == 20 && this.g.getVisibility() == View.INVISIBLE) {
-                int indexOf = this.f166j.indexOf(this.k) + 1;
-                if (indexOf >= this.f166j.size()) {
+                int indexOf = this.liveList.indexOf(this.k) + 1;
+                if (indexOf >= this.liveList.size()) {
                     indexOf = 0;
                 }
-                a(this.f166j.get(indexOf), false);
+                a(this.liveList.get(indexOf), false);
             } else if (keyCode == 19 && this.g.getVisibility() == View.INVISIBLE) {
-                int indexOf2 = this.f166j.indexOf(this.k) - 1;
+                int indexOf2 = this.liveList.indexOf(this.k) - 1;
                 if (indexOf2 < 0) {
-                    indexOf2 = this.f166j.size() - 1;
+                    indexOf2 = this.liveList.size() - 1;
                 }
-                a(this.f166j.get(indexOf2), false);
+                a(this.liveList.get(indexOf2), false);
             } else if (keyCode == 21 && this.g.getVisibility() == View.INVISIBLE) {
                 PlayerModel.LiveDTO qgVar = this.k;
                 qgVar.sourceIdx--;
@@ -317,7 +326,7 @@ public class LivePlayActivity extends BaseActivity {
         if (this.g.getVisibility() == View.INVISIBLE) {
             this.d.setVisibility(View.VISIBLE);
             this.g.setVisibility(View.VISIBLE);
-            this.g.setSelection(this.f166j.indexOf(this.k));
+            this.g.setSelection(this.liveList.indexOf(this.k));
             this.i.postDelayed(this.o, 100);
         }
     }
@@ -379,10 +388,10 @@ public class LivePlayActivity extends BaseActivity {
         if (qgVar2 != null) {
             qgVar2.setDefault(false);
         }
-        this.h.notifyItemChanged(this.f166j.indexOf(this.k));
+        this.h.notifyItemChanged(this.liveList.indexOf(this.k));
         this.k = qgVar;
         qgVar.setDefault(true);
-        this.h.notifyItemChanged(this.f166j.indexOf(this.k));
+        this.h.notifyItemChanged(this.liveList.indexOf(this.k));
         e();
         this.f.setVisibility(View.VISIBLE);
         this.i.postDelayed(this.n, 4000);

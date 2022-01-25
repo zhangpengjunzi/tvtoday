@@ -11,10 +11,10 @@
       "type": "SINGLE",
       "filters": [],
       "properties": [],
-      "versionCode": 123,
-      "versionName": "123",
+      "versionCode": 24,
+      "versionName": "24",
       "enabled": true,
-      "outputFile": "tv_movie_release_v1.2.3.apk"
+      "outputFile": "tv_movie_release_v4.5.0.apk"
     }
   ]
 }

@@ -124,6 +124,7 @@ public class PlayActivity extends BaseActivity {
         if (mVodInfo != null && mVodInfo.seriesMap != null) {
             if (++mVodInfo.playIndex >= mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).size()) {
                 Toast.makeText(mContext, "已经是最后1集", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
                 playSet();
             }
@@ -155,6 +156,7 @@ public class PlayActivity extends BaseActivity {
 
     private void playSet() {
         mVideoView.release();
+        EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_REFRESH, mVodInfo.playIndex));
         playUrl = mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).get(mVodInfo.playIndex).url;
         StringBuilder sb = new StringBuilder();
         sb.append(mVodInfo.name);
@@ -208,7 +210,6 @@ public class PlayActivity extends BaseActivity {
         public void a(String str, Map<String, String> map) {
             if (mVideoView != null) {
                 mVideoView.release();
-                Log.i("_url", str);
                 if (map != null) {
                     mVideoView.setUrl(str, map);
                 } else {
