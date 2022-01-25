@@ -192,7 +192,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="20.0pt"
                 android:alpha="0.75"
-                android:src="@drawable/ic_setting" />
+                android:src="@drawable/ic_store" />
         </FrameLayout>
     </LinearLayout>
 </FrameLayout>
