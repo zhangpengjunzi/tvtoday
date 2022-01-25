@@ -55,7 +55,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/fl_title"
+            android:id="@+id/fl_live"
             android:layout_width="280.0pt"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -80,7 +80,7 @@
                 android:textSize="36.0pt" />
 
             <ImageView
-                android:id="@+id/img_title"
+                android:id="@+id/img_live"
                 android:layout_width="150.0pt"
                 android:layout_height="150.0pt"
                 android:layout_gravity="center"
@@ -181,7 +181,7 @@
                 android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:paddingTop="170.0pt"
-                android:text="设置"
+                android:text="推荐"
                 android:textColor="@color/color_CCFFFFFF"
                 android:textSize="36.0pt" />
 

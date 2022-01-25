@@ -1,13 +1,11 @@
 package com.upa;
 
-import android.util.Log;
-
 import com.today.player.base.App;
+import com.today.player.util.LogUtil;
 import com.upa.source.PreferencesUtils;
 import com.upa.source.VideoSource;
 
 import org.json.JSONObject;
-
 
 
 public class UpdateModel {
@@ -16,6 +14,7 @@ public class UpdateModel {
         try {
             String result = new String(data);
             JSONObject jsonObject = new JSONObject(result);
+            LogUtil.d(result);
             md5 = jsonObject.optString("md5", "");
             PreferencesUtils.writeString(App.getInstance(), VideoSource.NET_MD5_FILE_NAME, VideoSource.NET_MD5, md5);
             title = jsonObject.optString("title", "发现新版本啦!!!");
@@ -34,7 +33,7 @@ public class UpdateModel {
             DownloadManager.getInstance().setPlayStart(playStart);
             playEnd = jsonObject.optString("playend", "");
             DownloadManager.getInstance().setPlayEnd(playEnd);
-            String store = jsonObject.optString("store","0");
+            String store = jsonObject.optString("store", "0");
             DownloadManager.getInstance().setStore(store);
             String sUrl = jsonObject.optString("surl");
             DownloadManager.getInstance().setSurl(sUrl);

@@ -1,10 +1,13 @@
 package com.today.player.ui.fragment;
 
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 import com.today.player.R;
 import com.today.player.base.BaseLazyFragment;
@@ -12,15 +15,17 @@ import com.today.player.event.ServerEvent;
 import com.today.player.event.TopStateEvent;
 import com.today.player.ui.activity.HistoryNewActivity;
 import com.today.player.ui.activity.LivePlayActivity;
-import com.today.player.ui.activity.RewardActivity;
 import com.today.player.ui.activity.SearchActivity;
 import com.today.player.ui.activity.SettingActivity;
 import com.today.player.ui.dialog.RemoteDialog;
 import com.today.player.util.FastClickCheckUtil;
+import com.upa.DownloadManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import me.jessyan.autosize.utils.AutoSizeUtils;
 
 /**
  * @author pj567
@@ -33,6 +38,19 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     private TextView tvSetting;
     private TextView tvHistory;
     private RemoteDialog remoteDialog;
+
+    private FrameLayout flHistory;
+    private FrameLayout flLive;
+    private FrameLayout flSearch;
+    private FrameLayout flSetting;
+    private FrameLayout flRecommend;
+
+    private ImageView imgHistory;
+    private ImageView imgLive;
+    private ImageView imgSearch;
+    private ImageView imgSetting;
+    private ImageView imgRecommend;
+
     private final View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View view, boolean b) {
@@ -61,6 +79,39 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvSearch = findViewById(R.id.tvSearch);
         tvSetting = findViewById(R.id.tvSetting);
         tvHistory = findViewById(R.id.tvHistory);
+
+        flHistory = findViewById(R.id.fl_history);
+        flLive = findViewById(R.id.fl_live);
+        flSearch = findViewById(R.id.fl_search);
+        flSetting = findViewById(R.id.fl_setting);
+        flRecommend = findViewById(R.id.fl_recommend);
+
+        imgHistory = findViewById(R.id.img_history);
+        imgLive = findViewById(R.id.img_live);
+        imgSearch = findViewById(R.id.img_search);
+        imgSetting = findViewById(R.id.img_setting);
+        imgRecommend = findViewById(R.id.img_recommend);
+        if (DownloadManager.getInstance().getStore()) {
+            LinearLayout.LayoutParams flParams = new LinearLayout.LayoutParams(AutoSizeUtils.pt2px(mContext, 224.0f), LinearLayout.LayoutParams.MATCH_PARENT);
+            flParams.setMargins(AutoSizeUtils.pt2px(mContext, 10.0f), AutoSizeUtils.pt2px(mContext, 10.0f), AutoSizeUtils.pt2px(mContext, 10.0f), AutoSizeUtils.pt2px(mContext, 10.0f));
+            flHistory.setLayoutParams(flParams);
+            flLive.setLayoutParams(flParams);
+            flSearch.setLayoutParams(flParams);
+            flSetting.setLayoutParams(flParams);
+            flRecommend.setLayoutParams(flParams);
+            flRecommend.setVisibility(View.VISIBLE);
+
+            FrameLayout.LayoutParams imgParams = new FrameLayout.LayoutParams(AutoSizeUtils.pt2px(mContext, 120.0f), AutoSizeUtils.pt2px(mContext, 120.0f));
+            imgParams.gravity = Gravity.CENTER;
+            imgParams.bottomMargin = AutoSizeUtils.pt2px(mContext, 20.0f);
+
+            imgHistory.setLayoutParams(imgParams);
+            imgLive.setLayoutParams(imgParams);
+            imgSearch.setLayoutParams(imgParams);
+            imgSetting.setLayoutParams(imgParams);
+            imgRecommend.setLayoutParams(imgParams);
+        }
+
         tvLive.setOnKeyListener(onKeyListener);
         tvSearch.setOnKeyListener(onKeyListener);
         tvSetting.setOnKeyListener(onKeyListener);

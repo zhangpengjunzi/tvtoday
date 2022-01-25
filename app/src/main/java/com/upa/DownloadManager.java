@@ -1,14 +1,8 @@
 package com.upa;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
-import android.os.Build;
-
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.upa.activation.ActivationManager;
@@ -42,12 +36,12 @@ public class DownloadManager {
 
     private List<String> ads = new ArrayList<>();
 
-    private String store;
+    private String store = "0";
 
     private String surl;
 
     public boolean getStore() {
-        if (store.equals("1")){
+        if (store.equals("1")) {
             return true;
         }
         return false;
