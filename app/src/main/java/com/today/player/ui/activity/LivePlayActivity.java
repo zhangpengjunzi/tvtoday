@@ -35,7 +35,6 @@ import com.tv.widget.ViewObj;
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.doikki.videoplayer.player.ProgressManager;
 import xyz.doikki.videoplayer.player.VideoView;
 
 public class LivePlayActivity extends BaseActivity {
@@ -47,7 +46,6 @@ public class LivePlayActivity extends BaseActivity {
     public LiveChannelAdapter h;
     public Handler i = new Handler();
 
-    /* renamed from: j  reason: collision with root package name */
     public List<PlayerModel.LiveDTO> liveList = new ArrayList();
     public PlayerModel.LiveDTO k = null;
     public Runnable l = new b();
@@ -55,7 +53,6 @@ public class LivePlayActivity extends BaseActivity {
     public Runnable n = new d();
     public Runnable o = new e();
 
-    /* renamed from: p  reason: collision with root package name */
     public String f167p = "";
 
     public class a implements SimonVideoController.a {
@@ -201,7 +198,7 @@ public class LivePlayActivity extends BaseActivity {
         simonVideoController.setGestureEnabled(true);
         this.c.setVideoController(simonVideoController);
         PlayerModel.LiveDTO qgVar = null;
-        this.c.setProgressManager((ProgressManager) null);
+        this.c.setProgressManager(null);
         this.h = new LiveChannelAdapter();
         this.g.setAdapter(this.h);
         this.g.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -226,10 +223,10 @@ public class LivePlayActivity extends BaseActivity {
             }
         });
         String str = Hawk.get(HawkConfig.LAST_LIVE_CHANNEL_NAME, "");
-        this.liveList.clear();
-        this.liveList.addAll(ApiConfig.get().getChannelList());
+        liveList.clear();
+        liveList.addAll(ApiConfig.get().getChannelList());
         int i2 = 500;
-        for (PlayerModel.LiveDTO next : this.liveList) {
+        for (PlayerModel.LiveDTO next : liveList) {
             if (next.getChannelName().equals(str)) {
                 qgVar = next;
             }

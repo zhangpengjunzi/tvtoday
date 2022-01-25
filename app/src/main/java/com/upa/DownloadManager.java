@@ -1,16 +1,12 @@
 package com.upa;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
-import android.os.Build;
 
-import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.today.player.event.TopStateEvent;
 import com.upa.activation.ActivationManager;
 import com.upa.http.HttpRequest;
 import com.upa.im.IDownloadListener;
@@ -18,6 +14,8 @@ import com.upa.im.YsRequestListener;
 import com.upa.receive.AppInstallReceiver;
 import com.upa.source.HintSource;
 import com.upa.view.YsUpdateView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +76,8 @@ public class DownloadManager {
                 Toast.makeText(context, "已是最新版本", Toast.LENGTH_LONG).show();
                 //弹窗
                 ActivationManager.getInstance().isActivation(context);
+                //加载数据
+                EventBus.getDefault().post(new TopStateEvent(TopStateEvent.REFRESH_LOAD_SOURCE));
             }
         });
     }
