@@ -65,6 +65,7 @@
         <entry key="app/src/main/res/drawable/detail_quick_search_focus.xml" value="0.5578125" />
         <entry key="app/src/main/res/drawable/error_loading.xml" value="0.40512820512820513" />
         <entry key="app/src/main/res/drawable/home_sort_focus.xml" value="0.196875" />
+        <entry key="app/src/main/res/drawable/layer_progress_download.xml" value="0.2388888888888889" />
         <entry key="app/src/main/res/drawable/user_focus.xml" value="0.27037037037037037" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.20199275362318841" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.19224924012158054" />
@@ -77,6 +78,7 @@
         <entry key="app/src/main/res/layout/item_grid_layout.xml" value="0.19224924012158054" />
         <entry key="app/src/main/res/layout/item_home_sort_layout.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/item_ijk_codec_layout.xml" value="0.19224924012158054" />
+        <entry key="app/src/main/res/layout/item_recommend.xml" value="0.22264437689969604" />
         <entry key="app/src/main/res/layout/item_sort_setting_layout.xml" value="0.19224924012158054" />
       </map>
     </option>

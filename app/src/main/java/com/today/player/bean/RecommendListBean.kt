@@ -1,0 +1,19 @@
+package com.today.player.bean
+import com.google.gson.annotations.SerializedName
+data class RecommendListBean(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("list")
+    val list: List<AppBean>,
+    @SerializedName("msg")
+    val msg: String
+)
+
+data class AppBean (
+    @SerializedName("download")
+    val download: String,
+    @SerializedName("icon")
+    val icon: String,
+    @SerializedName("title")
+    val title: String
+)
