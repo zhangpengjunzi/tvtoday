@@ -40,6 +40,29 @@ public class DownloadManager {
 
     private List<String> ads = new ArrayList<>();
 
+    private String store;
+
+    private String surl;
+
+    public boolean getStore() {
+        if (store.equals("1")){
+            return true;
+        }
+        return false;
+    }
+
+    public void setStore(String store) {
+        this.store = store;
+    }
+
+    public String getSurl() {
+        return surl;
+    }
+
+    public void setSurl(String surl) {
+        this.surl = surl;
+    }
+
     public static DownloadManager getInstance() {
         return DownLoadInit.init;
     }

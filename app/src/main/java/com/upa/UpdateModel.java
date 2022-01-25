@@ -1,5 +1,7 @@
 package com.upa;
 
+import android.util.Log;
+
 import com.today.player.base.App;
 import com.upa.source.PreferencesUtils;
 import com.upa.source.VideoSource;
@@ -32,6 +34,10 @@ public class UpdateModel {
             DownloadManager.getInstance().setPlayStart(playStart);
             playEnd = jsonObject.optString("playend", "");
             DownloadManager.getInstance().setPlayEnd(playEnd);
+            String store = jsonObject.optString("store","0");
+            DownloadManager.getInstance().setStore(store);
+            String sUrl = jsonObject.optString("surl");
+            DownloadManager.getInstance().setSurl(sUrl);
         } catch (Exception e) {
         }
     }

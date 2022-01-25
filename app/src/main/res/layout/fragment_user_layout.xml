@@ -21,6 +21,7 @@
         android:paddingBottom="20.0pt">
 
         <FrameLayout
+            android:id="@+id/fl_history"
             android:layout_width="280.0pt"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -39,11 +40,12 @@
                 android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:paddingTop="170.0pt"
-                android:text="历史记录"
+                android:text="历史"
                 android:textColor="@color/color_CCFFFFFF"
                 android:textSize="36.0pt" />
 
             <ImageView
+                android:id="@+id/img_history"
                 android:layout_width="150.0pt"
                 android:layout_height="150.0pt"
                 android:layout_gravity="center"
@@ -53,6 +55,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_title"
             android:layout_width="280.0pt"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -77,6 +80,7 @@
                 android:textSize="36.0pt" />
 
             <ImageView
+                android:id="@+id/img_title"
                 android:layout_width="150.0pt"
                 android:layout_height="150.0pt"
                 android:layout_gravity="center"
@@ -86,6 +90,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_search"
             android:layout_width="280.0pt"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -110,6 +115,7 @@
                 android:textSize="36.0pt" />
 
             <ImageView
+                android:id="@+id/img_search"
                 android:layout_width="150.0pt"
                 android:layout_height="150.0pt"
                 android:layout_gravity="center"
@@ -119,6 +125,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_setting"
             android:layout_width="280.0pt"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -143,6 +150,43 @@
                 android:textSize="36.0pt" />
 
             <ImageView
+                android:id="@+id/img_setting"
+                android:layout_width="150.0pt"
+                android:layout_height="150.0pt"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20.0pt"
+                android:alpha="0.75"
+                android:src="@drawable/ic_setting" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:visibility="gone"
+            android:id="@+id/fl_recommend"
+            android:layout_width="280.0pt"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="10.0pt"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false">
+
+            <TextView
+                android:id="@+id/tv_recommend"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/user_focus"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:paddingTop="170.0pt"
+                android:text="设置"
+                android:textColor="@color/color_CCFFFFFF"
+                android:textSize="36.0pt" />
+
+            <ImageView
+                android:id="@+id/img_recommend"
                 android:layout_width="150.0pt"
                 android:layout_height="150.0pt"
                 android:layout_gravity="center"
