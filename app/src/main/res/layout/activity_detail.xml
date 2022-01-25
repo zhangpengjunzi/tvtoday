@@ -144,7 +144,7 @@
                     android:layout_marginTop="5.0pt"
                     android:ellipsize="end"
                     android:lineSpacingMultiplier="1.2"
-                    android:maxLines="5"
+                    android:maxLines="4"
                     android:textColor="@color/color_CCFFFFFF"
                     android:textSize="18.0pt" />
 
@@ -156,6 +156,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="2.0pt"
                     android:orientation="horizontal">
 
                     <TextView

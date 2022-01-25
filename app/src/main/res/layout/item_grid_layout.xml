@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/user_focus"
     android:focusable="true"
-    android:padding="1.0pt">
+    android:padding="0.2pt">
 
     <FrameLayout
         android:layout_width="212.0pt"

@@ -21,7 +21,7 @@ public class SortAdapter extends BaseQuickAdapter<MovieSort.SortData, BaseViewHo
         super(R.layout.item_home_sort_layout, new ArrayList<>());
     }
 
-    private int focused = 0;
+    public int focused = 0;
 
     @Override
     protected void convert(BaseViewHolder helper, MovieSort.SortData item) {
@@ -31,17 +31,5 @@ public class SortAdapter extends BaseQuickAdapter<MovieSort.SortData, BaseViewHo
             Log.d("SELECTED", " " + helper.getAdapterPosition());
             helper.getView(R.id.fl_sort_root).requestFocus();
         }
-        helper.getView(R.id.tvTitle).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    Log.d("TOUCH", " " + helper.getAdapterPosition());
-                    helper.getView(R.id.fl_sort_root).requestFocus();
-                    focused = helper.getAdapterPosition();
-                }
-
-                return false;
-            }
-        });
     }
 }

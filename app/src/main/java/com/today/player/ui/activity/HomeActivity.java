@@ -139,6 +139,7 @@ public class HomeActivity extends BaseActivity {
                         if (sortFocused != defaultSelected) {
                             defaultSelected = sortFocused;
                             mViewPager.setCurrentItem(sortFocused, false);
+                            sortAdapter.focused = position;
                         }
                     }
                 }
