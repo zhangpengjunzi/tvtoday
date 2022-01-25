@@ -26,12 +26,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".ui.activity.RecommendActivity"
+            android:screenOrientation="landscape"
+           />
         <activity
             android:name=".ui.activity.SplashActivity"
-            android:screenOrientation="landscape">
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".ui.activity.HomeActivity"
             android:screenOrientation="landscape">
@@ -41,7 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.LivePlayActivity"
             android:screenOrientation="landscape" />
@@ -88,7 +88,6 @@
                 <action android:name="android.content.movie.projection.Action" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".receiver.CustomWebReceiver">
             <intent-filter>
                 <action android:name="android.content.movie.custom.web.Action" />

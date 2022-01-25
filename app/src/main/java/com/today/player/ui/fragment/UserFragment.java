@@ -15,6 +15,7 @@ import com.today.player.event.ServerEvent;
 import com.today.player.event.TopStateEvent;
 import com.today.player.ui.activity.HistoryNewActivity;
 import com.today.player.ui.activity.LivePlayActivity;
+import com.today.player.ui.activity.RecommendActivity;
 import com.today.player.ui.activity.SearchActivity;
 import com.today.player.ui.activity.SettingActivity;
 import com.today.player.ui.dialog.RemoteDialog;
@@ -37,6 +38,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     private TextView tvSearch;
     private TextView tvSetting;
     private TextView tvHistory;
+    private TextView tvRecommend;
     private RemoteDialog remoteDialog;
 
     private FrameLayout flHistory;
@@ -79,6 +81,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvSearch = findViewById(R.id.tvSearch);
         tvSetting = findViewById(R.id.tvSetting);
         tvHistory = findViewById(R.id.tvHistory);
+        tvRecommend = findViewById(R.id.tv_recommend);
 
         flHistory = findViewById(R.id.fl_history);
         flLive = findViewById(R.id.fl_live);
@@ -116,15 +119,19 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvSearch.setOnKeyListener(onKeyListener);
         tvSetting.setOnKeyListener(onKeyListener);
         tvHistory.setOnKeyListener(onKeyListener);
+        tvRecommend.setOnKeyListener(onKeyListener);
+
         tvLive.setOnClickListener(this);
         tvSearch.setOnClickListener(this);
         tvSetting.setOnClickListener(this);
         tvHistory.setOnClickListener(this);
+        tvRecommend.setOnClickListener(this);
 
         tvLive.setOnFocusChangeListener(focusChangeListener);
         tvSearch.setOnFocusChangeListener(focusChangeListener);
         tvSetting.setOnFocusChangeListener(focusChangeListener);
         tvHistory.setOnFocusChangeListener(focusChangeListener);
+        tvRecommend.setOnFocusChangeListener(focusChangeListener);
 
 
     }
@@ -153,6 +160,8 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             jumpActivity(SettingActivity.class);
         } else if (v.getId() == R.id.tvHistory) {
             jumpActivity(HistoryNewActivity.class);
+        } else if (v.getId() == R.id.tv_recommend) {
+            jumpActivity(RecommendActivity.class);
         }
     }
 
