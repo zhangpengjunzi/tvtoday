@@ -173,3 +173,6 @@
 
 -keep class com.thoughtworks.xstream.** { *; }
 -dontwarn com.thoughtworks.xstream.**
+
+-keep class com.owen.tvrecyclerview.** { *; }
+-dontwarn com.owen.tvrecyclerview.**
