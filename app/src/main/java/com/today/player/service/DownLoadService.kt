@@ -81,7 +81,7 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
         override fun onReceive(context: Context?, intent: Intent?) {
             //接收安装广播
             if (intent?.action.equals("android.intent.action.PACKAGE_ADDED")) {
-                val packageName = intent?.dataString;
+                val packageName = intent?.data?.schemeSpecificPart
                 LogUtil.d("install $packageName success")
                 installSucPkg(packageName)
             }
@@ -91,7 +91,8 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
         private fun installSucPkg(packageName: String?) {
             val list = DownloadObserver.getInstance().recommendList
             list.forEachIndexed { index, recommendBean ->
-                if (recommendBean.packageName == packageName) {
+                LogUtil.d("$packageName ${recommendBean.packageName}")
+                if (packageName == recommendBean.packageName) {
                     list[index].progress = 100
                     list[index].install = "已安装"
                     DownloadObserver.getInstance().saveRecommendList(list)

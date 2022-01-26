@@ -14,6 +14,7 @@ import com.today.player.R
 import com.today.player.bean.AppBean
 import com.today.player.bean.RecommendBean
 import com.today.player.picasso.RoundTransformation
+import com.today.player.util.LogUtil
 import com.today.player.util.MD5
 import me.jessyan.autosize.utils.AutoSizeUtils
 
@@ -51,7 +52,11 @@ class RecommendListAdapter(
             .into(holder.icon)
         holder.title.text = title
         if (progress > 0) {
-            holder.install.text = "$progress%"
+            if (list[position].install != "已安装"){
+                holder.install.text = "$progress%"
+            }else{
+                holder.install.text = "已安装"
+            }
         }else{
             holder.install.text = "安装"
         }

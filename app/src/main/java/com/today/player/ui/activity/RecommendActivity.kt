@@ -7,6 +7,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.gson.Gson
 import com.today.player.R
 import com.today.player.base.BaseActivity
@@ -93,6 +94,7 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         }
         DownloadObserver.getInstance().saveRecommendList(list)
         adapter = RecommendListAdapter(this, list)
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         recyclerView.layoutManager = GridLayoutManager(this, 6, GridLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
         adapter.setRecommendItemClickListener(this)
@@ -124,6 +126,7 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
     override fun onSuccess(position: Int) {
         LogUtil.d("onSuccess")
         if(list.size>position){
+            LogUtil.d("onSuccess in $position")
             list[position].progress = 100
             list[position].install = "已安装"
             adapter.notifyItemChanged(position)
