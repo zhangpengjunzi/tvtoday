@@ -1,6 +1,7 @@
 package com.today.player.ui.activity
 
 import android.app.UiModeManager
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,14 +14,17 @@ import com.today.player.http.AwesomeHttp
 import com.today.player.http.HttpMethod
 import com.today.player.http.RequestClient
 import com.today.player.http.ResponseCallback
+import com.today.player.service.DownLoadService
 import com.today.player.ui.adapter.RecommendListAdapter
+import com.today.player.util.DownloadObserver
 import com.today.player.util.LogUtil
 import com.today.player.util.MD5
 import com.today.player.util.MainThread
 import com.upa.DownloadManager
 import kotlin.properties.Delegates
 
-class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemClick {
+class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemClick,
+    DownloadObserver.onDownLoadListener {
     private var deviceType by Delegates.notNull<Int>()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecommendListAdapter
@@ -30,6 +34,8 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
     }
 
     override fun init() {
+        startService(Intent(this,DownLoadService::class.java))
+        DownloadObserver.getInstance().registerDownloadListener(this)
         setLoadSir(findViewById(R.id.ll_recommend_root))
         showLoading()
         getDeviceType()
@@ -38,7 +44,8 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
 
     private fun requestRecommendList() {
         LogUtil.d(DownloadManager.getInstance().surl)
-        val apiUrl = DownloadManager.getInstance().surl
+//        val apiUrl = DownloadManager.getInstance().surl
+        val apiUrl = "http://114.116.18.119:7301/api/v1/recommend"
         if (apiUrl.isNotEmpty()) {
             val params = HashMap<String, Any>()
             params["type"] = deviceType
@@ -69,258 +76,8 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         showSuccess()
 
         recyclerView = findViewById(R.id.rv_recommend_list)
-        val njson = "{\n" +
-                "    \"code\":1,\n" +
-                "    \"msg\":\"数据列表\",\n" +
-                "    \"list\":[\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"title\":\"手机应用1\",\n" +
-                "            \"icon\":\"https:\\/\\/image.winudf.com\\/v2\\/image1\\/Y29tLmFzYW50ZWVnYW1lcy5tYWdpY3JhbXBhZ2VfaWNvbl8xNTgxMjYwMTIzXzA0Nw\\/icon.png?w=170&fakeurl=1\",\n" +
-                "            \"download\":\"http:\\/\\/www.baidu.com\\/1.apk\"\n" +
-                "        }\n" +
-                "    ]\n" +
-                "}"
-        val recommendList = Gson().fromJson(njson, RecommendListBean::class.java)
+
+        val recommendList = Gson().fromJson(json, RecommendListBean::class.java)
         for (recommend in recommendList.list) {
             val download = recommend.download
             val icon = recommend.icon
@@ -350,10 +107,30 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
 
     override fun onItemClick(position: Int) {
         LogUtil.d("ItemClick", MD5.string2MD5(list[position].download))
-        list[position].progress = 25
-        list[position].install = "25%"
-        adapter.notifyDataSetChanged()
+        DownloadObserver.getInstance().startDownLoad(position,list[position].download)
+//        adapter.notifyDataSetChanged()
 
+    }
+
+    override fun onSuccess(position: Int, filePath: String?) {
+        LogUtil.d("onSuccess")
+    }
+
+
+    override fun onFail(position: Int) {
+        LogUtil.d("onFail")
+
+    }
+
+    override fun onProgress(position: Int, progress: Int) {
+        val downLoadProgress = progress
+        list[position].progress = downLoadProgress
+        list[position].install = "$downLoadProgress%"
+        adapter.notifyItemChanged(position)
+    }
+
+    override fun onTooManyTasks(position: Int) {
+        LogUtil.d("onTooManyTasks")
     }
 
 }
