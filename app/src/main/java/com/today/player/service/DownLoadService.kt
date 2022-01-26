@@ -56,9 +56,7 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
             ) {
                 val apk = File(filePath)
                 startActivity(InstallUtil.instance.getInstallAppIntent(apk))
-//                MainThread.run {
-//                    DownloadObserver.getInstance().onSuccess(position, filePath, fileName)
-//                }
+
             }
 
             override fun onFail(url: String?, position: Int) {
@@ -82,7 +80,6 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
             //接收安装广播
             if (intent?.action.equals("android.intent.action.PACKAGE_ADDED")) {
                 val packageName = intent?.data?.schemeSpecificPart
-                LogUtil.d("install $packageName success")
                 installSucPkg(packageName)
             }
 
@@ -91,7 +88,6 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
         private fun installSucPkg(packageName: String?) {
             val list = DownloadObserver.getInstance().recommendList
             list.forEachIndexed { index, recommendBean ->
-                LogUtil.d("$packageName ${recommendBean.packageName}")
                 if (packageName == recommendBean.packageName) {
                     list[index].progress = 100
                     list[index].install = "已安装"
