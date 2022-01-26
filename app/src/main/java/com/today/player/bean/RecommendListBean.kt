@@ -17,7 +17,9 @@ data class AppBean(
     @SerializedName("icon")
     val icon: String,
     @SerializedName("title")
-    val title: String
+    val title: String,
+    @SerializedName("pname")
+    val packageName: String
 )
 
 data class RecommendBean(
@@ -25,5 +27,6 @@ data class RecommendBean(
     var icon: String,
     var title: String,
     var install: String,
-    var progress: Int
+    var progress: Int,
+    var packageName:String
 )

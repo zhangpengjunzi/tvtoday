@@ -35,9 +35,9 @@ public class DownloadTaskManager {
     private DownloadTaskManager() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 //        if (InitConfig.getInstance().isDebug()) {
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 //        } else {
-//            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
 //        }
 
         okHttpClient = new OkHttpClient.Builder()
@@ -58,6 +58,7 @@ public class DownloadTaskManager {
         nowDownloadTasks++;
         if (!canDownload()) {
             callback.onTooManyTasks(url, position);
+            nowDownloadTasks --;
             return;
         }
         Request request = new Request.Builder().method("GET", null).url(url).build();
@@ -97,7 +98,6 @@ public class DownloadTaskManager {
                         fileOutputStream.write(buffer, 0, len);
                         downloadLength += len;
                         int progress = (int) (downloadLength * 1.0f / contentLength * 100);
-//                        LogUtil.d("download " + progress);
                         callback.onProgress(url, position, progress);
                     }
                     fileOutputStream.flush();
@@ -106,6 +106,7 @@ public class DownloadTaskManager {
                     e.printStackTrace();
                 } finally {
                     //关闭IO流
+                    LogUtil.d("finally "+position);
                     is.close();
                     fileOutputStream.close();
                     nowDownloadTasks--;

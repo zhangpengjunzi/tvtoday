@@ -1,14 +1,17 @@
 package com.today.player.service
 
 import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.IBinder
-import com.today.player.util.DownloadObserver
-import com.today.player.util.DownloadTaskManager
-import com.today.player.util.LogUtil
-import com.today.player.util.MainThread
+import com.today.player.util.*
+import java.io.File
+
 
 class DownLoadService : Service(), DownloadObserver.onRequestListener {
+    private lateinit var installReceiver: InstallReceiver
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -18,6 +21,15 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
         super.onCreate()
         LogUtil.d("Create")
         DownloadObserver.getInstance().registerRequestListener(this)
+        installReceiver = InstallReceiver();
+        val filter = IntentFilter();
+
+        filter.addAction("android.intent.action.PACKAGE_ADDED");
+        filter.addAction("android.intent.action.PACKAGE_REMOVED");
+        filter.addDataScheme("package");
+
+        this.registerReceiver(installReceiver, filter);
+
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -27,7 +39,9 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
 
     override fun onDestroy() {
         LogUtil.d("onDestroy")
+        this.unregisterReceiver(installReceiver)
         super.onDestroy()
+
     }
 
     override fun startDownload(position: Int, url: String?) {
@@ -40,7 +54,11 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
                 filePath: String?,
                 position: Int
             ) {
-                MainThread.run { DownloadObserver.getInstance().onSuccess(position, filePath) }
+                val apk = File(filePath)
+                startActivity(InstallUtil.instance.getInstallAppIntent(apk))
+//                MainThread.run {
+//                    DownloadObserver.getInstance().onSuccess(position, filePath, fileName)
+//                }
             }
 
             override fun onFail(url: String?, position: Int) {
@@ -58,4 +76,31 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
             }
         })
     }
+
+    class InstallReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            //接收安装广播
+            if (intent?.action.equals("android.intent.action.PACKAGE_ADDED")) {
+                val packageName = intent?.dataString;
+                LogUtil.d("install $packageName success")
+                installSucPkg(packageName)
+            }
+
+        }
+
+        private fun installSucPkg(packageName: String?) {
+            val list = DownloadObserver.getInstance().recommendList
+            list.forEachIndexed { index, recommendBean ->
+                if (recommendBean.packageName == packageName) {
+                    list[index].progress = 100
+                    list[index].install = "已安装"
+                    DownloadObserver.getInstance().saveRecommendList(list)
+                    DownloadObserver.getInstance().onSuccess(index)
+                    return
+                }
+            }
+        }
+    }
+
+
 }
