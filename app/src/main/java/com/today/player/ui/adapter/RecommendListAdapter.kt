@@ -12,16 +12,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.today.player.R
 import com.today.player.bean.AppBean
+import com.today.player.bean.RecommendBean
 import com.today.player.picasso.RoundTransformation
 import com.today.player.util.MD5
 import me.jessyan.autosize.utils.AutoSizeUtils
 
 class RecommendListAdapter(
     private var context: Context,
-    private var list: List<AppBean>
+    private var list: MutableList<RecommendBean>
 ) : RecyclerView.Adapter<RecommendListAdapter.MyViewHolder>() {
 
     private var listener: onRecommendItemClick? = null
+    private var progressMap: HashMap<Int, Int>? = null
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         var rootView = LayoutInflater.from(context).inflate(R.layout.item_recommend, parent, false)
         return MyViewHolder(rootView)
@@ -30,6 +34,7 @@ class RecommendListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val iconUrl = list[position].icon
         val title = list[position].title
+        val progress = list[position].progress
         Picasso.get()
             .load(iconUrl)
             .transform(
@@ -41,18 +46,28 @@ class RecommendListAdapter(
                         RoundTransformation.RoundType.ALL
                     )
             )
-            .placeholder(R.drawable.error_loading)
-            .error(R.drawable.error_loading)
+            .placeholder(R.drawable.recommend_placeholder)
+            .error(R.drawable.recommend_placeholder)
             .into(holder.icon)
         holder.title.text = title
-        holder.install.text = "安装"
+        if (progress > 0) {
+            holder.install.text = "$progress%"
+        }else{
+            holder.install.text = "安装"
+        }
+        holder.progress.progress = progress
         holder.root.setOnClickListener {
-            listener?.onItemClick(holder.install, holder.progress, position)
+            listener?.onItemClick(position)
         }
     }
 
+    fun setUpProgress(position: Int, progress: Int) {
+        progressMap?.set(position, progress)
+    }
+
+
     interface onRecommendItemClick {
-        fun onItemClick(text: TextView, progressBar: ProgressBar, position: Int)
+        fun onItemClick( position: Int)
     }
 
     override fun getItemCount(): Int {
