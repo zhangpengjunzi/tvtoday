@@ -57,8 +57,8 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
 
     private fun requestRecommendList() {
         LogUtil.d(DownloadManager.getInstance().surl)
-//        val apiUrl = DownloadManager.getInstance().surl
-        val apiUrl = "http://114.116.18.119:7301/api/v1/recommend"
+        val apiUrl = DownloadManager.getInstance().surl
+//        val apiUrl = "http://114.116.18.119:7301/api/v1/recommend"
         if (apiUrl.isNotEmpty()) {
             val params = HashMap<String, Any>()
             params["type"] = deviceType
