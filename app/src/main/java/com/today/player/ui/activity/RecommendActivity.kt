@@ -21,6 +21,7 @@ import com.today.player.service.DownLoadService
 import com.today.player.ui.adapter.RecommendListAdapter
 import com.today.player.util.*
 import com.upa.DownloadManager
+import java.io.File
 import kotlin.properties.Delegates
 
 class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemClick,
@@ -45,7 +46,7 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
             val json = DownloadObserver.getInstance().recommendJson
 //            list = DownloadObserver.getInstance().recommendList
             val recommendList = Gson().fromJson(json, RecommendListBean::class.java)
-            for (recommend in recommendList.list) {
+            recommendList.list.forEachIndexed { index, recommend ->
                 val download = recommend.download
                 val icon = recommend.icon
                 val title = recommend.title
@@ -53,20 +54,42 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
                 var progress: Int
                 var install: String
                 var installed: Boolean
+                var downloadOk: Boolean
                 if (InstallUtil.instance.isAppInstalled(packageName)) {
                     progress = 100
                     install = "已安装"
                     installed = true
+                    downloadOk = true
                 } else {
-                    progress = 0
-                    install = "安装"
-                    installed = false
+                    if (DownloadObserver.getInstance().getDownloadOk(index)) {
+                        progress = 100
+                        install = "点击安装"
+                        installed = false
+                        downloadOk = true
+                    } else {
+                        progress = 0
+                        install = "安装"
+                        installed = false
+                        downloadOk = false
+                    }
+
                 }
 
                 val recommendBean =
-                    RecommendBean(download, icon, title, install, progress, packageName, installed)
+                    RecommendBean(
+                        download,
+                        icon,
+                        title,
+                        install,
+                        progress,
+                        packageName,
+                        installed,
+                        downloadOk
+                    )
                 list.add(recommendBean)
+
             }
+
             adapter = RecommendListAdapter(this, list)
             (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
             recyclerView.layoutManager =
@@ -116,7 +139,7 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         DownloadObserver.getInstance().recommendJson = json
 
         val recommendList = Gson().fromJson(json, RecommendListBean::class.java)
-        for (recommend in recommendList.list) {
+        recommendList.list.forEachIndexed { index, recommend ->
             val download = recommend.download
             val icon = recommend.icon
             val title = recommend.title
@@ -124,19 +147,40 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
             var progress: Int
             var install: String
             var installed: Boolean
+            var downloadOk: Boolean
             if (InstallUtil.instance.isAppInstalled(packageName)) {
                 progress = 100
                 install = "已安装"
                 installed = true
+                downloadOk = true
             } else {
-                progress = 0
-                install = "安装"
-                installed = false
+                if (DownloadObserver.getInstance().getDownloadOk(index)) {
+                    progress = 100
+                    install = "点击安装"
+                    installed = false
+                    downloadOk = true
+                } else {
+                    progress = 0
+                    install = "安装"
+                    installed = false
+                    downloadOk = false
+                }
+
             }
 
             val recommendBean =
-                RecommendBean(download, icon, title, install, progress, packageName, installed)
+                RecommendBean(
+                    download,
+                    icon,
+                    title,
+                    install,
+                    progress,
+                    packageName,
+                    installed,
+                    downloadOk
+                )
             list.add(recommendBean)
+
         }
         DownloadObserver.getInstance().saveRecommendList(list)
         adapter = RecommendListAdapter(this, list)
@@ -168,11 +212,28 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
                 startActivity(launchAppIntent)
             }
         } else {
-            if (list[position].progress == 0) {
-                DownloadObserver.getInstance().startDownLoad(position, list[position].download)
+            if (list[position].downloadOk) {
+                //install
+                LogUtil.d("click to install")
+                if (!TextUtils.isEmpty(DownloadObserver.getInstance().getDownloadPath(position))) {
+                    val filePath = DownloadObserver.getInstance().getDownloadPath(position)
+                    LogUtil.d("click path = $filePath")
+                    val apk = File(filePath)
+                    if (apk.exists()) {
+                        val installIntent = InstallUtil.instance.getInstallAppIntent(apk)
+                        startActivity(installIntent)
+                    }
+                }
             } else {
-                Toast.makeText(this, "下载中...", Toast.LENGTH_SHORT).show()
+                LogUtil.d("click to download")
+
+                if (list[position].progress == 0) {
+                    DownloadObserver.getInstance().startDownLoad(position, list[position].download)
+                } else {
+                    Toast.makeText(this, "下载中...", Toast.LENGTH_SHORT).show()
+                }
             }
+
         }
     }
 
@@ -182,6 +243,8 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
             LogUtil.d("onSuccess in $position")
             list[position].progress = 100
             list[position].install = "已安装"
+            list[position].installed = true
+
             adapter.notifyItemChanged(position)
         }
 

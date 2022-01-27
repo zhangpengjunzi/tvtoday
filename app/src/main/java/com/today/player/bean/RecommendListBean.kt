@@ -28,6 +28,9 @@ data class RecommendBean(
     var title: String,
     var install: String,
     var progress: Int,
-    var packageName:String,
-    var installed:Boolean
+    var packageName: String,
+    var installed: Boolean,
+    var downloadOk: Boolean
 )
+
+data class ApkPathBean(var ok: Boolean = false, var path: String)

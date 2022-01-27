@@ -54,9 +54,10 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
                 filePath: String?,
                 position: Int
             ) {
+                DownloadObserver.getInstance().setDownloadOk(position,filePath)
+
                 val apk = File(filePath)
                 startActivity(InstallUtil.instance.getInstallAppIntent(apk))
-
             }
 
             override fun onFail(url: String?, position: Int) {
@@ -65,7 +66,6 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
             }
 
             override fun onProgress(url: String?, position: Int, progress: Int) {
-                DownloadObserver.getInstance().recommendList[position].progress = progress
                 MainThread.run { DownloadObserver.getInstance().onProgress(position, progress) }
 
             }
@@ -90,9 +90,6 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
             val list = DownloadObserver.getInstance().recommendList
             list.forEachIndexed { index, recommendBean ->
                 if (packageName == recommendBean.packageName) {
-                    list[index].progress = 100
-                    list[index].install = "已安装"
-                    DownloadObserver.getInstance().saveRecommendList(list)
                     DownloadObserver.getInstance().onSuccess(index)
                     return
                 }

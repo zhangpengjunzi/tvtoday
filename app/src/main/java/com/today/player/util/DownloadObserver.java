@@ -1,19 +1,43 @@
 package com.today.player.util;
 
+import com.today.player.bean.ApkPathBean;
 import com.today.player.bean.RecommendBean;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DownloadObserver {
     private WeakReference<onDownLoadListener> activityListener;
     private WeakReference<onRequestListener> serviceListener;
     private List<RecommendBean> list = new ArrayList<>();
     private String recommendJson;
+    private Map<Integer, ApkPathBean> downloadMap = new HashMap<>();
 
     public static DownloadObserver getInstance() {
         return DownloadObserver.SingletonHolder.sInstance;
+    }
+
+    public void setDownloadOk(int position, String filePath) {
+        downloadMap.put(position, new ApkPathBean(true, filePath));
+    }
+
+    public boolean getDownloadOk(int position) {
+        if (downloadMap.containsKey(position)) {
+            return downloadMap.get(position).getOk();
+        } else {
+            return false;
+        }
+    }
+
+    public String getDownloadPath(int position) {
+        if (downloadMap.containsKey(position)) {
+            return downloadMap.get(position).getPath();
+        } else {
+            return "";
+        }
     }
 
     public String getRecommendJson() {
