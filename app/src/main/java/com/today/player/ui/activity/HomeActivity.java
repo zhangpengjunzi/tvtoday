@@ -175,7 +175,7 @@ public class HomeActivity extends BaseActivity {
                 if (i != 130) {
                     return false;
                 }
-                BaseLazyFragment baseLazyFragment = fragments.get(i);
+                BaseLazyFragment baseLazyFragment = fragments.get(defaultSelected);
                 if (!(baseLazyFragment instanceof GridFragment)) {
                     return false;
                 }

@@ -108,6 +108,7 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
             //接收安装广播
             if (intent?.action.equals("android.intent.action.PACKAGE_ADDED")) {
                 val packageName = intent?.data?.schemeSpecificPart
+                LogUtil.d("install $packageName")
                 installSucPkg(packageName)
             }
 

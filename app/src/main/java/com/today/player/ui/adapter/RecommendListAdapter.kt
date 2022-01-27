@@ -22,7 +22,6 @@ class RecommendListAdapter(
 ) : RecyclerView.Adapter<RecommendListAdapter.MyViewHolder>() {
 
     private var listener: onRecommendItemClick? = null
-    private var progressMap: HashMap<Int, Int>? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -39,7 +38,6 @@ class RecommendListAdapter(
             .transform(
                 RoundTransformation(MD5.string2MD5(iconUrl + "position=" + position))
                     .centerCorp(true)
-//                    .override(AutoSizeUtils.pt2px(context,50.0f),AutoSizeUtils.pt2px(context,50.0f))
                     .roundRadius(
                         AutoSizeUtils.pt2px(context, 15.0f),
                         RoundTransformation.RoundType.ALL
@@ -54,10 +52,6 @@ class RecommendListAdapter(
         holder.root.setOnClickListener {
             listener?.onItemClick(position)
         }
-    }
-
-    fun setUpProgress(position: Int, progress: Int) {
-        progressMap?.set(position, progress)
     }
 
 

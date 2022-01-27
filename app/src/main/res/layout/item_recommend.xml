@@ -6,16 +6,28 @@
     android:layout_marginTop="30.0pt"
     android:layout_marginBottom="30.0pt"
     android:layout_marginRight="24.0pt"
+    android:background="@drawable/selector_recommend"
+
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:id="@+id/ll_item_recommend"
     android:orientation="vertical">
 
     <ImageView
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
         android:id="@+id/img_app_icon"
         android:layout_width="120.0pt"
         android:layout_height="120.0pt"
         android:layout_gravity="center_vertical|center_horizontal" />
 
     <TextView
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
         android:layout_marginTop="15.0pt"
         android:id="@+id/tv_app_title"
         android:layout_width="wrap_content"
@@ -29,17 +41,28 @@
         android:textSize="20.0pt" />
 
     <RelativeLayout
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:layout_marginTop="15.0pt"
         android:layout_width="120.0pt"
         android:layout_height="46.0pt"
         android:layout_gravity="center_horizontal">
         <ProgressBar
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
             android:id="@+id/progress_download"
             style="@style/update_progress_horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:max="100" />
         <TextView
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
             android:id="@+id/tv_install"
             android:gravity="center"
             android:layout_width="wrap_content"

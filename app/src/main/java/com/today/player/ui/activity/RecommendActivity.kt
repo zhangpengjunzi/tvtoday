@@ -4,6 +4,7 @@ import android.app.UiModeManager
 import android.content.Intent
 import android.content.res.Configuration
 import android.text.TextUtils
+import android.view.animation.BounceInterpolator
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
