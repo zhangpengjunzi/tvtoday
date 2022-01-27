@@ -28,5 +28,6 @@ data class RecommendBean(
     var title: String,
     var install: String,
     var progress: Int,
-    var packageName:String
+    var packageName:String,
+    var installed:Boolean
 )

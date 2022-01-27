@@ -49,15 +49,6 @@ class RecommendListAdapter(
             .error(R.drawable.recommend_placeholder)
             .into(holder.icon)
         holder.title.text = title
-//        if (progress > 0) {
-//            if (list[position].install != "已安装"){
-//                holder.install.text = "$progress%"
-//            }else{
-//                holder.install.text = "已安装"
-//            }
-//        }else{
-//            holder.install.text = "安装"
-//        }
         holder.install.text = list[position].install
         holder.progress.progress = progress
         holder.root.setOnClickListener {

@@ -10,9 +10,18 @@ public class DownloadObserver {
     private WeakReference<onDownLoadListener> activityListener;
     private WeakReference<onRequestListener> serviceListener;
     private List<RecommendBean> list = new ArrayList<>();
+    private String recommendJson;
 
     public static DownloadObserver getInstance() {
         return DownloadObserver.SingletonHolder.sInstance;
+    }
+
+    public String getRecommendJson() {
+        return recommendJson;
+    }
+
+    public void setRecommendJson(String recommendJson) {
+        this.recommendJson = recommendJson;
     }
 
     public void saveRecommendList(List<RecommendBean> list) {

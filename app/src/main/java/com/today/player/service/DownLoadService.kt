@@ -65,6 +65,7 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
             }
 
             override fun onProgress(url: String?, position: Int, progress: Int) {
+                DownloadObserver.getInstance().recommendList[position].progress = progress
                 MainThread.run { DownloadObserver.getInstance().onProgress(position, progress) }
 
             }
