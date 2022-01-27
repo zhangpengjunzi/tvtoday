@@ -1,7 +1,6 @@
 package com.upa;
 
 import com.today.player.base.App;
-import com.today.player.util.LogUtil;
 import com.upa.source.PreferencesUtils;
 import com.upa.source.VideoSource;
 
@@ -14,7 +13,6 @@ public class UpdateModel {
         try {
             String result = new String(data);
             JSONObject jsonObject = new JSONObject(result);
-            LogUtil.d(result);
             md5 = jsonObject.optString("md5", "");
             PreferencesUtils.writeString(App.getInstance(), VideoSource.NET_MD5_FILE_NAME, VideoSource.NET_MD5, md5);
             title = jsonObject.optString("title", "发现新版本啦!!!");

@@ -3,7 +3,6 @@ package com.today.player.http;
 import android.text.TextUtils;
 
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,9 +26,9 @@ public class AwesomeHttp {
     private AwesomeHttp() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 //        if (InitConfig.getInstance().isDebug()) {
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+//            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 //        } else {
-//            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        logging.setLevel(HttpLoggingInterceptor.Level.NONE);
 //        }
 
         okHttpClient = new OkHttpClient.Builder()

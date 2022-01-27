@@ -29,12 +29,34 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
         filter.addDataScheme("package");
 
         this.registerReceiver(installReceiver, filter);
+        removeCache()
 
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         LogUtil.d("onStartCommand")
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun removeCache() {
+        val cacheFile = File(this.cacheDir, "down")
+        deleteDirWithFile(cacheFile)
+    }
+
+    private fun deleteDirWithFile(dir: File?) {
+        if (dir!!.checkFile())
+            return
+        for (file in dir.listFiles()) {
+            if (file.isFile)
+                file.delete() // 删除所有文件
+            else if (file.isDirectory)
+                deleteDirWithFile(file) // 递规的方式删除文件夹
+        }
+        dir.delete()// 删除目录本身
+    }
+
+    private fun File.checkFile(): Boolean {
+        return !this.exists() || !this.isDirectory
     }
 
     override fun onDestroy() {

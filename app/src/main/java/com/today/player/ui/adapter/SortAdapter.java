@@ -1,9 +1,5 @@
 package com.today.player.ui.adapter;
 
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.today.player.R;
@@ -28,7 +24,6 @@ public class SortAdapter extends BaseQuickAdapter<MovieSort.SortData, BaseViewHo
         helper.setText(R.id.tvTitle, item.name);
         helper.addOnClickListener(R.id.tvTitle);
         if (helper.getAdapterPosition() == focused) {
-            Log.d("SELECTED", " " + helper.getAdapterPosition());
             helper.getView(R.id.fl_sort_root).requestFocus();
         }
     }

@@ -40,7 +40,6 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         setLoadSir(findViewById(R.id.ll_recommend_root))
         showLoading()
         getDeviceType()
-        removeCache()
         if (!TextUtils.isEmpty(DownloadObserver.getInstance().recommendJson)) {
             showSuccess()
             recyclerView = findViewById(R.id.rv_recommend_list)
@@ -55,10 +54,6 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         }
     }
 
-    private fun removeCache() {
-        val cacheFile = File(this.cacheDir, "down")
-        deleteDirWihtFile(cacheFile)
-    }
 
     private fun requestRecommendList() {
         LogUtil.d(DownloadManager.getInstance().surl)
@@ -247,20 +242,5 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         DownloadObserver.getInstance().unRegisterDownloadListener()
     }
 
-    private fun deleteDirWihtFile(dir: File?) {
-        if (dir!!.checkFile())
-            return
-        for (file in dir.listFiles()) {
-            if (file.isFile)
-                file.delete() // 删除所有文件
-            else if (file.isDirectory)
-                deleteDirWihtFile(file) // 递规的方式删除文件夹
-        }
-        dir.delete()// 删除目录本身
-    }
-
-    private fun File.checkFile(): Boolean {
-        return !this.exists() || !this.isDirectory
-    }
 
 }
