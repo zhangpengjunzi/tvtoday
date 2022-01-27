@@ -182,7 +182,14 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
                 LogUtil.d("click to download")
 
                 if (list[position].progress == 0) {
-                    DownloadObserver.getInstance().startDownLoad(position, list[position].download)
+                    if (!list[position].downloading) {
+                        DownloadObserver.getInstance()
+                            .startDownLoad(position, list[position].download)
+                        list[position].downloading = true
+                    } else {
+                        Toast.makeText(this, "下载中...", Toast.LENGTH_SHORT).show()
+
+                    }
                 } else {
                     Toast.makeText(this, "下载中...", Toast.LENGTH_SHORT).show()
                 }
@@ -208,6 +215,8 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         LogUtil.d("onFail")
         list[position].progress = 0
         list[position].install = "安装"
+        list[position].downloading = false
+
         adapter.notifyItemChanged(position)
 
     }
@@ -217,6 +226,7 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         if (list.size > position) {
             list[position].progress = downLoadProgress
             list[position].install = "$downLoadProgress%"
+            list[position].downloading = true
             adapter.notifyItemChanged(position)
         }
 

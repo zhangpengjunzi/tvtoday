@@ -30,7 +30,8 @@ data class RecommendBean(
     var progress: Int,
     var packageName: String,
     var installed: Boolean,
-    var downloadOk: Boolean
+    var downloadOk: Boolean,
+    var downloading:Boolean = false
 )
 
 data class ApkPathBean(var ok: Boolean = false, var path: String)
