@@ -54,10 +54,15 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
                 filePath: String?,
                 position: Int
             ) {
-                DownloadObserver.getInstance().setDownloadOk(position,filePath)
+                MainThread.run {
+                    DownloadObserver.getInstance().setDownloadOk(position, filePath)
+                }
+                LogUtil.d("go 2 install")
 
-                val apk = File(filePath)
-                startActivity(InstallUtil.instance.getInstallAppIntent(apk))
+                MainThread.postDelay({
+                    val apk = File(filePath)
+                    startActivity(InstallUtil.instance.getInstallAppIntent(apk))
+                }, 1000)
             }
 
             override fun onFail(url: String?, position: Int) {

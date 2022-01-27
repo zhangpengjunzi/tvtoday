@@ -22,6 +22,9 @@ public class DownloadObserver {
 
     public void setDownloadOk(int position, String filePath) {
         downloadMap.put(position, new ApkPathBean(true, filePath));
+        if (activityListener != null && activityListener.get() != null) {
+            activityListener.get().onDownloadOk(position);
+        }
     }
 
     public boolean getDownloadOk(int position) {
@@ -103,7 +106,7 @@ public class DownloadObserver {
     }
 
     public void onTooManyTasks(int position) {
-        if (activityListener.get() != null) {
+        if (activityListener != null && activityListener.get() != null) {
             activityListener.get().onTooManyTasks(position);
         }
     }
@@ -116,6 +119,9 @@ public class DownloadObserver {
         void onProgress(int position, int progress);
 
         void onTooManyTasks(int position);
+
+        void onDownloadOk(int position);
+
     }
 
     public interface onRequestListener {

@@ -40,72 +40,30 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         setLoadSir(findViewById(R.id.ll_recommend_root))
         showLoading()
         getDeviceType()
+        removeCache()
         if (!TextUtils.isEmpty(DownloadObserver.getInstance().recommendJson)) {
             showSuccess()
             recyclerView = findViewById(R.id.rv_recommend_list)
             val json = DownloadObserver.getInstance().recommendJson
-//            list = DownloadObserver.getInstance().recommendList
-            val recommendList = Gson().fromJson(json, RecommendListBean::class.java)
-            recommendList.list.forEachIndexed { index, recommend ->
-                val download = recommend.download
-                val icon = recommend.icon
-                val title = recommend.title
-                val packageName = recommend.packageName
-                var progress: Int
-                var install: String
-                var installed: Boolean
-                var downloadOk: Boolean
-                if (InstallUtil.instance.isAppInstalled(packageName)) {
-                    progress = 100
-                    install = "已安装"
-                    installed = true
-                    downloadOk = true
-                } else {
-                    if (DownloadObserver.getInstance().getDownloadOk(index)) {
-                        progress = 100
-                        install = "点击安装"
-                        installed = false
-                        downloadOk = true
-                    } else {
-                        progress = 0
-                        install = "安装"
-                        installed = false
-                        downloadOk = false
-                    }
-
-                }
-
-                val recommendBean =
-                    RecommendBean(
-                        download,
-                        icon,
-                        title,
-                        install,
-                        progress,
-                        packageName,
-                        installed,
-                        downloadOk
-                    )
-                list.add(recommendBean)
-
+            if (json.isNotEmpty()) {
+                initList(json)
+            } else {
+                showEmpty()
             }
-
-            adapter = RecommendListAdapter(this, list)
-            (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-            recyclerView.layoutManager =
-                GridLayoutManager(this, 6, GridLayoutManager.VERTICAL, false)
-            recyclerView.adapter = adapter
-            adapter.setRecommendItemClickListener(this)
         } else {
             requestRecommendList()
-
         }
+    }
+
+    private fun removeCache() {
+        val cacheFile = File(this.cacheDir, "down")
+        deleteDirWihtFile(cacheFile)
     }
 
     private fun requestRecommendList() {
         LogUtil.d(DownloadManager.getInstance().surl)
-        val apiUrl = DownloadManager.getInstance().surl
-//        val apiUrl = "http://114.116.18.119:7301/api/v1/recommend"
+//        val apiUrl = DownloadManager.getInstance().surl
+        val apiUrl = "http://114.116.18.119:7301/api/v1/recommend"
         if (apiUrl.isNotEmpty()) {
             val params = HashMap<String, Any>()
             params["type"] = deviceType
@@ -244,7 +202,6 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
             list[position].progress = 100
             list[position].install = "已安装"
             list[position].installed = true
-
             adapter.notifyItemChanged(position)
         }
 
@@ -274,9 +231,36 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         Toast.makeText(this, "最多同时下载2个", Toast.LENGTH_SHORT).show()
     }
 
+    override fun onDownloadOk(position: Int) {
+        LogUtil.d("Download Ok $position")
+        if (list.size > position) {
+            list[position].progress = 100
+            list[position].install = "点击安装"
+            list[position].downloadOk = true
+            adapter.notifyItemChanged(position)
+
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         DownloadObserver.getInstance().unRegisterDownloadListener()
+    }
+
+    private fun deleteDirWihtFile(dir: File?) {
+        if (dir!!.checkFile())
+            return
+        for (file in dir.listFiles()) {
+            if (file.isFile)
+                file.delete() // 删除所有文件
+            else if (file.isDirectory)
+                deleteDirWihtFile(file) // 递规的方式删除文件夹
+        }
+        dir.delete()// 删除目录本身
+    }
+
+    private fun File.checkFile(): Boolean {
+        return !this.exists() || !this.isDirectory
     }
 
 }

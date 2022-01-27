@@ -16,8 +16,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class DownloadTaskManager {
-    private OkHttpClient okHttpClient;
-    private int downloadLimit = 2;
+    private final OkHttpClient okHttpClient;
     private int nowDownloadTasks = 0;
 
     public static DownloadTaskManager getInstance() {
@@ -25,6 +24,7 @@ public class DownloadTaskManager {
     }
 
     private boolean canDownload() {
+        int downloadLimit = 2;
         return nowDownloadTasks <= downloadLimit;
     }
 
@@ -34,12 +34,7 @@ public class DownloadTaskManager {
 
     private DownloadTaskManager() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-//        if (InitConfig.getInstance().isDebug()) {
-//        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-//        } else {
-            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
-//        }
-
+        logging.setLevel(HttpLoggingInterceptor.Level.NONE);
         okHttpClient = new OkHttpClient.Builder()
 //                .hostnameVerifier(new HostnameVerifier() {//证书信任
 //                    @Override
@@ -58,7 +53,7 @@ public class DownloadTaskManager {
         nowDownloadTasks++;
         if (!canDownload()) {
             callback.onTooManyTasks(url, position);
-            nowDownloadTasks --;
+            nowDownloadTasks--;
             return;
         }
         Request request = new Request.Builder().method("GET", null).url(url).build();
@@ -68,7 +63,7 @@ public class DownloadTaskManager {
             public void onFailure(Call call, IOException e) {
                 LogUtil.d("fail " + e.toString());
                 callback.onFail(url, position);
-                nowDownloadTasks --;
+                nowDownloadTasks--;
             }
 
             @Override
@@ -82,7 +77,7 @@ public class DownloadTaskManager {
                 long contentLength = response.body().contentLength();
                 long downloadLength = 0;
                 LogUtil.d("downloadDir = " + downloadDir.getAbsolutePath());
-                String fileName = MD5.string2MD5(url) +System.currentTimeMillis()+".apk";
+                String fileName = MD5.string2MD5(url) + System.currentTimeMillis() + ".apk";
                 File file = new File(downloadDir, fileName);
                 if (file.exists()) {
                     file.delete();
@@ -102,11 +97,13 @@ public class DownloadTaskManager {
                     }
                     fileOutputStream.flush();
                     callback.onSuccess(url, fileName, file.getAbsolutePath(), position);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
+                    callback.onFail(url, position);
+
                 } finally {
                     //关闭IO流
-                    LogUtil.d("finally "+position);
+                    LogUtil.d("finally " + position);
                     is.close();
                     fileOutputStream.close();
                     nowDownloadTasks--;
