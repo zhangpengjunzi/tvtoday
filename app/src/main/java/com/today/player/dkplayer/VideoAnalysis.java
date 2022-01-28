@@ -22,18 +22,27 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.owen.tvrecyclerview.widget.TvRecyclerView;
+import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.tencent.bugly.proguard.j;
 import com.tencent.bugly.proguard.l;
 import com.today.player.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.bean.PlayerModel;
 import com.today.player.ui.activity.PlayActivity;
+import com.today.player.ui.adapter.PraseAdapter;
+import com.today.player.util.FastClickCheckUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class VideoAnalysis {
@@ -42,7 +51,7 @@ public class VideoAnalysis {
 
     private Context mContext;
 
-    public FrameLayout a;
+    public LinearLayout a;
 
     public Handler i = new Handler();
 
@@ -50,12 +59,16 @@ public class VideoAnalysis {
 
     public Dialog b;
 
+    public List<PlayerModel.ParseUrlDTO> g = new ArrayList();
+
+    public TvRecyclerView e;
+    public PraseAdapter f;
 
     public boolean f38j = false;
 
     public VideoAnalysis a(Context context, j jVar) {
         this.mContext = context;
-        this.a = (FrameLayout) LayoutInflater.from(context).inflate(R.layout.dialog_parse, (ViewGroup) null);
+        this.a = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.dialog_parse, (ViewGroup) null);
         if (a != null) {
             this.d = a.findViewById(R.id.mParse_tip);
         }
@@ -101,6 +114,9 @@ public class VideoAnalysis {
                 webView.removeAllViews();
                 webView.destroy();
             }
+            if (i != null) {
+                i.removeCallbacksAndMessages(null);
+            }
         }
     }
 
@@ -127,8 +143,46 @@ public class VideoAnalysis {
     }
 
     public final void b(String str, String str2, String str3) {
+        if (this.e == null) {
+            this.e = (TvRecyclerView) (a != null ? a.findViewById(R.id.mGridView) : null);
+        }
+        if (TextUtils.isEmpty(str2) || ApiConfig.get().getParseFlagList().contains(str2)) {
+            e.setVisibility(View.VISIBLE);
+            this.f = new PraseAdapter();
+            this.e.setAdapter(this.f);
+            this.e.setLayoutManager(new V7GridLayoutManager(mContext, 6));
+            this.f.setOnItemClickListener(new g(str3));
+            this.e.setOnInBorderKeyEventListener(new TvRecyclerView.OnInBorderKeyEventListener() {
+                @Override
+                public boolean onInBorderKeyEvent(int i, View view) {
+                    return true;
+                }
+            });
+            this.g.addAll(ApiConfig.get().getPraseBeanList());
+            PlayerModel.ParseUrlDTO tgVar = ApiConfig.get().mParseUrl;
+            String parseUrl = tgVar.getParseUrl();
+            int i2 = this.g.indexOf(tgVar);
+            this.f38j = false;
+            this.f.setNewData(this.g);
+            this.e.setSelection(i2);
+            String str6 = parseUrl + str3;
+            if (this.g.size() > 0) {
+                this.i.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        load(str6);
+                    }
+                }, 3000);
+                return;
+            } else {
+                load(str6);
+                return;
+            }
+        }
         PlayerModel.SourcesDTO sourcesDTO = ApiConfig.get().getSource(str);
         if (sourcesDTO != null) {
+            f38j = false;
+            e.setVisibility(View.GONE);
             String playerUrl = sourcesDTO.getPlayerUrl();
             if (TextUtils.isEmpty(playerUrl)) {
                 playerUrl = "";
@@ -222,7 +276,7 @@ public class VideoAnalysis {
         }
 
         public WebResourceResponse shouldInterceptRequest(WebView webView, String str) {
-            Log.i("url",str);
+            Log.i("url", str);
             if (str.endsWith("/favicon.ico")) {
                 return new WebResourceResponse("image/png", (String) null, (InputStream) null);
             }
@@ -241,5 +295,42 @@ public class VideoAnalysis {
         }
     }
 
+    public class g implements BaseQuickAdapter.OnItemClickListener {
+        public final String a;
 
+        public g(String str) {
+            this.a = str;
+        }
+
+        @Override
+        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            FastClickCheckUtil.check(view);
+            PlayerModel.ParseUrlDTO tgVar = f.getData().get(position);
+            f.notifyItemChanged(g.indexOf(ApiConfig.get().mParseUrl));
+            ApiConfig.get().setDefault(tgVar);
+            f.notifyItemChanged(position);
+            f38j = false;
+            load(tgVar.getParseUrl() + this.a);
+        }
+    }
+
+    private void load(String url) {
+        if (webView != null) {
+            webView.stopLoading();
+            webView.clearCache(true);
+            webView.loadUrl(url);
+        }
+        i.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                e.requestFocus();
+            }
+        }, 200);
+        i.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(mContext, "解析失败，请切换其他线路解析", Toast.LENGTH_LONG).show();
+            }
+        }, 30000);
+    }
 }

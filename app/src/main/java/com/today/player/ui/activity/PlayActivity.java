@@ -4,17 +4,18 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bt.jrsdk.listener.InteractionAdListener;
+import com.bt.jrsdk.listener.SplashAdListener;
+import com.bt.jrsdk.listener.VideoAdListener;
 import com.today.player.R;
+import com.today.player.ad.CacheAdManager;
+import com.today.player.ad.VideoPlayAd;
+import com.today.player.ad.VideoSplashAd;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
 import com.today.player.bean.VodInfo;
@@ -24,8 +25,6 @@ import com.today.player.dkplayer.VideoAnalysis;
 import com.today.player.event.RefreshEvent;
 import com.today.player.ui.weight.GestureView;
 import com.today.player.util.PlayUtils;
-import com.today.player.widget.VodPlayView;
-import com.today.player.widget.VodSeekLayout;
 import com.upa.DownloadManager;
 import com.upa.http.HttpRequest;
 import com.upa.http.SSLSocketFactoryCompat;
@@ -50,7 +49,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import xyz.doikki.videoplayer.player.VideoView;
 
 
@@ -67,7 +65,8 @@ public class PlayActivity extends BaseActivity {
     private VodInfo mVodInfo;
     private String sourceKey;
     private VideoAnalysis videoAnalysis;
-
+    private VideoPlayAd playAd;
+    private VideoSplashAd pauseAd;
 
     @Override
     protected int getLayoutResID() {
@@ -78,6 +77,97 @@ public class PlayActivity extends BaseActivity {
     protected void init() {
         initView();
         initData();
+    }
+
+    private void loadVideoAd() {
+        playAd = CacheAdManager.getInstance().getVideoPlayAd(this);
+        pauseAd = CacheAdManager.getInstance().getPauseAd(this);
+        playAd.loadAd(getContent());
+        pauseAd.loadAd(getContent());
+        playAd.setListener(new VideoAdListener() {
+            @Override
+            public void onLoaded() {
+                playAd.setReady(true);
+            }
+
+            @Override
+            public void onShow() {
+                playAd.setReady(false);
+                playAd.loadAd(getContent());
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void onError(String s, int i) {
+
+            }
+
+            @Override
+            public void onNoAd() {
+
+            }
+
+            @Override
+            public void onClose() {
+            }
+        });
+        pauseAd.setListener(new SplashAdListener() {
+            @Override
+            public void onLoaded() {
+                pauseAd.setReady(true);
+                pauseAd.showAd();
+            }
+
+            @Override
+            public void onShow() {
+                pauseAd.setReady(false);
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onFinish() {
+                playSet();
+            }
+
+            @Override
+            public void onError(String s, int i) {
+
+            }
+
+            @Override
+            public void onNoAd() {
+
+            }
+        });
+    }
+
+    private String getContent() {
+        if (mVodInfo != null) {
+            StringBuilder sb = new StringBuilder(mVodInfo.name);
+            try {
+                if (mVodInfo.fromList != null) {
+                    sb.append(mVodInfo.fromList.get(mVodInfo.playFlag));
+                }
+                sb.append((mVodInfo.playIndex + 1) + "集");
+            } catch (Exception e) {
+
+            }
+            return sb.toString();
+        }
+        return "";
     }
 
     private void initView() {
@@ -94,6 +184,9 @@ public class PlayActivity extends BaseActivity {
                         break;
                     case VideoView.STATE_PLAYBACK_COMPLETED:
                         next();
+                        break;
+                    case VideoView.STATE_PAUSED:
+                        playAd.showAd();
                         break;
                 }
             }
@@ -126,7 +219,7 @@ public class PlayActivity extends BaseActivity {
                 Toast.makeText(mContext, "已经是最后1集", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
-                playSet();
+                pauseAd.loadAd(getContent());
             }
         }
     }
@@ -136,7 +229,7 @@ public class PlayActivity extends BaseActivity {
             if (--mVodInfo.playIndex < 0) {
                 Toast.makeText(mContext, "已经是第1集", Toast.LENGTH_SHORT).show();
             } else {
-                playSet();
+                pauseAd.loadAd(getContent());
             }
         }
     }
@@ -149,7 +242,7 @@ public class PlayActivity extends BaseActivity {
             sourceKey = bundle.getString("sourceKey");
             PlayUtils.a(mVideoView, sourceKey);
             if (mVodInfo != null && mVodInfo.seriesMap != null) {
-                playSet();
+                loadVideoAd();
             }
         }
     }
@@ -175,7 +268,7 @@ public class PlayActivity extends BaseActivity {
             setUrl();
             return;
         }
-        videoAnalysis.a(sourceKey, "", playUrl, new PlayStart());
+        videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
     }
 
     public void f() {
@@ -337,7 +430,7 @@ public class PlayActivity extends BaseActivity {
                                     DownloadManager.getInstance().setCurrentPlayerUrl(jSONObject.optString("From_Url", ""));
                                     PlayActivity.this.runOnUiThread(new Runnable() {
                                         public void run() {
-                                            videoAnalysis.a(sourceKey, "", playUrl, new PlayStart());
+                                            videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
                                         }
                                     });
                                     break;
@@ -349,7 +442,7 @@ public class PlayActivity extends BaseActivity {
                 }
 
                 if (!isPlay) {
-                    videoAnalysis.a(sourceKey, "", playUrl, new PlayStart());
+                    videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
                 }
             }
         });

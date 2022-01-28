@@ -41,11 +41,11 @@ public class ProjectionPlayActivity extends BaseActivity {
             @Override
             public void playStateChanged(int state) {
                 if (state == -1) {
-                    finish();
                     e();
+                    ProjectionPlayActivity.this.finish();
                     Toast.makeText(ProjectionPlayActivity.this, "播放错误", Toast.LENGTH_LONG).show();
                 } else if (state == 5) {
-                    finish();
+                    ProjectionPlayActivity.this.finish();
                 }
             }
         });
@@ -74,8 +74,8 @@ public class ProjectionPlayActivity extends BaseActivity {
             this.e.a(this, new VideoAnalysis.j() {
                 @Override
                 public void finish() {
-                    finish();
                     e();
+                    ProjectionPlayActivity.this.finish();
                 }
             });
             Dialog dialog = this.e.b;
@@ -101,8 +101,8 @@ public class ProjectionPlayActivity extends BaseActivity {
         }
 
         public void a() {
-            finish();
             e();
+            ProjectionPlayActivity.this.finish();
         }
     }
 

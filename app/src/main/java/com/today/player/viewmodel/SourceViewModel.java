@@ -278,6 +278,7 @@ public class SourceViewModel extends ViewModel {
                     }
                     video.api = api;
                     video.sourceName = sourceName;
+                    video.sourceKey = sourceName;
                 }
             }
             result.postValue(data);

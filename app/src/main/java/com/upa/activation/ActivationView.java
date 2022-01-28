@@ -34,7 +34,6 @@ import java.io.File;
 
 public class ActivationView extends Dialog {
 
-
     private Context mContext;
     private TextView codeButton;
     private EditText tvCode;

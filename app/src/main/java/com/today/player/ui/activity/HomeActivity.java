@@ -174,7 +174,7 @@ public class HomeActivity extends BaseActivity {
                 if (i != 130) {
                     return false;
                 }
-                BaseLazyFragment baseLazyFragment = fragments.get(i);
+                BaseLazyFragment baseLazyFragment = fragments.get(defaultSelected);
                 if (!(baseLazyFragment instanceof GridFragment)) {
                     return false;
                 }
@@ -227,11 +227,6 @@ public class HomeActivity extends BaseActivity {
     private void initData() {
         ControlManager.get().startServer();
         signedCheck();
-        if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            L.e("有");
-        } else {
-            L.e("无");
-        }
     }
 
     private void initViewPager() {
@@ -418,11 +413,7 @@ public class HomeActivity extends BaseActivity {
         String certificateFingerprint = ApkUtils.getCertificateFingerprint(this, "SHA1");
         String certificateFingerprint2 = ApkUtils.getCertificateFingerprint(this, "MD5");
         if (!certificateFingerprint.equals("3D:D9:A0:BC:7C:3A:80:D0:66:7E:09:F8:71:10:37:66:62:56:03:89") || !certificateFingerprint2.equals("21:CE:B2:05:67:E1:47:82:16:BE:3D:4B:1D:63:ED:DE")) {
-            if (Config.isDebug) {
-                DownloadManager.getInstance().update(this, 0);
-            } else {
-                DownloadManager.getInstance().update(this, 1);
-            }
+            DownloadManager.getInstance().update(this, 0);
         } else {
             DownloadManager.getInstance().update(this, 0);
         }

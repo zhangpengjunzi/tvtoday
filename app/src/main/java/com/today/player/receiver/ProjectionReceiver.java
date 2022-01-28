@@ -19,12 +19,12 @@ public class ProjectionReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (action.equals(intent.getAction()) && intent.getExtras() != null) {
-            if (AppManager.getInstance().getActivity(PraseActivity.class) != null) {
-                AppManager.getInstance().backActivity(PraseActivity.class);
-                AppManager.getInstance().finishActivity(PraseActivity.class);
+            if (AppManager.getInstance().getActivity(ProjectionPlayActivity.class) != null) {
+                AppManager.getInstance().backActivity(ProjectionPlayActivity.class);
+                AppManager.getInstance().finishActivity(ProjectionPlayActivity.class);
             }
             AppManager.getInstance().finishActivity(ProjectionPlayActivity.class);
-            Intent newIntent = new Intent(context, PraseActivity.class);
+            Intent newIntent = new Intent(context, ProjectionPlayActivity.class);
             newIntent.putExtra("html", intent.getExtras().getString("html"));
             newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(newIntent);
