@@ -35,6 +35,7 @@ import com.today.player.bean.MovieSort;
 import com.today.player.event.ServerEvent;
 import com.today.player.event.TopStateEvent;
 import com.today.player.server.ControlManager;
+import com.today.player.service.DownLoadService;
 import com.today.player.ui.adapter.HomePageAdapter;
 import com.today.player.ui.adapter.SortAdapter;
 import com.today.player.ui.fragment.GridFragment;
@@ -402,6 +403,12 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            stopService(new Intent(this, DownLoadService.class));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         EventBus.getDefault().unregister(this);
         AppManager.getInstance().appExit(0);
         ControlManager.get().stopServer();

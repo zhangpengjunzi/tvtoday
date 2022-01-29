@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -65,7 +66,7 @@ public class PlayActivity extends BaseActivity {
     private VodInfo mVodInfo;
     private String sourceKey;
     private VideoAnalysis videoAnalysis;
-    private VideoPlayAd playAd;
+    public VideoPlayAd playAd;
     private VideoSplashAd pauseAd;
 
     @Override
@@ -80,8 +81,8 @@ public class PlayActivity extends BaseActivity {
     }
 
     private void loadVideoAd() {
-        playAd = CacheAdManager.getInstance().getVideoPlayAd(this);
-        pauseAd = CacheAdManager.getInstance().getPauseAd(this);
+        playAd = CacheAdManager.getInstance().getVideoPlayAd(this, "interaction");
+        pauseAd = CacheAdManager.getInstance().getPauseAd(this, "fullvideo");
         playAd.loadAd(getContent());
         pauseAd.loadAd(getContent());
         playAd.setListener(new VideoAdListener() {
@@ -129,6 +130,7 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onShow() {
+                showSuccess();
                 pauseAd.setReady(false);
             }
 
@@ -139,18 +141,26 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
+                showSuccess();
                 playSet();
             }
 
             @Override
             public void onError(String s, int i) {
-
+                Log.i("_play", "error");
             }
 
             @Override
             public void onNoAd() {
-
+                Log.i("_play", "onNoAd");
             }
+
+            @Override
+            public void onClose() {
+                Log.i("_play", "onClose");
+            }
+
+
         });
     }
 
@@ -185,9 +195,6 @@ public class PlayActivity extends BaseActivity {
                     case VideoView.STATE_PLAYBACK_COMPLETED:
                         next();
                         break;
-                    case VideoView.STATE_PAUSED:
-                        playAd.showAd();
-                        break;
                 }
             }
         });
@@ -211,6 +218,7 @@ public class PlayActivity extends BaseActivity {
         //mVideoView.startFullScreen();
         mVideoView.setVideoController(mController);
         mVideoView.setScreenScaleType(xyz.doikki.videoplayer.player.VideoView.SCREEN_SCALE_16_9);
+        setLoadSir(mVideoView);
     }
 
     private void next() {
@@ -219,6 +227,7 @@ public class PlayActivity extends BaseActivity {
                 Toast.makeText(mContext, "已经是最后1集", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
+                Log.i("_play", "next");
                 pauseAd.loadAd(getContent());
             }
         }
@@ -242,6 +251,7 @@ public class PlayActivity extends BaseActivity {
             sourceKey = bundle.getString("sourceKey");
             PlayUtils.a(mVideoView, sourceKey);
             if (mVodInfo != null && mVodInfo.seriesMap != null) {
+                showLoading();
                 loadVideoAd();
             }
         }
@@ -315,7 +325,6 @@ public class PlayActivity extends BaseActivity {
 
         public void a() {
             PlayActivity.this.finish();
-
         }
     }
 
@@ -323,7 +332,6 @@ public class PlayActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return super.onKeyDown(keyCode, event);
-
     }
 
     @Override
@@ -366,11 +374,16 @@ public class PlayActivity extends BaseActivity {
                 }
                 mController.a(i);
             } else if (keyCode == 23 || keyCode == 85 || keyCode == 7) {
+                if (mVideoView.isPlaying()) {
+                    playAd.showAd();
+                }
                 mController.d();
             } else if (keyCode == 19) {
                 mController.b();
+                pre();
             } else if (keyCode == 20) {
                 mController.b();
+                next();
             }
         } else if (action == 1 && (keyCode == 22 || keyCode == 21)) {
             mController.c();

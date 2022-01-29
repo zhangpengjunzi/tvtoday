@@ -27,6 +27,15 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
 
+        <service
+            android:name=".service.DownLoadService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+
+        <activity
+            android:name=".ui.activity.RecommendActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="landscape">
@@ -36,6 +45,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.activity.HomeActivity"
             android:screenOrientation="landscape">
@@ -87,7 +97,6 @@
                 <action android:name="android.content.movie.projection.Action" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".receiver.CustomWebReceiver">
             <intent-filter>
                 <action android:name="android.content.movie.custom.web.Action" />

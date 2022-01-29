@@ -86,6 +86,13 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onNoAd() {
             }
+
+            @Override
+            public void onClose() {
+
+            }
+
+
         });
     }
 

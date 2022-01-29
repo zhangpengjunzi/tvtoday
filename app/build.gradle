@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 
@@ -63,7 +66,7 @@ android {
                 outputFileName = 'app-debug.apk'
             } else {
                 def buildName = "tv_movie_release"
-                outputFileName = "${buildName}_v${versionName}.apk"
+                outputFileName = "${buildName}_v${versionName}_${releaseTime()}.apk"
             }
         }
     }
@@ -85,8 +88,11 @@ android {
     }
 }
 
-dependencies {
+def releaseTime() {
+    return new Date().format("MMddHHmm", TimeZone.getTimeZone("GMT+08:00"))
+}
 
+dependencies {
     implementation project(path: ':tvLibrary')
     implementation 'com.owen:tv-recyclerview:3.0.0'
     implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.5'

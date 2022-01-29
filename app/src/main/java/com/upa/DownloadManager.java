@@ -3,7 +3,6 @@ package com.upa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-
 import android.widget.Toast;
 
 import com.today.player.event.TopStateEvent;
@@ -40,12 +39,12 @@ public class DownloadManager {
 
     private List<String> ads = new ArrayList<>();
 
-    private String store;
+    private String store = "0";
 
     private String surl;
 
     public boolean getStore() {
-        if (store.equals("1")){
+        if (store.equals("1")) {
             return true;
         }
         return false;

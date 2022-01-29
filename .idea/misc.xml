@@ -9,20 +9,14 @@
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable-xhdpi/dkplayer_seekbar_thumb_normal.xml" value="0.2638888888888889" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable-xhdpi/dkplayer_selector_play_button.xml" value="0.2638888888888889" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable-xhdpi/play_bottom_shape.xml" value="0.2638888888888889" />
-        <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/button_bg.xml" value="0.2601851851851852" />
-        <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/button_bg_focus.xml" value="0.2601851851851852" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/detail_play_focus.xml" value="0.2638888888888889" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/detail_quick_search_focus.xml" value="0.2638888888888889" />
-        <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/dialog_bg.xml" value="0.2601851851851852" />
-        <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/edit_bg_focus.xml" value="0.2601851851851852" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/home_sort_focus.xml" value="0.2638888888888889" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/model_dialog_bugly_bg.xml" value="0.22864583333333333" />
-        <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/pb_shape_blue.xml" value="0.2601851851851852" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/search_line.xml" value="0.25846153846153846" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/source_flag_focus.xml" value="0.2638888888888889" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/source_flag_line.xml" value="0.2638888888888889" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable/speed_test_focus.xml" value="0.22864583333333333" />
-        <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/activation_dialog.xml" value="0.26510416666666664" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/activity_detail.xml" value="0.27447916666666666" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/activity_history.xml" value="0.2984165651644336" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/activity_home.xml" value="0.25416666666666665" />
@@ -32,7 +26,6 @@
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/activity_reward.xml" value="0.26666666666666666" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/activity_search.xml" value="0.26510416666666664" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/activity_setting.xml" value="0.2552083333333333" />
-        <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/confirm_source_dialog.xml" value="0.26510416666666664" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/dialog_about.xml" value="0.26510416666666664" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/dialog_change_ijk_code.xml" value="0.26510416666666664" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/dialog_change_play.xml" value="0.26510416666666664" />
@@ -45,7 +38,6 @@
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/dialog_update_hint.xml" value="0.2682291666666667" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/dkplayer_layout_gesture_control_view.xml" value="0.30104166666666665" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/dkplayer_layout_simon_vod_control_view.xml" value="0.30416666666666664" />
-        <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/edit_bg_focus.xml" value="0.26510416666666664" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/empty_layout.xml" value="0.29010416666666666" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/fragment_grid.xml" value="0.31979166666666664" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/fragment_live_grid.xml" value="0.3890625" />
@@ -68,18 +60,22 @@
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/remote_dialog.xml" value="0.2609375" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/simon_standard_controller.xml" value="0.30416666666666664" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/vod_seek_layout.xml" value="0.2552083333333333" />
-<<<<<<< HEAD
-        <entry key="..\:/android_app/TVMovie-main/app/src/main/res/layout/ys_update_dialog.xml" value="0.26510416666666664" />
-=======
+        <entry key="app/src/main/res/drawable-hdpi/shape_recommend_no_focus.xml" value="0.124" />
+        <entry key="app/src/main/res/drawable-xhdpi/dkplayer_layer_progress_bar.xml" value="0.124" />
         <entry key="app/src/main/res/drawable/bottom_shape.xml" value="0.27037037037037037" />
+        <entry key="app/src/main/res/drawable/button_bg_focus.xml" value="0.124" />
         <entry key="app/src/main/res/drawable/detail_play_focus.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/detail_quick_search_focus.xml" value="0.5578125" />
         <entry key="app/src/main/res/drawable/error_loading.xml" value="0.40512820512820513" />
         <entry key="app/src/main/res/drawable/home_sort_focus.xml" value="0.196875" />
+        <entry key="app/src/main/res/drawable/layer_progress_download.xml" value="0.2388888888888889" />
+        <entry key="app/src/main/res/drawable/selector_recommend.xml" value="0.124" />
+        <entry key="app/src/main/res/drawable/shape_recommend_focused.xml" value="0.124" />
         <entry key="app/src/main/res/drawable/user_focus.xml" value="0.27037037037037037" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.20199275362318841" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.19224924012158054" />
         <entry key="app/src/main/res/layout/activity_live_play.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/activity_recommend.xml" value="0.21225937183383992" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.19224924012158054" />
         <entry key="app/src/main/res/layout/dialog_change_ijk_code.xml" value="0.19224924012158054" />
         <entry key="app/src/main/res/layout/fragment_model.xml" value="0.19224924012158054" />
@@ -87,8 +83,8 @@
         <entry key="app/src/main/res/layout/item_grid_layout.xml" value="0.19224924012158054" />
         <entry key="app/src/main/res/layout/item_home_sort_layout.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/item_ijk_codec_layout.xml" value="0.19224924012158054" />
+        <entry key="app/src/main/res/layout/item_recommend.xml" value="0.22264437689969604" />
         <entry key="app/src/main/res/layout/item_sort_setting_layout.xml" value="0.19224924012158054" />
->>>>>>> 9ab919a6b35df4a1f4b5cd70a99c9ba89d7e0dcb
       </map>
     </option>
   </component>
