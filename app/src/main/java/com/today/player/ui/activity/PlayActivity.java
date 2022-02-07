@@ -68,6 +68,7 @@ public class PlayActivity extends BaseActivity {
     private VideoAnalysis videoAnalysis;
     public VideoPlayAd playAd;
     private VideoSplashAd pauseAd;
+    private boolean isShow = false;
 
     @Override
     protected int getLayoutResID() {
@@ -95,6 +96,7 @@ public class PlayActivity extends BaseActivity {
             public void onShow() {
                 playAd.setReady(false);
                 playAd.loadAd(getContent());
+                isShow = true;
             }
 
             @Override
@@ -104,7 +106,7 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-
+                isShow = false;
             }
 
             @Override
@@ -119,6 +121,7 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onClose() {
+                isShow = false;
             }
         });
         pauseAd.setListener(new SplashAdListener() {
@@ -337,7 +340,7 @@ public class PlayActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mVideoView != null) {
+        if (mVideoView != null && !isShow) {
             mVideoView.resume();
         }
     }
@@ -348,6 +351,7 @@ public class PlayActivity extends BaseActivity {
         super.onPause();
         if (mVideoView != null) {
             mVideoView.pause();
+            mVideoView.onwin
         }
     }
 
