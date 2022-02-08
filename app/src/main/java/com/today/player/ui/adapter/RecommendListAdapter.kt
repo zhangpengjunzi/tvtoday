@@ -33,15 +33,17 @@ class RecommendListAdapter(
         val iconUrl = list[position].icon
         val title = list[position].title
         val progress = list[position].progress
+
         Picasso.get()
             .load(iconUrl)
             .transform(
                 RoundTransformation(MD5.string2MD5(iconUrl + "position=" + position))
                     .centerCorp(true)
-                    .roundRadius(
-                        AutoSizeUtils.pt2px(context, 15.0f),
-                        RoundTransformation.RoundType.ALL
-                    )
+                    .override(AutoSizeUtils.pt2px(context, 120.0f), AutoSizeUtils.pt2px(context, 120.0f))
+//                    .roundRadius(
+//                        AutoSizeUtils.pt2px(context, 10.0f),
+//                        RoundTransformation.RoundType.ALL
+//                    )
             )
             .placeholder(R.drawable.recommend_placeholder)
             .error(R.drawable.recommend_placeholder)
