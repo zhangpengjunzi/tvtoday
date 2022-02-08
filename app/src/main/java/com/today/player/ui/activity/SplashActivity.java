@@ -1,16 +1,30 @@
 package com.today.player.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.IntEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bt.jrsdk.ads.SplashAd;
+import com.bt.jrsdk.listener.SplashAdListener;
 import com.orhanobut.hawk.Hawk;
 
 import com.today.player.R;
+import com.today.player.ad.CacheAdManager;
+import com.today.player.ad.VideoSplashAd;
 import com.today.player.base.BaseActivity;
 import com.today.player.util.HawkConfig;
+import com.tv.widget.ViewObj;
 
 /**
  * @author pj567
@@ -18,9 +32,10 @@ import com.today.player.util.HawkConfig;
  * @description:
  */
 public class SplashActivity extends BaseActivity {
-    private LinearLayout rootLayout;
-    private EditText etPassword;
-    private EditText etConfirmPassword;
+    private String TAG = "SplashActivity";
+    private ImageView imageView;
+    private VideoSplashAd splashAd;
+    private boolean isShow = false;
 
     @Override
     protected int getLayoutResID() {
@@ -29,53 +44,86 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        if (Hawk.get(HawkConfig.FIRST, true)) {
-            Hawk.put(HawkConfig.FIRST, false);
-            initView();
-        } else {
-            jumpActivity(HomeActivity.class);
-            finish();
-        }
+        imageView = findViewById(R.id.splash_img);
+        setLoadSir(imageView);
+        showLoading();
+        splashAd = CacheAdManager.getInstance().getPauseAd(this, "splash");
+        splashAd.loadAd("splash");
+        splashAd.setListener(new SplashAdListener() {
+            @Override
+            public void onLoaded() {
+                splashAd.setReady(true);
+                splashAd.showAd();
+            }
+
+            @Override
+            public void onShow() {
+                showSuccess();
+                isShow = true;
+                splashAd.setReady(false);
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onFinish() {
+                if (isShow) {
+                    jumpActivity();
+                } else {
+                    showSuccess();
+                    fade();
+                }
+            }
+
+            @Override
+            public void onError(String s, int i) {
+
+            }
+
+            @Override
+            public void onNoAd() {
+            }
+
+            @Override
+            public void onClose() {
+
+            }
+
+
+        });
     }
 
-    private void initView() {
-        rootLayout = findViewById(R.id.rootLayout);
-        etPassword = findViewById(R.id.etPassword);
-        etConfirmPassword = findViewById(R.id.etConfirmPassword);
-        rootLayout.setVisibility(View.VISIBLE);
-        findViewById(R.id.tvConfirm).setOnClickListener(new View.OnClickListener() {
+
+    private void fade() {
+        imageView.setImageResource(R.drawable.catvod_splash);
+        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.5f, 1.0f);
+        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 0.5f, 1.0f);
+        PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0.5f, 1.0f);
+        ObjectAnimator anim = ObjectAnimator.ofPropertyValuesHolder(imageView, scaleX, scaleY, alpha);
+        anim.setDuration(2000);
+        anim.start();
+        anim.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onClick(View v) {
-                confirm();
-            }
-        });
-        findViewById(R.id.tvJump).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                jumpActivity(HomeActivity.class);
-                finish();
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                jumpActivity();
             }
         });
     }
 
-    public void confirm() {
-        String pwd = etPassword.getText().toString().trim();
-        String confirm = etConfirmPassword.getText().toString().trim();
-        if (TextUtils.isEmpty(pwd)) {
-            Toast.makeText(this, "密码不能为空", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (pwd.length() != 8) {
-            Toast.makeText(this, "密码必须为8位", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!pwd.equals(confirm)) {
-            Toast.makeText(this, "两次密码不一致", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Hawk.put(HawkConfig.PASSWORD, pwd);
-        Toast.makeText(this, "密码设置成功", Toast.LENGTH_SHORT).show();
-        jumpActivity(HomeActivity.class);
+    private void jumpActivity() {
+        startActivity(new Intent(this, HomeActivity.class));
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        splashAd.recycler();
+        imageView.setImageDrawable(null);
+        imageView = null;
     }
 }

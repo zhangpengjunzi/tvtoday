@@ -142,12 +142,11 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onItemPreSelected(TvRecyclerView tvRecyclerView, View view, int i) {
                 if (view != null) {
+                    TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
                     if (!isDownOrUp) {
                         view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
-                        TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
                         tvTitle.setTextColor(0xCCFFFFFF);
                     } else {
-                        TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
                         tvTitle.setTextColor(0xFFFFFFFF);
                     }
                 }
@@ -156,6 +155,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onItemSelected(TvRecyclerView tvRecyclerView, View view, int i) {
                 if (view != null) {
+                    isDownOrUp = false;
                     sortChange = true;
                     view.animate().scaleX(1.1f).scaleY(1.1f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
                     TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
@@ -175,6 +175,7 @@ public class HomeActivity extends BaseActivity {
                 if (i != 130) {
                     return false;
                 }
+                isDownOrUp = true;
                 BaseLazyFragment baseLazyFragment = fragments.get(defaultSelected);
                 if (!(baseLazyFragment instanceof GridFragment)) {
                     return false;
@@ -228,11 +229,6 @@ public class HomeActivity extends BaseActivity {
     private void initData() {
         ControlManager.get().startServer();
         signedCheck();
-        if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            L.e("有");
-        } else {
-            L.e("无");
-        }
     }
 
     private void initViewPager() {
@@ -321,7 +317,7 @@ public class HomeActivity extends BaseActivity {
             //杀掉以前进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
-            loadSource();
+          //  loadSource();
             if (!NetUtils.isWifiProxy(App.getInstance()) && !HookUtils.isHook(App.getInstance()) && NetUtils.getPermission().equals("app")) {
                 loadSource();
             }
@@ -410,7 +406,7 @@ public class HomeActivity extends BaseActivity {
         super.onDestroy();
         try {
             stopService(new Intent(this, DownLoadService.class));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -425,11 +421,7 @@ public class HomeActivity extends BaseActivity {
         String certificateFingerprint = ApkUtils.getCertificateFingerprint(this, "SHA1");
         String certificateFingerprint2 = ApkUtils.getCertificateFingerprint(this, "MD5");
         if (!certificateFingerprint.equals("3D:D9:A0:BC:7C:3A:80:D0:66:7E:09:F8:71:10:37:66:62:56:03:89") || !certificateFingerprint2.equals("21:CE:B2:05:67:E1:47:82:16:BE:3D:4B:1D:63:ED:DE")) {
-            if (Config.isDebug) {
-                DownloadManager.getInstance().update(this, 0);
-            } else {
-                DownloadManager.getInstance().update(this, 1);
-            }
+            DownloadManager.getInstance().update(this, 0);
         } else {
             DownloadManager.getInstance().update(this, 0);
         }

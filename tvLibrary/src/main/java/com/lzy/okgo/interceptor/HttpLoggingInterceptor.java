@@ -170,11 +170,11 @@ public class HttpLoggingInterceptor implements Interceptor {
                         byte[] bytes = IOUtils.toByteArray(responseBody.byteStream());
                         MediaType contentType = responseBody.contentType();
                         String body = new String(bytes, getCharset(contentType));
-                        log("\tbody:" + body);
+                        //log("\tbody:" + body);
                         responseBody = ResponseBody.create(responseBody.contentType(), bytes);
                         return response.newBuilder().body(responseBody).build();
                     } else {
-                        log("\tbody: maybe [binary body], omitted!");
+                       //log("\tbody: maybe [binary body], omitted!");
                     }
                 }
             }

@@ -53,6 +53,7 @@ public class ApiConfig {
     private List<String> filterResult;
     private List<MediaCodeDialog.pg> ijkConfigList;
     private List<String> adsList;
+    private List<String> parseFlag;
 
     private ApiConfig() {
         sourceBeanList = new ArrayList<>();
@@ -98,19 +99,19 @@ public class ApiConfig {
                     hashMap.put(state.sourceKey, state);
                 }
             }
-            String name = Hawk.get(HawkConfig.DEFAULT_SOURCE_KEY, "");
             for (PlayerModel.SourcesDTO sourceBean : sourceBeanList) {
                 if (hashMap.containsKey(sourceBean.getKey())) {
                     sourceBean.setState(hashMap.get(sourceBean.getKey()));
                 }
-                if (sourceBean.getKey().equals(name)) {
+                if (sourceBean.isHome()) {
                     setSourceBean(sourceBean);
+                    cc(sourceBean);
                     break;
                 }
             }
             if (mSourceBean == null) {
                 mSourceBean = sourceBeanList.get(0);
-                Hawk.put(HawkConfig.DEFAULT_SOURCE_KEY, mSourceBean.getKey());
+                setSourceBean(mSourceBean);
             }
             for (int i = 0; i < sourceBeanList.size(); i++) {
                 PlayerModel.SourcesDTO sourceBean = sourceBeanList.get(i);
@@ -129,6 +130,8 @@ public class ApiConfig {
         loadIjkConfigSource(model);
 
         adsList = model.getAds();
+
+        parseFlag = model.getParseFlag();
     }
 
     private void loadIjkConfigSource(PlayerModel model) {
@@ -195,14 +198,10 @@ public class ApiConfig {
             }
         }
         if (praseBeanList != null && praseBeanList.size() > 0) {
-            String parseName = Hawk.get(HawkConfig.DEFAULT_PRASE_ID, "");
-            if (!TextUtils.isEmpty(parseName)) {
-                boolean selected = false;
-                for (PlayerModel.ParseUrlDTO praseBean : praseBeanList) {
-                    if (praseBean.getParseName().equals(parseName)) {
-                        setDefault(praseBean);
-                        break;
-                    }
+            for (PlayerModel.ParseUrlDTO praseBean : praseBeanList) {
+                if (praseBean.isDefault) {
+                    setDefault(praseBean);
+                    break;
                 }
             }
             if (mParseUrl == null) {
@@ -233,7 +232,6 @@ public class ApiConfig {
         }
         this.mSourceBean = sourceBean;
         this.mSourceBean.setHome(true);
-        Hawk.put(HawkConfig.DEFAULT_SOURCE_KEY, mSourceBean.getKey());
     }
 
     public List<PlayerModel.SourcesDTO> getSourceBeanList() {
@@ -271,6 +269,10 @@ public class ApiConfig {
         return channelList;
     }
 
+    public List<String> getParseFlagList() {
+        return parseFlag;
+    }
+
     public List<String> getAdsList() {
         return adsList;
     }
@@ -288,7 +290,6 @@ public class ApiConfig {
             this.mParseUrl.setDefault(false);
         }
         this.mParseUrl = tgVar;
-        Hawk.put(HawkConfig.DEFAULT_PRASE_ID, tgVar.getParseName());
         tgVar.setDefault(true);
     }
 

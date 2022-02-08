@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/transparent">
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -24,7 +26,6 @@
             android:id="@+id/mParse_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0pt"
             android:text="资源解析中，请稍后"
             android:textColor="@android:color/white"
             android:textSize="30.0pt" />
@@ -32,13 +33,11 @@
 
     <com.owen.tvrecyclerview.widget.TvRecyclerView
         android:id="@id/mGridView"
+        android:layout_marginTop="20.0pt"
         android:layout_width="fill_parent"
-        android:layout_height="190.0pt"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="250.0pt"
-        android:layout_marginRight="250.0pt"
-        android:layout_marginBottom="30.0pt"
         app:tv_horizontalSpacingWithMargins="5.0pt"
         app:tv_selectedItemIsCentered="true"
         app:tv_verticalSpacingWithMargins="5.0pt" />
-</FrameLayout>
+</LinearLayout>

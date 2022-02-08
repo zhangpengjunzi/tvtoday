@@ -2,6 +2,7 @@ package com.today.player.dkplayer;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -21,6 +22,8 @@ import androidx.annotation.Nullable;
 
 
 import com.today.player.R;
+import com.today.player.ad.CacheAdManager;
+import com.today.player.ad.VideoPlayAd;
 import com.today.player.ui.activity.PlayActivity;
 
 import xyz.doikki.videoplayer.controller.ControlWrapper;
@@ -63,6 +66,8 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
     public TextView x;
     public TextView y;
     public TextView z;
+    private VideoPlayAd playAd;
+    private PlayActivity playActivity;
 
     public interface a {
         void pre();
@@ -70,8 +75,10 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
         void next();
     }
 
+
     public SimonVodControlView(@NonNull Context context) {
         super(context);
+        playActivity = (PlayActivity) context;
         LayoutInflater.from(getContext()).inflate(getLayoutId(), this, true);
         this.d = (LinearLayout) findViewById(R.id.bottom_container);
         this.e = (LinearLayout) findViewById(R.id.center_container);
@@ -196,6 +203,9 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.iv_play) {
+            if (this.a.isPlaying() && playActivity != null && playActivity.playAd != null) {
+                playActivity.playAd.showAd();
+            }
             this.a.togglePlay();
         } else if (id == R.id.play_next) {
             c();

@@ -133,7 +133,6 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvHistory.setOnFocusChangeListener(focusChangeListener);
         tvRecommend.setOnFocusChangeListener(focusChangeListener);
 
-
     }
 
     private View.OnKeyListener onKeyListener = new View.OnKeyListener() {

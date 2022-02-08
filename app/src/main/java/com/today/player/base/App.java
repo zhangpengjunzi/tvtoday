@@ -1,16 +1,26 @@
 package com.today.player.base;
 
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Keep;
+import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
+import com.bt.jrsdk.manager.AdStartManager;
 import com.kingja.loadsir.core.LoadSir;
 import com.orhanobut.hawk.Hawk;
 
+import com.taobao.sophix.PatchStatus;
+import com.taobao.sophix.SophixApplication;
+import com.taobao.sophix.SophixEntry;
+import com.taobao.sophix.SophixManager;
+import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
@@ -43,6 +53,7 @@ import xyz.doikki.videoplayer.player.VideoViewManager;
  * @date :2020/12/17
  * @description:
  */
+
 public class App extends MultiDexApplication {
     private static App instance;
 
@@ -64,6 +75,7 @@ public class App extends MultiDexApplication {
         initParams();
         AdBlocker.init(this);
         initUpdate();
+        AdStartManager.start(this,"123123");
         // initPlay();
         Intent intent = new Intent();
         intent.setClassName(getPackageName(), getPackageName() + ".ui.activity.HomeActivity");
@@ -171,4 +183,5 @@ public class App extends MultiDexApplication {
     public static App getInstance() {
         return instance;
     }
+
 }

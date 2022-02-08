@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_home.xml" value="0.22327898550724637" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/fragment_user_layout.xml" value="0.17864583333333334" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/item_live_layout.xml" value="0.17864583333333334" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable-xhdpi/dkplayer_layer_progress_bar.xml" value="0.2638888888888889" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable-xhdpi/dkplayer_progress_loading.xml" value="0.2638888888888889" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable-xhdpi/dkplayer_seekbar_thumb.xml" value="0.2638888888888889" />
