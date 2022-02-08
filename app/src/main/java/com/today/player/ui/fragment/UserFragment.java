@@ -115,11 +115,6 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             imgRecommend.setLayoutParams(imgParams);
         }
 
-        tvLive.setOnKeyListener(onKeyListener);
-        tvSearch.setOnKeyListener(onKeyListener);
-        tvSetting.setOnKeyListener(onKeyListener);
-        tvHistory.setOnKeyListener(onKeyListener);
-        tvRecommend.setOnKeyListener(onKeyListener);
 
         tvLive.setOnClickListener(this);
         tvSearch.setOnClickListener(this);

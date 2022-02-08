@@ -106,7 +106,6 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                isShow = false;
             }
 
             @Override
@@ -343,6 +342,7 @@ public class PlayActivity extends BaseActivity {
         if (mVideoView != null && !isShow) {
             mVideoView.resume();
         }
+        isShow = false;
     }
 
 
@@ -351,7 +351,6 @@ public class PlayActivity extends BaseActivity {
         super.onPause();
         if (mVideoView != null) {
             mVideoView.pause();
-            mVideoView.onwin
         }
     }
 

@@ -141,14 +141,12 @@ public class HomeActivity extends BaseActivity {
         mGridView.setOnItemListener(new TvRecyclerView.OnItemListener() {
             @Override
             public void onItemPreSelected(TvRecyclerView tvRecyclerView, View view, int i) {
-                if (view != null) {
-                    TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-                    if (!isDownOrUp) {
-                        view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
-                        tvTitle.setTextColor(0xCCFFFFFF);
-                    } else {
-                        tvTitle.setTextColor(0xFFFFFFFF);
-                    }
+                if (view != null && !isDownOrUp) {
+                    TextView tvTitle = view.findViewById(R.id.tvTitle);
+                    tvTitle.getPaint().setFakeBoldText(false);
+                    view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
+                    tvTitle.setTextColor(0xCCFFFFFF);
+                    tvTitle.invalidate();
                 }
             }
 
@@ -158,8 +156,10 @@ public class HomeActivity extends BaseActivity {
                     isDownOrUp = false;
                     sortChange = true;
                     view.animate().scaleX(1.1f).scaleY(1.1f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
-                    TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+                    TextView tvTitle = view.findViewById(R.id.tvTitle);
+                    tvTitle.getPaint().setFakeBoldText(true);
                     tvTitle.setTextColor(0xFFFFFFFF);
+                    tvTitle.invalidate();
                     sortFocused = i;
                 }
             }
@@ -317,7 +317,7 @@ public class HomeActivity extends BaseActivity {
             //杀掉以前进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
-          //  loadSource();
+            //  loadSource();
             if (!NetUtils.isWifiProxy(App.getInstance()) && !HookUtils.isHook(App.getInstance()) && NetUtils.getPermission().equals("app")) {
                 loadSource();
             }
