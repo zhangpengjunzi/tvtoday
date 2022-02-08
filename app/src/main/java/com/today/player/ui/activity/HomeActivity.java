@@ -1,6 +1,5 @@
 package com.today.player.ui.activity;
 
-import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
@@ -22,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.today.player.R;
@@ -43,14 +41,13 @@ import com.today.player.ui.fragment.UserFragment;
 import com.today.player.util.AppManager;
 import com.today.player.util.DefaultConfig;
 import com.today.player.util.HookUtils;
-import com.today.player.util.L;
+import com.today.player.util.LogUtil;
 import com.today.player.util.NetUtils;
 import com.today.player.viewmodel.SourceViewModel;
 import com.tv.widget.DefaultTransformer;
 import com.tv.widget.FixedSpeedScroller;
 import com.tv.widget.NoScrollViewPager;
 import com.tv.widget.ViewObj;
-import com.upa.Config;
 import com.upa.DownloadManager;
 import com.upa.source.Encrypts;
 import com.upa.source.ISourceListener;
@@ -132,7 +129,6 @@ public class HomeActivity extends BaseActivity {
                         if (sortFocused != defaultSelected) {
                             defaultSelected = sortFocused;
                             mViewPager.setCurrentItem(sortFocused, false);
-                            sortAdapter.focused = position;
                         }
                     }
                 }
@@ -142,6 +138,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onItemPreSelected(TvRecyclerView tvRecyclerView, View view, int i) {
                 if (view != null && !isDownOrUp) {
+                    LogUtil.d("pre_select == " + i);
                     TextView tvTitle = view.findViewById(R.id.tvTitle);
                     tvTitle.getPaint().setFakeBoldText(false);
                     view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
@@ -155,12 +152,15 @@ public class HomeActivity extends BaseActivity {
                 if (view != null) {
                     isDownOrUp = false;
                     sortChange = true;
+                    LogUtil.d("select == " + i);
                     view.animate().scaleX(1.1f).scaleY(1.1f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
                     TextView tvTitle = view.findViewById(R.id.tvTitle);
                     tvTitle.getPaint().setFakeBoldText(true);
                     tvTitle.setTextColor(0xFFFFFFFF);
                     tvTitle.invalidate();
                     sortFocused = i;
+                    sortAdapter.focused = i;
+
                 }
             }
 

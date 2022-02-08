@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.today.player.R;
 import com.today.player.bean.MovieSort;
+import com.today.player.util.LogUtil;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class SortAdapter extends BaseQuickAdapter<MovieSort.SortData, BaseViewHo
     protected void convert(BaseViewHolder helper, MovieSort.SortData item) {
         helper.setText(R.id.tvTitle, item.name);
         helper.addOnClickListener(R.id.tvTitle);
+        LogUtil.d("FOCUS == "+focused);
         if (helper.getAdapterPosition() == focused) {
             helper.getView(R.id.fl_sort_root).requestFocus();
         }
