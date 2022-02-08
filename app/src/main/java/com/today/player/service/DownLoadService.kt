@@ -84,7 +84,7 @@ class DownLoadService : Service(), DownloadObserver.onRequestListener {
                 MainThread.postDelay({
                     val apk = File(filePath)
                     startActivity(InstallUtil.instance.getInstallAppIntent(apk))
-                }, 1000)
+                }, 500)
             }
 
             override fun onFail(url: String?, position: Int) {
