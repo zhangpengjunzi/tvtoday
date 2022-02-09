@@ -24,6 +24,7 @@ import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
+import com.tencent.bugly.beta.interfaces.BetaPatchListener;
 import com.tencent.bugly.beta.upgrade.UpgradeListener;
 import com.today.player.BuildConfig;
 import com.today.player.api.ApiConfig;
@@ -35,8 +36,11 @@ import com.today.player.ui.activity.HomeActivity;
 import com.today.player.util.AdBlocker;
 import com.today.player.util.CrashHandler;
 import com.today.player.util.HawkConfig;
+import com.today.player.util.LogUtil;
 import com.today.player.util.ProgressManagerImpl;
 
+
+import java.util.Locale;
 
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
@@ -150,7 +154,51 @@ public class App extends MultiDexApplication {
                 }
             }
         };
-        Bugly.init(getApplicationContext(), "fa57f58a68", false);
+
+        Beta.betaPatchListener = new BetaPatchListener() {
+            @Override
+            public void onPatchReceived(String patchFile) {
+                LogUtil.d("补丁下载地址" + patchFile);
+            }
+
+            @Override
+            public void onDownloadReceived(long savedLength, long totalLength) {
+                LogUtil.d( String.format(Locale.getDefault(), "%s %d%%",
+                        Beta.strNotificationDownloading,
+                        (int) (totalLength == 0 ? 0 : savedLength * 100 / totalLength)));
+
+            }
+
+            @Override
+            public void onDownloadSuccess(String msg) {
+                LogUtil.d("补丁下载成功");
+            }
+
+            @Override
+            public void onDownloadFailure(String msg) {
+                LogUtil.d("补丁下载失败");
+
+            }
+
+            @Override
+            public void onApplySuccess(String msg) {
+                LogUtil.d("补丁应用成功");
+
+            }
+
+            @Override
+            public void onApplyFailure(String msg) {
+                LogUtil.d("补丁应用失败");
+
+            }
+
+            @Override
+            public void onPatchRollback() {
+                LogUtil.d("补丁回滚");
+
+            }
+        };
+
     }
 
    /* private void initPlay() {
@@ -184,4 +232,9 @@ public class App extends MultiDexApplication {
         return instance;
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        Beta.installTinker();
+    }
 }
