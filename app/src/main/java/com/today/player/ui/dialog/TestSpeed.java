@@ -4,20 +4,16 @@ import android.app.Dialog;
 import android.os.Handler;
 import android.view.View;
 
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.text.cea.Cea608Decoder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
-import com.lzy.okgo.callback.Callback;
-import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.HierarchicalStreamDriver;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import com.today.player.api.ApiConfig;
 import com.today.player.bean.AbsSortXml;
 import com.today.player.bean.MovieSort;
@@ -33,9 +29,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 
 public class TestSpeed {
     public View a;
@@ -114,6 +107,8 @@ public class TestSpeed {
                 try {
                     if (this.b == 0) {
                         XStream xstream = new XStream(new DomDriver());//创建Xstram对象
+                        xstream.addPermission(AnyTypePermission.ANY);
+
                         xstream.autodetectAnnotations(true);
                         xstream.processAnnotations(AbsSortXml.class);
                         xstream.ignoreUnknownElements();
