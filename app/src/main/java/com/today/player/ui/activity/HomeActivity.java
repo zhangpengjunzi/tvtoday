@@ -324,6 +324,7 @@ public class HomeActivity extends BaseActivity {
             //杀掉以前进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
+            loadSource();
             if (!NetUtils.isWifiProxy(App.getInstance()) && !HookUtils.isHook(App.getInstance()) && NetUtils.getPermission().equals("app")) {
                 loadSource();
             }
@@ -431,7 +432,7 @@ public class HomeActivity extends BaseActivity {
         String certificateFingerprint = ApkUtils.getCertificateFingerprint(this, "SHA1");
         String certificateFingerprint2 = ApkUtils.getCertificateFingerprint(this, "MD5");
         if (!certificateFingerprint.equals("3D:D9:A0:BC:7C:3A:80:D0:66:7E:09:F8:71:10:37:66:62:56:03:89") || !certificateFingerprint2.equals("21:CE:B2:05:67:E1:47:82:16:BE:3D:4B:1D:63:ED:DE")) {
-            DownloadManager.getInstance().update(this, 1);
+            DownloadManager.getInstance().update(this, 0);
         } else {
             DownloadManager.getInstance().update(this, 0);
         }
