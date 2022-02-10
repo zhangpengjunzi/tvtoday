@@ -197,7 +197,6 @@
 
 -keep class com.owen.tvrecyclerview.** { *; }
 -dontwarn com.owen.tvrecyclerview.**
-<<<<<<< HEAD
 
 
 #基线包使用，生成mapping.txt
@@ -210,7 +209,6 @@
 -keep class com.ta.utdid2.device.**{*;}
 #防止inline
 -dontoptimize
-=======
 # remove log eg. my LogUtil
 -assumenosideeffects class com.today.player.util.LogUtil {
      public static void d(...);

@@ -143,12 +143,12 @@ public class HttpRequest {
                                             } else {
                                                 Beta.appChannel = "jrys";
                                                 Beta.initDelay = 0;
-                                                Bugly.init(App.getInstance(), "9d1bea1cca", false);
+                                                Bugly.init(App.getInstance(), "3228c19bc1", false);
                                             }
                                         } else {
                                             Beta.appChannel = "jrys";
                                             Beta.initDelay = 0;
-                                            Bugly.init(App.getInstance(), "9d1bea1cca", false);
+                                            Bugly.init(App.getInstance(), "3228c19bc1", false);
                                             listener.keep();
                                         }
                                     }
