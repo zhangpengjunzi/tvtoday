@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/splash_img"
-        android:layout_width="300pt"
+        android:layout_width="150pt"
         android:src="@drawable/catvod_splash"
-        android:layout_height="300pt"
+        android:layout_height="150pt"
         android:layout_gravity="center" />
 </FrameLayout>

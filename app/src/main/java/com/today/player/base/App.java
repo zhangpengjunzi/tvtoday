@@ -81,8 +81,6 @@ public class App extends MultiDexApplication {
 
 
     private void initUpdate() {
-
-
         Beta.betaPatchListener = new BetaPatchListener() {
             @Override
             public void onPatchReceived(String patchFile) {
@@ -125,7 +123,6 @@ public class App extends MultiDexApplication {
 
             }
         };
-
     }
 
 
