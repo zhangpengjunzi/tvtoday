@@ -17,7 +17,6 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:orientation="horizontal"
-        android:paddingTop="20.0pt"
         android:paddingBottom="20.0pt">
 
         <FrameLayout

@@ -84,10 +84,20 @@ public class Tools {
         if (pos == 1) {
             fillColor = Color.WHITE;//内部填充颜色
         }
-
         gd.setColor(fillColor);
         gd.setCornerRadius(dip2px(context, roundRadius));
+    }
 
+
+    public static void shapeSolidSort(Context context,View v, int pos) {
+        GradientDrawable gd = (GradientDrawable) v.getBackground();
+        int roundRadius = 38; // 8dp 圆角半径
+        int fillColor = Color.parseColor("#bd0cade2");//内部填充颜色
+        if (pos == 1) {
+            fillColor = Color.TRANSPARENT;//内部填充颜色
+        }
+        gd.setColor(fillColor);
+        gd.setCornerRadius(dip2px(context, roundRadius));
     }
 
 

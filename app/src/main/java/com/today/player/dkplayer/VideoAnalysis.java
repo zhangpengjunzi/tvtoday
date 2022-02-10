@@ -150,7 +150,9 @@ public class VideoAnalysis {
             e.setVisibility(View.VISIBLE);
             this.f = new PraseAdapter();
             this.e.setAdapter(this.f);
-            this.e.setLayoutManager(new V7GridLayoutManager(mContext, 6));
+            List<PlayerModel.ParseUrlDTO> list = ApiConfig.get().getPraseBeanList();
+            int count = Math.min(list.size(), 6);
+            this.e.setLayoutManager(new V7GridLayoutManager(mContext, count));
             this.f.setOnItemClickListener(new g(str3));
             this.e.setOnInBorderKeyEventListener(new TvRecyclerView.OnInBorderKeyEventListener() {
                 @Override
@@ -158,7 +160,7 @@ public class VideoAnalysis {
                     return true;
                 }
             });
-            this.g.addAll(ApiConfig.get().getPraseBeanList());
+            this.g.addAll(list);
             PlayerModel.ParseUrlDTO tgVar = ApiConfig.get().mParseUrl;
             String parseUrl = tgVar.getParseUrl();
             int i2 = this.g.indexOf(tgVar);

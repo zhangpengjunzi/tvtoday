@@ -8,11 +8,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.BounceInterpolator;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +58,7 @@ import com.upa.source.Encrypts;
 import com.upa.source.ISourceListener;
 import com.upa.source.VideoSource;
 import com.upa.tool.ApkUtils;
+import com.upa.tool.Tools;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -127,12 +130,16 @@ public class HomeActivity extends BaseActivity {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.tvTitle) {
                     if (view.getParent() != null) {
-                        ((ViewGroup) view.getParent()).requestFocus();
+                        focusView = (ViewGroup) view.getParent();
+                        focusView.requestFocus();
+                        sortAdapter.getData().get(defaultSelected).select = false;
+                        sortAdapter.getData().get(position).select = true;
+                        sortAdapter.notifyItemChanged(defaultSelected);
+                        sortAdapter.notifyItemChanged(position);
                         sortFocused = position;
                         if (sortFocused != defaultSelected) {
                             defaultSelected = sortFocused;
                             mViewPager.setCurrentItem(sortFocused, false);
-                            sortAdapter.focused = position;
                         }
                     }
                 }
@@ -252,6 +259,7 @@ public class HomeActivity extends BaseActivity {
             mViewPager.setPageTransformer(true, new DefaultTransformer());
             mViewPager.setAdapter(pageAdapter);
             mViewPager.setCurrentItem(defaultSelected, false);
+            sortAdapter.getData().get(defaultSelected).select = true;
         }
     }
 
@@ -317,7 +325,7 @@ public class HomeActivity extends BaseActivity {
             //杀掉以前进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
-            //  loadSource();
+            //loadSource();
             if (!NetUtils.isWifiProxy(App.getInstance()) && !HookUtils.isHook(App.getInstance()) && NetUtils.getPermission().equals("app")) {
                 loadSource();
             }
@@ -369,6 +377,10 @@ public class HomeActivity extends BaseActivity {
             if (sortChange) {
                 sortChange = false;
                 if (sortFocused != defaultSelected) {
+                    sortAdapter.getData().get(defaultSelected).select = false;
+                    sortAdapter.getData().get(sortFocused).select = true;
+                    sortAdapter.notifyItemChanged(defaultSelected);
+                    sortAdapter.notifyItemChanged(sortFocused);
                     defaultSelected = sortFocused;
                     mViewPager.setCurrentItem(sortFocused, false);
                 }
@@ -381,7 +393,7 @@ public class HomeActivity extends BaseActivity {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             mHandler.removeCallbacks(mDataRunnable);
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
-            mHandler.postDelayed(mDataRunnable, 200);
+            mHandler.postDelayed(mDataRunnable, 50);
         }
         return super.dispatchKeyEvent(event);
     }
@@ -421,7 +433,7 @@ public class HomeActivity extends BaseActivity {
         String certificateFingerprint = ApkUtils.getCertificateFingerprint(this, "SHA1");
         String certificateFingerprint2 = ApkUtils.getCertificateFingerprint(this, "MD5");
         if (!certificateFingerprint.equals("3D:D9:A0:BC:7C:3A:80:D0:66:7E:09:F8:71:10:37:66:62:56:03:89") || !certificateFingerprint2.equals("21:CE:B2:05:67:E1:47:82:16:BE:3D:4B:1D:63:ED:DE")) {
-            DownloadManager.getInstance().update(this, 0);
+            DownloadManager.getInstance().update(this, 1);
         } else {
             DownloadManager.getInstance().update(this, 0);
         }

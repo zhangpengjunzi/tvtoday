@@ -82,8 +82,8 @@ public class PlayActivity extends BaseActivity {
     }
 
     private void loadVideoAd() {
-        playAd = CacheAdManager.getInstance().getVideoPlayAd(this, "interaction");
-        pauseAd = CacheAdManager.getInstance().getPauseAd(this, "fullvideo");
+        playAd = new VideoPlayAd(this, "interaction");
+        pauseAd = new VideoSplashAd(this, "fullvideo");
         playAd.loadAd(getContent());
         pauseAd.loadAd(getContent());
         playAd.setListener(new VideoAdListener() {
@@ -120,7 +120,6 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onClose() {
-                isShow = false;
             }
         });
         pauseAd.setListener(new SplashAdListener() {
@@ -156,12 +155,6 @@ public class PlayActivity extends BaseActivity {
             public void onNoAd() {
                 Log.i("_play", "onNoAd");
             }
-
-            @Override
-            public void onClose() {
-                Log.i("_play", "onClose");
-            }
-
 
         });
     }
@@ -219,7 +212,7 @@ public class PlayActivity extends BaseActivity {
         mController.setGestureEnabled(true);
         //mVideoView.startFullScreen();
         mVideoView.setVideoController(mController);
-        mVideoView.setScreenScaleType(xyz.doikki.videoplayer.player.VideoView.SCREEN_SCALE_16_9);
+        mVideoView.setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT);
         setLoadSir(mVideoView);
     }
 
@@ -227,9 +220,7 @@ public class PlayActivity extends BaseActivity {
         if (mVodInfo != null && mVodInfo.seriesMap != null) {
             if (++mVodInfo.playIndex >= mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).size()) {
                 Toast.makeText(mContext, "已经是最后1集", Toast.LENGTH_SHORT).show();
-                finish();
             } else {
-                Log.i("_play", "next");
                 pauseAd.loadAd(getContent());
             }
         }
@@ -261,6 +252,10 @@ public class PlayActivity extends BaseActivity {
 
     private void playSet() {
         mVideoView.release();
+        isShow = false;
+        if (mController != null) {
+            mController.cancelPause();
+        }
         EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_REFRESH, mVodInfo.playIndex));
         playUrl = mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).get(mVodInfo.playIndex).url;
         StringBuilder sb = new StringBuilder();
@@ -341,6 +336,9 @@ public class PlayActivity extends BaseActivity {
         super.onResume();
         if (mVideoView != null && !isShow) {
             mVideoView.resume();
+            if (mController != null) {
+                mController.cancelPause();
+            }
         }
         isShow = false;
     }
@@ -359,6 +357,12 @@ public class PlayActivity extends BaseActivity {
         super.onDestroy();
         if (mVideoView != null) {
             mVideoView.release();
+        }
+        if (playAd != null) {
+            playAd.recycler();
+        }
+        if (pauseAd != null) {
+            pauseAd.recycler();
         }
     }
 
@@ -383,10 +387,8 @@ public class PlayActivity extends BaseActivity {
                 mController.d();
             } else if (keyCode == 19) {
                 mController.b();
-                pre();
             } else if (keyCode == 20) {
                 mController.b();
-                next();
             }
         } else if (action == 1 && (keyCode == 22 || keyCode == 21)) {
             mController.c();
@@ -462,6 +464,14 @@ public class PlayActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    public void onBackPressed() {
+        if (mController.a()) {
+            mController.b();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

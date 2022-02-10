@@ -93,6 +93,9 @@ public class GridFragment extends BaseLazyFragment {
         mGridView.setOnInBorderKeyEventListener(new TvRecyclerView.OnInBorderKeyEventListener() {
             @Override
             public boolean onInBorderKeyEvent(int i, View view) {
+                if (i == 33) {
+                    EventBus.getDefault().post(new TopStateEvent(TopStateEvent.TYPE_TOP));
+                }
                 return false;
             }
         });

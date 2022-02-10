@@ -128,6 +128,23 @@ public class SimonVideoController extends GestureVideoController implements View
         }
     }
 
+    public void cancelPause(){
+        for (Map.Entry<IControlComponent, Boolean> key2 : this.mControlComponents.entrySet()) {
+            IControlComponent iControlComponent2 = (IControlComponent) key2.getKey();
+            if (iControlComponent2 instanceof SimonVodControlView) {
+                SimonVodControlView simonVodControlView2 = (SimonVodControlView) iControlComponent2;
+                simonVodControlView2.u.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        simonVodControlView2.u.setVisibility(View.GONE);
+                        simonVodControlView2.w.setVisibility(View.GONE);
+                    }
+                }).start();
+            }
+        }
+    }
+
     public int getLayoutId() {
         return R.layout.simon_standard_controller;
     }

@@ -33,10 +33,9 @@
 
     <com.owen.tvrecyclerview.widget.TvRecyclerView
         android:id="@id/mGridView"
-        android:layout_marginTop="20.0pt"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_marginTop="20.0pt"
         app:tv_horizontalSpacingWithMargins="5.0pt"
         app:tv_selectedItemIsCentered="true"
         app:tv_verticalSpacingWithMargins="5.0pt" />

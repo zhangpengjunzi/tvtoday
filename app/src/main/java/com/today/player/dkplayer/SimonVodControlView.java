@@ -78,7 +78,9 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
 
     public SimonVodControlView(@NonNull Context context) {
         super(context);
-        playActivity = (PlayActivity) context;
+        if(context instanceof PlayActivity){
+            playActivity = (PlayActivity) context;
+        }
         LayoutInflater.from(getContext()).inflate(getLayoutId(), this, true);
         this.d = (LinearLayout) findViewById(R.id.bottom_container);
         this.e = (LinearLayout) findViewById(R.id.center_container);
