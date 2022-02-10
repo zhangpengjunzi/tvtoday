@@ -51,7 +51,12 @@ dependencies {
     api rootProject.ext.dependencies['extension-rtmp']
     api rootProject.ext.dependencies['hawk']
     api rootProject.ext.dependencies['hotfix']
-    api(rootProject.ext.dependencies['xstream']) {
-        exclude group: 'xmlpull', module: 'xmlpull'
-    }
+    api rootProject.ext.dependencies['tinker']
+
+//    api(rootProject.ext.dependencies['xstream']) {
+//        exclude group: 'xmlpull', module: 'xmlpull'
+//    }
+//    api 'io.github.x-stream:mxparser:1.2.2'
+    api files('libs/xstream-1.4.19.jar')
+    api files('libs/mxparser-1.2.2.jar')
 }

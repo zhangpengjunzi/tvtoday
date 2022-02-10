@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply from: "tinker-support.gradle"
 
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -86,6 +87,16 @@ android {
         additionalParameters += '--set-max-idx-number=48000'
         additionalParameters += '--minimal-main-dex'
     }
+//    flavorDimensions "version"
+//    productFlavors {
+//        tv {
+//            dimension "version"
+//        }
+//        mobile {
+//            dimension "version"
+//
+//        }
+//    }
 }
 
 def releaseTime() {

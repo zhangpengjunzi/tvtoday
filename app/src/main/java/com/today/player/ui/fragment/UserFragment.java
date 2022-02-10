@@ -156,6 +156,8 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             jumpActivity(HistoryNewActivity.class);
         } else if (v.getId() == R.id.tv_recommend) {
             jumpActivity(RecommendActivity.class);
+//            LogUtil.d("hotfix over 2！！！！！！！！！");
+//            Toast.makeText(getContext(), "热更了 patch 第2次热更", Toast.LENGTH_SHORT).show();
         }
     }
 

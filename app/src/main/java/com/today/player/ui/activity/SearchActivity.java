@@ -3,7 +3,6 @@ package com.today.player.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,29 +15,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.AbsCallback;
-import com.lzy.okgo.model.Response;
-
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.today.player.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
 import com.today.player.bean.AbsXml;
 import com.today.player.bean.Movie;
 import com.today.player.bean.PlayerModel;
-import com.today.player.bean.SearchRequest;
 import com.today.player.event.ServerEvent;
 import com.today.player.server.RemoteServer;
 import com.today.player.ui.adapter.SearchAdapter;
 import com.today.player.util.DefaultConfig;
 import com.today.player.util.FastClickCheckUtil;
-import com.today.player.util.L;
 import com.today.player.viewmodel.SourceViewModel;
 import com.tv.QRCodeGen;
-import com.tv.leanback.VerticalGridView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

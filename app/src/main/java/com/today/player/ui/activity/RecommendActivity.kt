@@ -4,7 +4,6 @@ import android.app.UiModeManager
 import android.content.Intent
 import android.content.res.Configuration
 import android.text.TextUtils
-import android.view.animation.BounceInterpolator
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +40,7 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         setLoadSir(findViewById(R.id.ll_recommend_root))
         showLoading()
         getDeviceType()
+
         if (!TextUtils.isEmpty(DownloadObserver.getInstance().recommendJson)) {
             showSuccess()
             recyclerView = findViewById(R.id.rv_recommend_list)
@@ -252,6 +252,5 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
         super.onDestroy()
         DownloadObserver.getInstance().unRegisterDownloadListener()
     }
-
 
 }

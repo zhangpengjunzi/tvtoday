@@ -8,6 +8,7 @@ import android.text.TextUtils
 import androidx.core.content.FileProvider
 import com.today.player.base.App
 import java.io.File
+import java.io.IOException
 
 class InstallUtil private constructor() {
     companion object {
@@ -29,8 +30,12 @@ class InstallUtil private constructor() {
         val intent = Intent(Intent.ACTION_VIEW)
         val type = "application/vnd.android.package-archive"
         intent.setDataAndType(uri, type)
+        LogUtil.d(uri.toString())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        } else {
+            chmod("777", file!!.parent)
+            chmod("777", file!!.path)
         }
         return intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
@@ -64,5 +69,16 @@ class InstallUtil private constructor() {
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
         intent.setClassName(pkgName, launcherActivity!!)
         return intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
+
+    private fun chmod(permission: String, path: String) {
+        try {
+            val command = "chmod $permission $path"
+            LogUtil.d(command)
+            val runtime = Runtime.getRuntime()
+            runtime.exec(command)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
 }

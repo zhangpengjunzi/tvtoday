@@ -12,6 +12,7 @@ import com.today.player.R;
 import com.today.player.bean.MovieSort;
 import com.upa.tool.Tools;
 
+
 import java.util.ArrayList;
 
 /**
@@ -34,6 +35,5 @@ public class SortAdapter extends BaseQuickAdapter<MovieSort.SortData, BaseViewHo
             Tools.shapeSolidSort(mContext, helper.getView(R.id.fl_sort_root), 1);
         }
     }
-
 
 }
