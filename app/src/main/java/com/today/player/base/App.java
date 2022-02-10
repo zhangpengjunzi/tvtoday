@@ -1,33 +1,20 @@
 package com.today.player.base;
 
-import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.Keep;
-import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 import com.bt.jrsdk.manager.AdStartManager;
 import com.kingja.loadsir.core.LoadSir;
 import com.orhanobut.hawk.Hawk;
-
-import com.taobao.sophix.PatchStatus;
-import com.taobao.sophix.SophixApplication;
-import com.taobao.sophix.SophixEntry;
-import com.taobao.sophix.SophixManager;
-import com.taobao.sophix.listener.PatchLoadStatusListener;
-import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
 import com.tencent.bugly.beta.interfaces.BetaPatchListener;
 import com.tencent.bugly.beta.upgrade.UpgradeListener;
-import com.today.player.BuildConfig;
-import com.today.player.api.ApiConfig;
 import com.today.player.callback.EmptyCallback;
 import com.today.player.callback.LoadingCallback;
 import com.today.player.data.AppDataManager;
@@ -37,20 +24,11 @@ import com.today.player.util.AdBlocker;
 import com.today.player.util.CrashHandler;
 import com.today.player.util.HawkConfig;
 import com.today.player.util.LogUtil;
-import com.today.player.util.ProgressManagerImpl;
-
 
 import java.util.Locale;
 
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
-import xyz.doikki.videoplayer.exo.ExoMediaPlayer;
-import xyz.doikki.videoplayer.ijk.IjkPlayer;
-import xyz.doikki.videoplayer.player.AndroidMediaPlayer;
-import xyz.doikki.videoplayer.player.PlayerFactory;
-import xyz.doikki.videoplayer.player.VideoView;
-import xyz.doikki.videoplayer.player.VideoViewConfig;
-import xyz.doikki.videoplayer.player.VideoViewManager;
 
 /**
  * @author pj567
@@ -79,7 +57,7 @@ public class App extends MultiDexApplication {
         initParams();
         AdBlocker.init(this);
         initUpdate();
-        AdStartManager.start(this,"123123");
+        AdStartManager.start(this, "123123");
         // initPlay();
         Intent intent = new Intent();
         intent.setClassName(getPackageName(), getPackageName() + ".ui.activity.HomeActivity");
@@ -163,7 +141,7 @@ public class App extends MultiDexApplication {
 
             @Override
             public void onDownloadReceived(long savedLength, long totalLength) {
-                LogUtil.d( String.format(Locale.getDefault(), "%s %d%%",
+                LogUtil.d(String.format(Locale.getDefault(), "%s %d%%",
                         Beta.strNotificationDownloading,
                         (int) (totalLength == 0 ? 0 : savedLength * 100 / totalLength)));
 
