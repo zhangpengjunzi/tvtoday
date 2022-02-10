@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
-        android:name=".base.App"
+        android:name=".base.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/app_icon"
