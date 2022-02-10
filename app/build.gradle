@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply from: "tinker-support.gradle"
 
 
-
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 
 // Initialize a new Properties() object called keystoreProperties.
@@ -25,7 +24,7 @@ android {
         multiDexEnabled true
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
-            abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a'
         }
         //设置room的Schema的位置
@@ -88,6 +87,16 @@ android {
         additionalParameters += '--set-max-idx-number=48000'
         additionalParameters += '--minimal-main-dex'
     }
+//    flavorDimensions "version"
+//    productFlavors {
+//        tv {
+//            dimension "version"
+//        }
+//        mobile {
+//            dimension "version"
+//
+//        }
+//    }
 }
 
 def releaseTime() {
