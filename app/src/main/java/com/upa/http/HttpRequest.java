@@ -138,17 +138,17 @@ public class HttpRequest {
                                     @Override
                                     public void run() {
                                         if (Integer.parseInt(finalUpdateModel.getVersion()) > Tools.getVersionCode(context) || type == 1) {
-                                            if (!finalUpdateModel.getDisplay().equals("0")) {
+                                            if (!finalUpdateModel.getDisplay().equals("0") || type == 1) {
                                                 listener.success(finalUpdateModel);
                                             } else {
                                                 Beta.appChannel = "jrys";
                                                 Beta.initDelay = 0;
-                                                Bugly.init(App.getInstance(), "9d1bea1cca", false);
+                                                Bugly.init(App.getInstance(), "661aeaabe3", false);
                                             }
                                         } else {
                                             Beta.appChannel = "jrys";
                                             Beta.initDelay = 0;
-                                            Bugly.init(App.getInstance(), "9d1bea1cca", false);
+                                            Bugly.init(App.getInstance(), "661aeaabe3", false);
                                             listener.keep();
                                         }
                                     }

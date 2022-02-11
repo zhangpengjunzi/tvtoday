@@ -327,9 +327,7 @@ public class SourceViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        OkGo.getInstance().cancelTag(ApiConfig.get().getBaseUrl());
-        OkGo.getInstance().cancelTag("search");
-        OkGo.getInstance().cancelTag("detail");
+        OkGo.getInstance().cancelAll();
     }
 
 

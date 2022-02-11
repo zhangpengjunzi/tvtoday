@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.today.player.R;
 import com.today.player.base.BaseLazyFragment;
@@ -115,6 +116,11 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             imgRecommend.setLayoutParams(imgParams);
         }
 
+        tvLive.setOnKeyListener(onKeyListener);
+        tvSearch.setOnKeyListener(onKeyListener);
+        tvSetting.setOnKeyListener(onKeyListener);
+        tvHistory.setOnKeyListener(onKeyListener);
+        tvRecommend.setOnKeyListener(onKeyListener);
 
         tvLive.setOnClickListener(this);
         tvSearch.setOnClickListener(this);
@@ -127,17 +133,13 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvSetting.setOnFocusChangeListener(focusChangeListener);
         tvHistory.setOnFocusChangeListener(focusChangeListener);
         tvRecommend.setOnFocusChangeListener(focusChangeListener);
-
     }
 
     private View.OnKeyListener onKeyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-                    EventBus.getDefault().post(new TopStateEvent(TopStateEvent.TYPE_TOP));
-                    return true;
-                }
+            if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                EventBus.getDefault().post(new TopStateEvent(TopStateEvent.TYPE_TOP));
             }
             return false;
         }
