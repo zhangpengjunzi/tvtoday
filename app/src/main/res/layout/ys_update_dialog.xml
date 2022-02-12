@@ -16,7 +16,7 @@
         n1:gravity="center"
         n1:text="发现新版本啦!!!"
         n1:textColor="@color/black"
-        n1:textSize="20pt"
+        n1:textSize="23pt"
         n1:textStyle="bold" />
 
     <TextView
@@ -27,7 +27,7 @@
         n1:layout_below="@id/update_title"
         n1:layout_gravity="center"
         n1:layout_marginTop="30pt"
-        n1:textSize="18pt"
+        n1:textSize="20pt"
         n1:layout_marginBottom="20pt"
         n1:background="@color/white"
         n1:gravity="center"
@@ -47,7 +47,7 @@
 
         <RelativeLayout
             n1:layout_width="200pt"
-            n1:layout_height="30pt"
+            n1:layout_height="40pt"
             n1:focusable="false">
 
             <com.upa.view.CustomProgressBar
@@ -62,11 +62,12 @@
             <TextView
                 n1:id="@id/update_button"
                 n1:layout_width="fill_parent"
-                n1:layout_height="30pt"
+                n1:layout_height="40pt"
                 n1:background="@drawable/button_bg_focus"
                 n1:focusable="true"
                 n1:focusableInTouchMode="true"
                 n1:gravity="center"
+                n1:textSize="18pt"
                 n1:nextFocusDown="@id/update_cancle"
                 n1:text="立即升级"
                 n1:textColor="@color/white" />

@@ -18,6 +18,8 @@ import com.tencent.bugly.b;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
 import com.today.player.base.App;
+import com.today.player.event.TopStateEvent;
+import com.today.player.util.ChannelUtil;
 import com.upa.UpdateModel;
 import com.upa.im.ActivationHttpListener;
 import com.upa.im.IDownloadListener;
@@ -25,6 +27,7 @@ import com.upa.im.YsRequestListener;
 import com.upa.tool.Tools;
 
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -141,14 +144,10 @@ public class HttpRequest {
                                             if (!finalUpdateModel.getDisplay().equals("0") || type == 1) {
                                                 listener.success(finalUpdateModel);
                                             } else {
-                                                Beta.appChannel = "jrys";
-                                                Beta.initDelay = 0;
-                                                Bugly.init(App.getInstance(), "661aeaabe3", false);
+                                                EventBus.getDefault().post(new TopStateEvent(TopStateEvent.REFRESH_UPDATE));
                                             }
                                         } else {
-                                            Beta.appChannel = "jrys";
-                                            Beta.initDelay = 0;
-                                            Bugly.init(App.getInstance(), "661aeaabe3", false);
+                                            EventBus.getDefault().post(new TopStateEvent(TopStateEvent.REFRESH_UPDATE));
                                             listener.keep();
                                         }
                                     }

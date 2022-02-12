@@ -3,6 +3,7 @@ package com.today.player.ui.activity
 import android.app.UiModeManager
 import android.content.Intent
 import android.content.res.Configuration
+import android.os.Build
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
@@ -152,7 +153,11 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
             deviceType = 1
         } else {
             LogUtil.d("Running on a non-TV Device")
-            deviceType = 2
+            if (Build.VERSION.SDK_INT > 23) {
+                deviceType = 2
+            } else {
+                deviceType = 1
+            }
         }
     }
 

@@ -105,13 +105,14 @@ public class ApiConfig {
                 }
                 if (sourceBean.isHome()) {
                     setSourceBean(sourceBean);
-                    cc(sourceBean);
+                    cc(sourceBeanList.get(0));
                     break;
                 }
             }
             if (mSourceBean == null) {
                 mSourceBean = sourceBeanList.get(0);
                 setSourceBean(mSourceBean);
+                HintSource.getInstance().saveOldSource(mSourceBean.getKey());
             }
             for (int i = 0; i < sourceBeanList.size(); i++) {
                 PlayerModel.SourcesDTO sourceBean = sourceBeanList.get(i);

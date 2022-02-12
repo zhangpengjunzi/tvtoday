@@ -10,6 +10,7 @@ import androidx.multidex.MultiDex;
 
 import com.kingja.loadsir.core.LoadSir;
 import com.orhanobut.hawk.Hawk;
+import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.interfaces.BetaPatchListener;
 import com.tencent.tinker.entry.DefaultApplicationLike;
@@ -18,8 +19,11 @@ import com.today.player.callback.LoadingCallback;
 import com.today.player.data.AppDataManager;
 import com.today.player.server.ControlManager;
 import com.today.player.util.AdBlocker;
+import com.today.player.util.ChannelUtil;
 import com.today.player.util.HawkConfig;
 import com.today.player.util.LogUtil;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.util.Locale;
 
@@ -52,6 +56,12 @@ public class MyApplicationLike extends DefaultApplicationLike {
         initParams();
         AdBlocker.init(getApplication());
         initUpdate();
+
+        UMConfigure.init(getApplication(), "603875ff6ee47d382b672169", ChannelUtil.getChannel(), 1, "");
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+
+        jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(getApplication(), ChannelUtil.BASE_CHANNEL);
+
     }
 
 
@@ -71,6 +81,7 @@ public class MyApplicationLike extends DefaultApplicationLike {
     public void registerActivityLifecycleCallback(Application.ActivityLifecycleCallbacks callbacks) {
         getApplication().registerActivityLifecycleCallbacks(callbacks);
     }
+
     private void initParams() {
         // Hawk
         Hawk.init(getApplication()).build();
@@ -132,7 +143,6 @@ public class MyApplicationLike extends DefaultApplicationLike {
             @Override
             public void onPatchRollback() {
                 LogUtil.d("补丁回滚");
-
             }
         };
 

@@ -245,4 +245,7 @@
     public java.lang.StringBuilder append(float);
     public java.lang.StringBuilder append(double);
 }
->>>>>>> 1a41f6d56317c0dace2281e3978d6f607ddf9d7d
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+-keep class android.support.**{*;}

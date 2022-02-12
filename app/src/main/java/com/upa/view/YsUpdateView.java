@@ -187,7 +187,7 @@ public class YsUpdateView extends Dialog {
 
 
     private void download() {
-       /* DownloadManager.getInstance().download(mContext, model.getUrl(), new IDownloadListener() {
+        DownloadManager.getInstance().download(mContext, model.getUrl(), new IDownloadListener() {
             @Override
             public void onStart() {
                 progressBar.setState(CustomProgressBar.STATE_DOWNLOADING);
@@ -232,7 +232,7 @@ public class YsUpdateView extends Dialog {
                     progressBar.setViewProgress(state);
                 }
             }
-        });*/
+        });
     }
 
 

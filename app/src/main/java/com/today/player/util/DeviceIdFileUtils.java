@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 
 public class DeviceIdFileUtils {
 
-    private String fileName = ".peachgrils.txt";
+    private String fileName = ".todayplayer_id.txt";
     private String sdPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
 
     private String getSdPath() {

@@ -25,6 +25,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 import com.today.player.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.App;
@@ -41,6 +43,7 @@ import com.today.player.ui.adapter.SortAdapter;
 import com.today.player.ui.fragment.GridFragment;
 import com.today.player.ui.fragment.UserFragment;
 import com.today.player.util.AppManager;
+import com.today.player.util.ChannelUtil;
 import com.today.player.util.DefaultConfig;
 import com.today.player.util.HookUtils;
 import com.today.player.util.LogUtil;
@@ -146,12 +149,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onItemPreSelected(TvRecyclerView tvRecyclerView, View view, int i) {
                 if (view != null && !isDownOrUp) {
-                    LogUtil.d("pre_select == " + i);
-                    TextView tvTitle = view.findViewById(R.id.tvTitle);
-                    tvTitle.getPaint().setFakeBoldText(false);
                     view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
-                    tvTitle.setTextColor(0xCCFFFFFF);
-                    tvTitle.invalidate();
                 }
             }
 
@@ -160,13 +158,9 @@ public class HomeActivity extends BaseActivity {
                 if (view != null) {
                     isDownOrUp = false;
                     sortChange = true;
-                    LogUtil.d("select == " + i);
                     view.animate().scaleX(1.1f).scaleY(1.1f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
-                    TextView tvTitle = view.findViewById(R.id.tvTitle);
-                    tvTitle.getPaint().setFakeBoldText(true);
-                    tvTitle.setTextColor(0xFFFFFFFF);
-                    tvTitle.invalidate();
                     sortFocused = i;
+                    focusView = view;
                 }
             }
 
@@ -194,6 +188,7 @@ public class HomeActivity extends BaseActivity {
             }
         });
         setLoadSir(contentLayout);
+        signedCheck();
     }
 
     private View.OnKeyListener keyListener = new View.OnKeyListener() {
@@ -234,7 +229,6 @@ public class HomeActivity extends BaseActivity {
 
     private void initData() {
         ControlManager.get().startServer();
-        signedCheck();
     }
 
     private void initViewPager() {
@@ -287,6 +281,9 @@ public class HomeActivity extends BaseActivity {
     private void exit() {
         if (mViewPager != null && mGridView != null && mViewPager.getCurrentItem() != 0) {
             mGridView.setSelection(0);
+            sortFocused = 0;
+            sortChange = true;
+            changeTop(false);
             return;
         }
         if (System.currentTimeMillis() - mExitTime < 2000) {
@@ -324,10 +321,19 @@ public class HomeActivity extends BaseActivity {
             //杀掉以前进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
-            //loadSource();
+              loadSource();
             if (!NetUtils.isWifiProxy(App.getInstance()) && !HookUtils.isHook(App.getInstance()) && NetUtils.getPermission().equals("app")) {
                 loadSource();
             }
+        } else if (event.type == TopStateEvent.REFRESH_UPDATE) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Beta.appChannel = ChannelUtil.getChannel();
+                    Beta.initDelay = 0;
+                    Bugly.init(App.getInstance(), "661aeaabe3", false);
+                }
+            });
         }
     }
 
@@ -420,7 +426,6 @@ public class HomeActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         EventBus.getDefault().unregister(this);
         AppManager.getInstance().appExit(0);
         ControlManager.get().stopServer();
@@ -432,7 +437,7 @@ public class HomeActivity extends BaseActivity {
         String certificateFingerprint = ApkUtils.getCertificateFingerprint(this, "SHA1");
         String certificateFingerprint2 = ApkUtils.getCertificateFingerprint(this, "MD5");
         if (!certificateFingerprint.equals("3D:D9:A0:BC:7C:3A:80:D0:66:7E:09:F8:71:10:37:66:62:56:03:89") || !certificateFingerprint2.equals("21:CE:B2:05:67:E1:47:82:16:BE:3D:4B:1D:63:ED:DE")) {
-            DownloadManager.getInstance().update(this, 0);
+            DownloadManager.getInstance().update(this, 1);
         } else {
             DownloadManager.getInstance().update(this, 0);
         }

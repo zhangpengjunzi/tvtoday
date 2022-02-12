@@ -2,7 +2,6 @@ package com.today.player.dkplayer;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -22,7 +21,6 @@ import androidx.annotation.Nullable;
 
 
 import com.today.player.R;
-import com.today.player.ad.CacheAdManager;
 import com.today.player.ad.VideoPlayAd;
 import com.today.player.ui.activity.PlayActivity;
 

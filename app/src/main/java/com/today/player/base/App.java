@@ -13,6 +13,7 @@ import androidx.multidex.MultiDexApplication;
 import com.kingja.loadsir.core.LoadSir;
 import com.orhanobut.hawk.Hawk;
 
+import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
 import com.tencent.bugly.beta.interfaces.BetaPatchListener;
@@ -23,6 +24,7 @@ import com.today.player.callback.LoadingCallback;
 import com.today.player.data.AppDataManager;
 import com.today.player.server.ControlManager;
 import com.today.player.util.AdBlocker;
+import com.today.player.util.ChannelUtil;
 import com.today.player.util.HawkConfig;
 import com.today.player.util.LogUtil;
 
@@ -44,5 +46,6 @@ public class App {
     public static Application getInstance() {
         return instance;
     }
+
 
 }

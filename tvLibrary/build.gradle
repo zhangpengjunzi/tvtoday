@@ -59,4 +59,5 @@ dependencies {
 //    api 'io.github.x-stream:mxparser:1.2.2'
     api files('libs/xstream-1.4.19.jar')
     api files('libs/mxparser-1.2.2.jar')
+    implementation files('libs\\cjsdk.jar')
 }

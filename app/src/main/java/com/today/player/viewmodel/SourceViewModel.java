@@ -335,7 +335,6 @@ public class SourceViewModel extends ViewModel {
         OkGo.<String>get(url)
                 .tag("fenci")
                 .execute(new AbsCallback<String>() {
-
                     @Override
                     public String convertResponse(okhttp3.Response response) throws Throwable {
                         if (response.body() != null) {

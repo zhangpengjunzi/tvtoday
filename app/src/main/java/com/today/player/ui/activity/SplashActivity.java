@@ -3,41 +3,27 @@ package com.today.player.ui.activity;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.SystemClock;
 import android.provider.Settings;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.bt.jrsdk.ads.SplashAd;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.manager.AdStartManager;
-import com.orhanobut.hawk.Hawk;
 
 import com.today.player.R;
-import com.today.player.ad.CacheAdManager;
 import com.today.player.ad.VideoSplashAd;
 import com.today.player.base.App;
 import com.today.player.base.BaseActivity;
 import com.today.player.util.GetDevicesId;
-import com.today.player.util.HawkConfig;
-import com.tv.widget.ViewObj;
 
 /**
  * @author pj567
@@ -114,7 +100,7 @@ public class SplashActivity extends BaseActivity {
         GetDevicesId.getInstance().writeId();
         AdStartManager.start(App.getInstance(), GetDevicesId.getInstance().getDeviceId());
         showLoading();
-        splashAd = new VideoSplashAd(this, "splash");
+        splashAd = new VideoSplashAd(this, "splash", "1");
         splashAd.loadAd("splash");
         splashAd.setListener(new SplashAdListener() {
             @Override
@@ -148,6 +134,10 @@ public class SplashActivity extends BaseActivity {
             public void onNoAd() {
             }
 
+            @Override
+            public void onClose() {
+
+            }
         });
     }
 

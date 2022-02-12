@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
 
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 import com.today.player.event.TopStateEvent;
+import com.today.player.util.ChannelUtil;
 import com.upa.activation.ActivationManager;
 import com.upa.http.HttpRequest;
 import com.upa.im.IDownloadListener;

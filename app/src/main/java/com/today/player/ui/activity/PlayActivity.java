@@ -10,11 +10,9 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 
-import com.bt.jrsdk.listener.InteractionAdListener;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
 import com.today.player.R;
-import com.today.player.ad.CacheAdManager;
 import com.today.player.ad.VideoPlayAd;
 import com.today.player.ad.VideoSplashAd;
 import com.today.player.api.ApiConfig;
@@ -83,7 +81,7 @@ public class PlayActivity extends BaseActivity {
 
     private void loadVideoAd() {
         playAd = new VideoPlayAd(this, "interaction");
-        pauseAd = new VideoSplashAd(this, "fullvideo");
+        pauseAd = new VideoSplashAd(this, "fullvideo","3");
         playAd.loadAd(getContent());
         pauseAd.loadAd(getContent());
         playAd.setListener(new VideoAdListener() {
@@ -148,14 +146,17 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onError(String s, int i) {
-                Log.i("_play", "error");
             }
 
             @Override
             public void onNoAd() {
-                Log.i("_play", "onNoAd");
             }
 
+
+            @Override
+            public void onClose() {
+
+            }
         });
     }
 
@@ -380,7 +381,7 @@ public class PlayActivity extends BaseActivity {
                     i = -1;
                 }
                 mController.a(i);
-            } else if (keyCode == 23 || keyCode == 85 || keyCode == 7) {
+            } else if (keyCode == 23 || keyCode == 85 || keyCode == 7 || keyCode == KeyEvent.KEYCODE_ENTER) {
                 if (mVideoView.isPlaying()) {
                     playAd.showAd();
                 }
@@ -460,7 +461,11 @@ public class PlayActivity extends BaseActivity {
                 }
 
                 if (!isPlay) {
-                    videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
+                    PlayActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
+                        }
+                    });
                 }
             }
         });

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -30,8 +31,15 @@ public class SortAdapter extends BaseQuickAdapter<MovieSort.SortData, BaseViewHo
         helper.setText(R.id.tvTitle, item.name);
         helper.addOnClickListener(R.id.tvTitle);
         if (item.select) {
+            TextView tvTitle = helper.getView(R.id.tvTitle);
+            tvTitle.getPaint().setFakeBoldText(true);
+            tvTitle.setTextColor(0xFFFFFFFF);
+            tvTitle.invalidate();
             Tools.shapeSolidSort(mContext, helper.getView(R.id.fl_sort_root), 0);
         } else {
+            TextView tvTitle = helper.getView(R.id.tvTitle);
+            tvTitle.getPaint().setFakeBoldText(false);
+            tvTitle.setTextColor(0xCCFFFFFF);
             Tools.shapeSolidSort(mContext, helper.getView(R.id.fl_sort_root), 1);
         }
     }

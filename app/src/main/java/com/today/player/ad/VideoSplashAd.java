@@ -10,10 +10,9 @@ public class VideoSplashAd {
     private boolean isReady;
     private String content;
 
-    public VideoSplashAd(Activity activity,String pid) {
-        ad = new SplashAd(activity, pid);
+    public VideoSplashAd(Activity activity, String pid, String ad_type) {
+        ad = new SplashAd(activity, pid, ad_type);
     }
-
 
 
     public void setListener(SplashAdListener splashAdListener) {
