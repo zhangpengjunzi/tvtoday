@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 
 
 import com.today.player.R;
+import com.today.player.ui.activity.PlayActivity;
 
 import java.util.Map;
 
@@ -30,6 +31,7 @@ public class SimonVideoController extends GestureVideoController implements View
     public int d;
     public long e;
     private OnPlayStateChangeListener listener;
+    private PlayActivity playActivity;
 
     public interface a {
     }
@@ -44,6 +46,9 @@ public class SimonVideoController extends GestureVideoController implements View
 
     public SimonVideoController(@NonNull Context context) {
         this(context, (AttributeSet) null);
+        if (context instanceof PlayActivity) {
+            playActivity = (PlayActivity) context;
+        }
     }
 
     public boolean a() {
@@ -128,7 +133,16 @@ public class SimonVideoController extends GestureVideoController implements View
         }
     }
 
-    public void cancelPause(){
+
+    @Override
+    protected void togglePlay() {
+        if (playActivity != null && playActivity.isPlaying() && playActivity.playAd != null) {
+            playActivity.playAd.showAd();
+        }
+        super.togglePlay();
+    }
+
+    public void cancelPause() {
         for (Map.Entry<IControlComponent, Boolean> key2 : this.mControlComponents.entrySet()) {
             IControlComponent iControlComponent2 = (IControlComponent) key2.getKey();
             if (iControlComponent2 instanceof SimonVodControlView) {

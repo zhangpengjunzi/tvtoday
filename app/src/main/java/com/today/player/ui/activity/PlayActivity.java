@@ -79,9 +79,16 @@ public class PlayActivity extends BaseActivity {
         initData();
     }
 
+    public boolean isPlaying() {
+        if (mVideoView != null) {
+            return mVideoView.isPlaying();
+        }
+        return false;
+    }
+
     private void loadVideoAd() {
         playAd = new VideoPlayAd(this, "interaction");
-        pauseAd = new VideoSplashAd(this, "fullvideo","3");
+        pauseAd = new VideoSplashAd(this, "fullvideo", "3");
         playAd.loadAd(getContent());
         pauseAd.loadAd(getContent());
         playAd.setListener(new VideoAdListener() {
@@ -92,9 +99,11 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onShow() {
-                playAd.setReady(false);
-                playAd.loadAd(getContent());
-                isShow = true;
+                if (playAd != null) {
+                    playAd.setReady(false);
+                    playAd.loadAd(getContent());
+                    isShow = true;
+                }
             }
 
             @Override
@@ -123,14 +132,18 @@ public class PlayActivity extends BaseActivity {
         pauseAd.setListener(new SplashAdListener() {
             @Override
             public void onLoaded() {
-                pauseAd.setReady(true);
-                pauseAd.showAd();
+                if (pauseAd != null) {
+                    pauseAd.setReady(true);
+                    pauseAd.showAd();
+                }
             }
 
             @Override
             public void onShow() {
-                showSuccess();
-                pauseAd.setReady(false);
+                if (pauseAd != null) {
+                    showSuccess();
+                    pauseAd.setReady(false);
+                }
             }
 
             @Override
@@ -222,7 +235,9 @@ public class PlayActivity extends BaseActivity {
             if (++mVodInfo.playIndex >= mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).size()) {
                 Toast.makeText(mContext, "已经是最后1集", Toast.LENGTH_SHORT).show();
             } else {
-                pauseAd.loadAd(getContent());
+                if(pauseAd!=null){
+                    pauseAd.loadAd(getContent());
+                }
             }
         }
     }
@@ -232,7 +247,9 @@ public class PlayActivity extends BaseActivity {
             if (--mVodInfo.playIndex < 0) {
                 Toast.makeText(mContext, "已经是第1集", Toast.LENGTH_SHORT).show();
             } else {
-                pauseAd.loadAd(getContent());
+                if(pauseAd!=null){
+                    pauseAd.loadAd(getContent());
+                }
             }
         }
     }
@@ -361,9 +378,11 @@ public class PlayActivity extends BaseActivity {
         }
         if (playAd != null) {
             playAd.recycler();
+            playAd = null;
         }
         if (pauseAd != null) {
             pauseAd.recycler();
+            pauseAd = null;
         }
     }
 
@@ -382,7 +401,7 @@ public class PlayActivity extends BaseActivity {
                 }
                 mController.a(i);
             } else if (keyCode == 23 || keyCode == 85 || keyCode == 7 || keyCode == KeyEvent.KEYCODE_ENTER) {
-                if (mVideoView.isPlaying()) {
+                if (mVideoView.isPlaying() && playAd != null) {
                     playAd.showAd();
                 }
                 mController.d();

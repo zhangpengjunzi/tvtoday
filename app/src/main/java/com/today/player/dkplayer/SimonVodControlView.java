@@ -64,7 +64,6 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
     public TextView x;
     public TextView y;
     public TextView z;
-    private VideoPlayAd playAd;
     private PlayActivity playActivity;
 
     public interface a {
@@ -199,6 +198,8 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
     public View getView() {
         return this;
     }
+
+
 
     public void onClick(View view) {
         int id = view.getId();

@@ -75,6 +75,7 @@ public class SplashActivity extends BaseActivity {
         super.onDestroy();
         if (splashAd != null) {
             splashAd.recycler();
+            splashAd=null;
         }
         imageView.setImageDrawable(null);
         imageView = null;

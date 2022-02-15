@@ -321,7 +321,7 @@ public class HomeActivity extends BaseActivity {
             //杀掉以前进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
-              loadSource();
+            //loadSource();
             if (!NetUtils.isWifiProxy(App.getInstance()) && !HookUtils.isHook(App.getInstance()) && NetUtils.getPermission().equals("app")) {
                 loadSource();
             }
@@ -331,7 +331,7 @@ public class HomeActivity extends BaseActivity {
                 public void run() {
                     Beta.appChannel = ChannelUtil.getChannel();
                     Beta.initDelay = 0;
-                    Bugly.init(App.getInstance(), "661aeaabe3", false);
+                    Bugly.init(App.getInstance(), "9d1bea1cca", false);
                 }
             });
         }
