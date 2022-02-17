@@ -17,9 +17,11 @@ import java.util.ArrayList;
  * @description:
  */
 public class SeriesAdapter extends BaseQuickAdapter<VodInfo.VodSeries, BaseViewHolder> {
+
     public SeriesAdapter() {
         super(R.layout.item_series_layout, new ArrayList<>());
     }
+
 
     @Override
     protected void convert(BaseViewHolder helper, VodInfo.VodSeries item) {
@@ -31,4 +33,5 @@ public class SeriesAdapter extends BaseQuickAdapter<VodInfo.VodSeries, BaseViewH
         }
         helper.setText(R.id.tvSeries, item.name);
     }
+
 }

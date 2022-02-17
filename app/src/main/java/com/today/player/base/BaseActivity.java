@@ -67,6 +67,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void retrySetLoadSir(View view) {
+        if (mLoadService != null) {
+            mLoadService = null;
+            mLoadService = LoadSir.getDefault().register(view, new Callback.OnReloadListener() {
+                @Override
+                public void onReload(View v) {
+
+                }
+            });
+        }
+    }
+
     protected void showLoading() {
         if (mLoadService != null) {
             mLoadService.showCallback(LoadingCallback.class);

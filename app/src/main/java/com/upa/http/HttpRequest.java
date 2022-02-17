@@ -11,12 +11,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
-import com.tencent.bugly.Bugly;
-
-import com.tencent.bugly.CrashModule;
-import com.tencent.bugly.b;
-import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.beta.UpgradeInfo;
 import com.today.player.base.App;
 import com.today.player.event.TopStateEvent;
 import com.today.player.util.ChannelUtil;
@@ -133,23 +127,10 @@ public class HttpRequest {
                             UpdateModel updateModel = null;
                             if (data != null) {
                                 updateModel = new UpdateModel(data);
-                                if (type == 1) {
-                                    updateModel.setType(type);
-                                }
-                                UpdateModel finalUpdateModel = updateModel;
                                 mainHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (Integer.parseInt(finalUpdateModel.getVersion()) > Tools.getVersionCode(context) || type == 1) {
-                                            if (!finalUpdateModel.getDisplay().equals("0") || type == 1) {
-                                                listener.success(finalUpdateModel);
-                                            } else {
-                                                EventBus.getDefault().post(new TopStateEvent(TopStateEvent.REFRESH_UPDATE));
-                                            }
-                                        } else {
-                                            EventBus.getDefault().post(new TopStateEvent(TopStateEvent.REFRESH_UPDATE));
-                                            listener.keep();
-                                        }
+                                        listener.keep();
                                     }
                                 });
                             }

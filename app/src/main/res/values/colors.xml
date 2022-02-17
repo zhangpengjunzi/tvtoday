@@ -27,6 +27,6 @@
     <color name="pb_blue">#ffff9800</color>
 
     <color name="white">#ffffffff</color>
-
+    <color name="colorTransparent_15">#00000000</color>
     <color name="black">#ff000000</color>
 </resources>

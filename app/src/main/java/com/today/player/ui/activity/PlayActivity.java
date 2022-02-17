@@ -94,7 +94,9 @@ public class PlayActivity extends BaseActivity {
         playAd.setListener(new VideoAdListener() {
             @Override
             public void onLoaded() {
-                playAd.setReady(true);
+                if (playAd != null) {
+                    playAd.setReady(true);
+                }
             }
 
             @Override
@@ -153,8 +155,10 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                showSuccess();
-                playSet();
+                if (pauseAd != null && !isFinishing()) {
+                    showSuccess();
+                    playSet();
+                }
             }
 
             @Override
@@ -232,10 +236,11 @@ public class PlayActivity extends BaseActivity {
 
     private void next() {
         if (mVodInfo != null && mVodInfo.seriesMap != null) {
-            if (++mVodInfo.playIndex >= mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).size()) {
+            if ((mVodInfo.playIndex + 1) >= mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).size()) {
                 Toast.makeText(mContext, "已经是最后1集", Toast.LENGTH_SHORT).show();
             } else {
-                if(pauseAd!=null){
+                mVodInfo.playIndex++;
+                if (pauseAd != null) {
                     pauseAd.loadAd(getContent());
                 }
             }
@@ -244,10 +249,11 @@ public class PlayActivity extends BaseActivity {
 
     private void pre() {
         if (mVodInfo != null && mVodInfo.seriesMap != null) {
-            if (--mVodInfo.playIndex < 0) {
+            if ((mVodInfo.playIndex - 1) < 0) {
                 Toast.makeText(mContext, "已经是第1集", Toast.LENGTH_SHORT).show();
             } else {
-                if(pauseAd!=null){
+                mVodInfo.playIndex--;
+                if (pauseAd != null) {
                     pauseAd.loadAd(getContent());
                 }
             }
@@ -282,7 +288,9 @@ public class PlayActivity extends BaseActivity {
         sb.append(mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).get(mVodInfo.playIndex).name);
         mController.a(sb.toString());
         f();
-        videoAnalysis = new VideoAnalysis();
+        if (videoAnalysis == null) {
+            videoAnalysis = new VideoAnalysis();
+        }
         videoAnalysis.a(this, new a());
         Dialog dialog = videoAnalysis.b;
         if (dialog != null && !dialog.isShowing()) {
@@ -302,7 +310,9 @@ public class PlayActivity extends BaseActivity {
                 Dialog dialog = videoAnalysis.b;
                 if (dialog != null && dialog.isShowing()) {
                     videoAnalysis.b.dismiss();
+                    videoAnalysis.b = null;
                 }
+                videoAnalysis = null;
             } catch (Throwable th) {
             }
         }
@@ -315,8 +325,8 @@ public class PlayActivity extends BaseActivity {
 
         @Override
         public void finish() {
-            PlayActivity.this.finish();
             PlayActivity.this.f();
+            PlayActivity.this.finish();
         }
     }
 
@@ -375,6 +385,7 @@ public class PlayActivity extends BaseActivity {
         super.onDestroy();
         if (mVideoView != null) {
             mVideoView.release();
+            mVideoView = null;
         }
         if (playAd != null) {
             playAd.recycler();
@@ -468,7 +479,9 @@ public class PlayActivity extends BaseActivity {
                                     DownloadManager.getInstance().setCurrentPlayerUrl(jSONObject.optString("From_Url", ""));
                                     PlayActivity.this.runOnUiThread(new Runnable() {
                                         public void run() {
-                                            videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
+                                            if (videoAnalysis != null) {
+                                                videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
+                                            }
                                         }
                                     });
                                     break;
@@ -482,7 +495,9 @@ public class PlayActivity extends BaseActivity {
                 if (!isPlay) {
                     PlayActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
-                            videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
+                            if (videoAnalysis != null) {
+                                videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
+                            }
                         }
                     });
                 }

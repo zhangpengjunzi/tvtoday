@@ -43,7 +43,7 @@ class InstallUtil private constructor() {
     fun isAppInstalled(pkgName: String?): Boolean {
         val pm: PackageManager = App.getInstance().getPackageManager()
         return try {
-            pm.getApplicationInfo(pkgName, 0).enabled
+            pm.getApplicationInfo(pkgName!!, 0).enabled
         } catch (e: PackageManager.NameNotFoundException) {
             false
         }

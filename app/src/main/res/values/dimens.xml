@@ -6,4 +6,9 @@
     <dimen name="dkplayer_controller_text_size">16sp</dimen>
     <dimen name="dkplayer_controller_time_text_size">14sp</dimen>
     <dimen name="dkplayer_controller_seekbar_size_n">14dp</dimen>
+
+    <dimen name="interaction_width">800pt</dimen>
+    <dimen name="interaction_height">400pt</dimen>
+    <dimen name="interaction_close">50pt</dimen>
+    <dimen name="ad_image_close">80pt</dimen>
 </resources>

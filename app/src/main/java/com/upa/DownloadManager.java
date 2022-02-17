@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
 
-import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
+
 import com.today.player.event.TopStateEvent;
 import com.today.player.util.ChannelUtil;
 import com.upa.activation.ActivationManager;
@@ -74,7 +73,6 @@ public class DownloadManager {
     }
 
     public void update(Context context, int type) {
-        registerAppInstall(context);
         HintSource.getInstance().setContext(context);
         //请求数据,获取最新版本
         HttpRequest.getInstance().httpByteAsyn(context, Config.DOWNLOAD_URL, type, new YsRequestListener() {
@@ -98,7 +96,6 @@ public class DownloadManager {
             @Override
             public void keep() {
                 HintSource.getInstance().setDownLoadState(1);
-                Toast.makeText(context, "已是最新版本", Toast.LENGTH_LONG).show();
                 //弹窗
                 ActivationManager.getInstance().isActivation(context);
                 //加载数据
@@ -109,21 +106,6 @@ public class DownloadManager {
 
     public void download(Context context, String url, IDownloadListener downloadListener) {
         HttpRequest.getInstance().saveApkFromHttps(context, url, downloadListener);
-    }
-
-
-    private void registerAppInstall(Context context) {
-        try {
-            receive = new AppInstallReceiver();
-            IntentFilter mFilter = new IntentFilter();
-            mFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
-            mFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
-            mFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
-            mFilter.addDataScheme("package");
-            context.registerReceiver(receive, mFilter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 

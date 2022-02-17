@@ -272,7 +272,7 @@ public class LivePlayActivity extends BaseActivity {
                 PlayerModel.LiveDTO qgVar2 = this.k;
                 qgVar2.sourceIdx++;
                 a(qgVar2, true);
-            } else if (((keyCode != 7) && keyCode != 23 && keyCode != 85) || this.g.getVisibility() != View.INVISIBLE) {
+            } else if (((keyCode != 7) && keyCode != 23 && keyCode != 85 && keyCode != KeyEvent.KEYCODE_ENTER) || this.g.getVisibility() != View.INVISIBLE) {
                 if (this.g.getVisibility() == View.INVISIBLE) {
                     switch (keyCode) {
                         case 7:

@@ -72,6 +72,15 @@ public class GridFragment extends BaseLazyFragment {
         mGridView.setHasFixedSize(true);
         gridAdapter = new GridAdapter();
         mGridView.setAdapter(gridAdapter);
+       /* mGridView.setOnInBorderKeyEventListener(new TvRecyclerView.OnInBorderKeyEventListener() {
+            @Override
+            public boolean onInBorderKeyEvent(int direction, View focused) {
+                if (direction == 33) {
+                    EventBus.getDefault().post(new TopStateEvent(TopStateEvent.TYPE_TOP));
+                }
+                return false;
+            }
+        });*/
         mGridView.setLayoutManager(new V7GridLayoutManager(mContext, 5));
         mGridView.setOnItemListener(new TvRecyclerView.OnItemListener() {
             @Override

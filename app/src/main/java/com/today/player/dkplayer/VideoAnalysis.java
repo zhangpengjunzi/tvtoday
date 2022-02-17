@@ -29,8 +29,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
-import com.tencent.bugly.proguard.j;
-import com.tencent.bugly.proguard.l;
+
 import com.today.player.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.bean.PlayerModel;
@@ -116,6 +115,7 @@ public class VideoAnalysis {
             }
             if (i != null) {
                 i.removeCallbacksAndMessages(null);
+                i = null;
             }
         }
     }
@@ -328,11 +328,13 @@ public class VideoAnalysis {
                 e.requestFocus();
             }
         }, 200);
-        i.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(mContext, "解析失败，请切换其他线路解析", Toast.LENGTH_LONG).show();
-            }
-        }, 30000);
+        i.postDelayed(fail, 30000);
     }
+
+    private final Runnable fail = new Runnable() {
+        @Override
+        public void run() {
+            Toast.makeText(mContext, "解析失败，请切换其他线路解析", Toast.LENGTH_LONG).show();
+        }
+    };
 }
