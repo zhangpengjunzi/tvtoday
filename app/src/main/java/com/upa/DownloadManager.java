@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.today.player.event.TopStateEvent;
+import com.today.player.report.AliReportManager;
 import com.today.player.util.ChannelUtil;
 import com.upa.activation.ActivationManager;
 import com.upa.http.HttpRequest;
@@ -45,6 +46,7 @@ public class DownloadManager {
     private String store = "0";
 
     private String surl;
+
 
     public boolean getStore() {
         if (store.equals("1")) {
@@ -182,4 +184,5 @@ public class DownloadManager {
     public void setPlayEnd(String playEnd) {
         this.playEnd = playEnd;
     }
+
 }

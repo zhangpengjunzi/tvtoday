@@ -122,4 +122,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());
         return super.getResources();
     }
+
+    protected void retrySetLoadSir(View view) {
+        if (mLoadService != null) {
+            mLoadService = null;
+            mLoadService = LoadSir.getDefault().register(view, new Callback.OnReloadListener() {
+                @Override
+                public void onReload(View v) {
+
+                }
+            });
+        }
+    }
 }

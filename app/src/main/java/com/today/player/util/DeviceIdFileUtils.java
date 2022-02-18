@@ -48,6 +48,7 @@ public class DeviceIdFileUtils {
 
     public void write(String content) {
         try {
+
             //如果手机插入了SD卡，而且应用程序具有访问SD的权限
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 FileOutputStream fos = new FileOutputStream(new File(getSdPath(), fileName));

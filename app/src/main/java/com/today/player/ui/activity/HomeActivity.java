@@ -172,6 +172,10 @@ public class HomeActivity extends BaseActivity {
         mGridView.setOnInBorderKeyEventListener(new TvRecyclerView.OnInBorderKeyEventListener() {
             @Override
             public boolean onInBorderKeyEvent(int i, View view) {
+                if (i == 33) {
+                    changeTop(false);
+                    return false;
+                }
                 if (i != 130) {
                     return false;
                 }
@@ -322,7 +326,7 @@ public class HomeActivity extends BaseActivity {
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
             //loadSource();
-            if (!NetUtils.isWifiProxy(App.getInstance()) && !HookUtils.isHook(App.getInstance()) && NetUtils.getPermission().equals("app")) {
+            if (!NetUtils.isWifiProxy(App.getInstance())) {
                 loadSource();
             }
         } else if (event.type == TopStateEvent.REFRESH_UPDATE) {

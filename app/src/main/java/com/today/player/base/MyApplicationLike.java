@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.DisplayMetrics;
 
 import androidx.multidex.MultiDex;
 
@@ -61,7 +62,6 @@ public class MyApplicationLike extends DefaultApplicationLike {
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
 
         jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(getApplication(), ChannelUtil.BASE_CHANNEL);
-
     }
 
 

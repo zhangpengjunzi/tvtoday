@@ -147,17 +147,10 @@ class RecommendActivity : BaseActivity(), RecommendListAdapter.onRecommendItemCl
     }
 
     private fun getDeviceType() {
-        val uiModeManager = getSystemService(UI_MODE_SERVICE) as UiModeManager
-        if (uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION) {
-            LogUtil.d("Running on a TV Device")
+        if (ChannelUtil.getDeviceTypeNumber().equals("1")) {
             deviceType = 1
         } else {
-            LogUtil.d("Running on a non-TV Device")
-            if (Build.VERSION.SDK_INT > 23) {
-                deviceType = 2
-            } else {
-                deviceType = 1
-            }
+            deviceType = 2
         }
     }
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="false"
+    tools:context="com.bt.jrsdk.activity.SplashAdActivity">
+
+    <ImageView
+        android:id="@+id/img_splash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_jump"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10pt"
+        android:layout_marginRight="10pt"
+        android:background="@drawable/shape_jump"
+        android:gravity="center"
+        android:textSize="18pt"
+        android:minWidth="120pt"
+        android:minHeight="50pt" />
+
+    <ImageView
+        android:id="@+id/img_video_close"
+        android:layout_width="@dimen/ad_image_close"
+        android:layout_height="@dimen/ad_image_close"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10pt"
+        android:layout_marginEnd="10pt"
+        android:alpha="0.6"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -77,8 +78,6 @@ public class DetailActivity extends BaseActivity {
     private VodInfo vodInfo;
     private SeriesAdapter seriesAdapter;
     private SourceFromAdapter sourceFromAdapter;
-    private int playIndex = -1;
-    private int playFlag = -1;
     private String sourceUrl;
     private String sourceKey;
     private int id;
@@ -146,10 +145,27 @@ public class DetailActivity extends BaseActivity {
                         if (i == j) {
                             vodInfo.fromList.get(j).selected = true;
                             vodInfo.playFlag = i;
-                            seriesAdapter.getData().get(vodInfo.playIndex).selected = false;
-                            seriesAdapter.setNewData(vodInfo.seriesMap.get(vodInfo.fromList.get(j).name));
-                            seriesAdapter.getData().get(vodInfo.playIndex).selected = true;
-                            seriesAdapter.notifyItemChanged(vodInfo.playIndex);
+                            List<VodInfo.VodSeries> seriesList = vodInfo.seriesMap.get(vodInfo.fromList.get(j).name);
+                            if (seriesList != null && seriesList.size() > 0) {
+                                boolean isSelected = false;
+                                for (int k = 0; k < seriesList.size(); k++) {
+                                    if (seriesList.get(k).selected) {
+                                        isSelected = true;
+                                        vodInfo.playIndex = k;
+                                        break;
+                                    }
+                                }
+                                showSuccess();
+                                seriesAdapter.setNewData(seriesList);
+                                if (!isSelected) {
+                                    vodInfo.playIndex = 0;
+                                }
+                                vodInfo.seriesMap.get(vodInfo.fromList.get(j).name).get(vodInfo.playIndex).selected = true;
+                                seriesAdapter.getData().get(vodInfo.playIndex).selected = true;
+                                seriesAdapter.notifyItemChanged(vodInfo.playIndex);
+                            } else {
+                                showEmpty();
+                            }
                         } else {
                             vodInfo.fromList.get(j).selected = false;
                         }
@@ -165,10 +181,12 @@ public class DetailActivity extends BaseActivity {
                 if (vodInfo != null) {
                     if (vodInfo.playIndex != position) {
                         seriesAdapter.getData().get(vodInfo.playIndex).selected = false;
+                        vodInfo.seriesMap.get(vodInfo.fromList.get(vodInfo.playFlag).name).get(vodInfo.playIndex).selected = false;
                         seriesAdapter.notifyItemChanged(vodInfo.playIndex);
                         seriesAdapter.getData().get(position).selected = true;
                         seriesAdapter.notifyItemChanged(position);
                         vodInfo.playIndex = position;
+                        vodInfo.seriesMap.get(vodInfo.fromList.get(vodInfo.playFlag).name).get(vodInfo.playIndex).selected = true;
                     }
                     //保存历史
                     insertVod(sourceUrl, vodInfo);
@@ -180,6 +198,7 @@ public class DetailActivity extends BaseActivity {
             }
         });
 
+
         tvQuickSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +208,6 @@ public class DetailActivity extends BaseActivity {
                     title = mVideo.name;
                     quickSearch();
                 }
-
             }
         });
         setLoadSir(llLayout);
@@ -211,12 +229,24 @@ public class DetailActivity extends BaseActivity {
                     }
                     vodInfo.setVideo(mVideo);
                     if (vodInfo.fromList != null && vodInfo.fromList.size() > 0) {
+                        retrySetLoadSir(mGridView);
+                        if (vodInfo.playFlag == vodInfo.fromList.size()) {
+                            vodInfo.playFlag = vodInfo.fromList.size() - 1;
+                        }
                         vodInfo.fromList.get(vodInfo.playFlag).selected = true;
-                        List<VodInfo.VodSeries> seriesList = vodInfo.seriesMap.get(vodInfo.fromList.get(vodInfo.playFlag).name);
-                        seriesList.get(vodInfo.playIndex).selected = true;
-                        seriesAdapter.setNewData(seriesList);
                         sourceFromAdapter.setNewData(vodInfo.fromList);
-                        mGridView.scrollToPosition(vodInfo.playIndex);
+                        List<VodInfo.VodSeries> seriesList = vodInfo.seriesMap.get(vodInfo.fromList.get(vodInfo.playFlag).name);
+                        if (seriesList != null && seriesList.size() > 0) {
+                            showSuccess();
+                            if (vodInfo.playIndex == seriesList.size()) {
+                                vodInfo.playIndex = seriesList.size() - 1;
+                            }
+                            seriesList.get(vodInfo.playIndex).selected = true;
+                            seriesAdapter.setNewData(seriesList);
+                            mGridView.scrollToPosition(vodInfo.playIndex);
+                        } else {
+                            showEmpty();
+                        }
                     }
                     tvName.setText(mVideo.name);
                     tvSite.setText(mVideo.sourceKey);
@@ -305,6 +335,9 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (vodInfo != null) {
+            insertVod(sourceUrl, vodInfo);
+        }
         EventBus.getDefault().unregister(this);
     }
 
