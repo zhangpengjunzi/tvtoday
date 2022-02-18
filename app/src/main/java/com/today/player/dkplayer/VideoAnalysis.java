@@ -1,5 +1,6 @@
 package com.today.player.dkplayer;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -274,7 +275,23 @@ public class VideoAnalysis {
         }
 
         public void onReceivedSslError(WebView webView, SslErrorHandler sslErrorHandler, SslError sslError) {
-            sslErrorHandler.proceed();
+            if (mContext == null) return;
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setMessage("SSL证书验证失败");
+            builder.setPositiveButton("continue", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    sslErrorHandler.proceed();
+                }
+            });
+            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    sslErrorHandler.cancel();
+                }
+            });
+            final AlertDialog dialog = builder.create();
+            dialog.show();
         }
 
         public WebResourceResponse shouldInterceptRequest(WebView webView, String str) {

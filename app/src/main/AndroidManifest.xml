@@ -62,10 +62,7 @@
             android:name=".ui.activity.PlayActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".ui.activity.PraseActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.activity.ProjectionPlayActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

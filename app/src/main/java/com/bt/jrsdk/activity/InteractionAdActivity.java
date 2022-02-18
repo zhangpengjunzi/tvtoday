@@ -57,7 +57,7 @@ public class InteractionAdActivity extends BaseActivity {
         imgAd = findViewById(R.id.img_interaction);
         back_interaction = findViewById(R.id.back_interaction);
         imgAd.setImageBitmap(pic);
-        if (!Utils.getDeviceType(this).equals("1")) {
+        if (!Utils.getDeviceType().equals("1")) {
             imgClose = findViewById(R.id.img_video_close);
             imgClose.setVisibility(View.VISIBLE);
             imgClose.setImageResource(R.drawable.close);
@@ -128,13 +128,11 @@ public class InteractionAdActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (Utils.getDeviceType(this).equals("1")) {
-            if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
-                AdListenerManager.getInstance().getVideoListener(pid).onClose();
-                AdListenerManager.getInstance().getVideoListener(pid).onFinish();
-            }
-            super.onBackPressed();
+        if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
+            AdListenerManager.getInstance().getVideoListener(pid).onClose();
+            AdListenerManager.getInstance().getVideoListener(pid).onFinish();
         }
+        super.onBackPressed();
     }
 
 

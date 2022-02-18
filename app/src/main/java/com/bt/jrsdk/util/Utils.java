@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 
 import com.bt.jrsdk.manager.AdStartManager;
+import com.today.player.util.ChannelUtil;
 
 import java.util.logging.Logger;
 
@@ -41,21 +42,8 @@ public class Utils {
     }
 
 
-    public static String getDeviceType(Context context) {
-        if (context != null) {
-            UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
-            if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
-                return "1";
-            } else {
-                if (Build.VERSION.SDK_INT > 23) {
-                    return "2";
-                } else {
-                    return "1";
-                }
-            }
-        } else {
-            return "0";
-        }
+    public static String getDeviceType() {
+       return ChannelUtil.getDeviceTypeNumber();
     }
 
 }

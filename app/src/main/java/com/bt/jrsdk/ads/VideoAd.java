@@ -50,7 +50,7 @@ public class VideoAd extends BaseAd {
         Map<String, Object> params = new HashMap<>();
         params.put("ad_type", AdType.AD_INTERACTION);
         params.put("uid", AdStartManager.uid);
-        params.put("device_type", Utils.getDeviceType(getActivity()));
+        params.put("device_type", Utils.getDeviceType());
         params.put("package", "com.today.player.gp");
         params.put("pid", pid);
         RequestClient request = new RequestClient.Builder()

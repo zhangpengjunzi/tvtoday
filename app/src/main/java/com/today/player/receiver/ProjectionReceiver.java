@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.today.player.ui.activity.PraseActivity;
 import com.today.player.ui.activity.ProjectionPlayActivity;
 import com.today.player.util.AppManager;
 

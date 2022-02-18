@@ -325,7 +325,7 @@ public class HomeActivity extends BaseActivity {
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
             //loadSource();
-            if (!NetUtils.isWifiProxy(App.getInstance()) && !HookUtils.isHook(App.getInstance()) && NetUtils.getPermission().equals("app")) {
+            if (!NetUtils.isWifiProxy(App.getInstance())) {
                 loadSource();
             }
         }

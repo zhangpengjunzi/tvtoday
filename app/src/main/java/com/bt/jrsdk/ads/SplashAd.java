@@ -50,7 +50,7 @@ public class SplashAd extends BaseAd {
         // https://api.16888.one/getAds
         Map<String, Object> params = new HashMap<>();
         params.put("ad_type", ad_type);
-        params.put("device_type", Utils.getDeviceType(getActivity()));
+        params.put("device_type", Utils.getDeviceType());
         params.put("uid", AdStartManager.uid);
         params.put("package", "com.today.player.gp");
         params.put("pid", pid);

@@ -145,7 +145,7 @@ public class VideoActivity extends BaseActivity {
         video = findViewById(R.id.video_ad);
         cover = findViewById(R.id.img_video_cover);
         cover.setImageBitmap(pic);
-        if (!Utils.getDeviceType(this).equals("1")) {
+        if (!Utils.getDeviceType().equals("1")) {
             imgClose = findViewById(R.id.img_video_close);
             imgClose.setVisibility(View.VISIBLE);
             imgClose.setImageResource(R.drawable.close);
@@ -173,15 +173,13 @@ public class VideoActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (Utils.getDeviceType(this).equals("1")) {
-            if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
-                AdListenerManager.getInstance().getVideoListener(pid).onClose();
-                if (isFinish) {
-                    AdListenerManager.getInstance().getVideoListener(pid).onFinish();
-                }
+        if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
+            AdListenerManager.getInstance().getVideoListener(pid).onClose();
+            if (isFinish) {
+                AdListenerManager.getInstance().getVideoListener(pid).onFinish();
             }
-            super.onBackPressed();
         }
+        super.onBackPressed();
     }
 
     @Override
