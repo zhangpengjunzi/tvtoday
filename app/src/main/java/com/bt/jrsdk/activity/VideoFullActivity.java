@@ -178,8 +178,8 @@ public class VideoFullActivity extends BaseActivity {
         cover = findViewById(R.id.img_video_cover);
         tv_jump = findViewById(R.id.tv_jump);
         cover.setImageBitmap(pic);
+        close = findViewById(R.id.img_video_close);
         if (!Utils.getDeviceType().equals("1")) {
-            close = findViewById(R.id.img_video_close);
             close.setImageResource(R.drawable.close);
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -200,7 +200,7 @@ public class VideoFullActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (Utils.getDeviceType().equals("1") && tv_jump.getText().toString().equals("按返回键关闭")) {
+        if (close.getVisibility() == View.VISIBLE || tv_jump.getText().toString().equals("按返回键关闭")) {
             if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
                 AdListenerManager.getInstance().getSplashListener(pid).onClose();
                 AdListenerManager.getInstance().getSplashListener(pid).onFinish();

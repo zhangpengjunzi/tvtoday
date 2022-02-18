@@ -71,12 +71,12 @@ public class SplashAdActivity extends BaseActivity {
         imgAd = findViewById(R.id.img_splash);
         tvCountDown.setText(adInfo.getCountDown() + " 秒跳过");
         imgAd.setImageBitmap(pic);
+        imgClose = findViewById(R.id.img_video_close);
         if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
             AdListenerManager.getInstance().getSplashListener(pid).onShow();
         }
 
         if (!Utils.getDeviceType().equals("1")) {
-            imgClose = findViewById(R.id.img_video_close);
             imgClose.setImageResource(R.drawable.close);
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -188,7 +188,7 @@ public class SplashAdActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (Utils.getDeviceType().equals("1") && tvCountDown.getText().toString().equals("按返回键关闭")) {
+        if (imgClose.getVisibility() == View.VISIBLE || tvCountDown.getText().toString().equals("按返回键关闭")) {
             if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
                 AdListenerManager.getInstance().getSplashListener(pid).onClose();
                 AdListenerManager.getInstance().getSplashListener(pid).onFinish();

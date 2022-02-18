@@ -173,15 +173,13 @@ public class VideoActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (Utils.getDeviceType().equals("1")) {
-            if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
-                AdListenerManager.getInstance().getVideoListener(pid).onClose();
-                if (isFinish) {
-                    AdListenerManager.getInstance().getVideoListener(pid).onFinish();
-                }
+        if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
+            AdListenerManager.getInstance().getVideoListener(pid).onClose();
+            if (isFinish) {
+                AdListenerManager.getInstance().getVideoListener(pid).onFinish();
             }
-            super.onBackPressed();
         }
+        super.onBackPressed();
     }
 
     @Override
