@@ -238,7 +238,7 @@ public class DetailActivity extends BaseActivity {
                         List<VodInfo.VodSeries> seriesList = vodInfo.seriesMap.get(vodInfo.fromList.get(vodInfo.playFlag).name);
                         if (seriesList != null && seriesList.size() > 0) {
                             showSuccess();
-                            if (vodInfo.playIndex == seriesList.size()) {
+                            if (vodInfo.playIndex >= seriesList.size()) {
                                 vodInfo.playIndex = seriesList.size() - 1;
                             }
                             seriesList.get(vodInfo.playIndex).selected = true;
