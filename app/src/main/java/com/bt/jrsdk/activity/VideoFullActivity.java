@@ -65,7 +65,7 @@ public class VideoFullActivity extends BaseActivity {
     private void initVideo() {
         video.setScreenScaleType(VideoView.SCREEN_SCALE_MATCH_PARENT);
         video.setUrl(adInfo.getVideoUrl());
-        PlayUtils.a(video, null);
+        PlayUtils.a(video);
         video.release();
         if (!video.isPlaying()) {
             video.start();

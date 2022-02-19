@@ -41,8 +41,13 @@ public class ChannelUtil {
             report(3);
             return "_TV";
         } else {
-            report(4);
-            return "_Phone";
+            if (Build.VERSION.SDK_INT > 23) {
+                report(4);
+                return "_Phone";
+            } else {
+                report(5);
+                return "_TV";
+            }
         }
     }
 
@@ -58,7 +63,11 @@ public class ChannelUtil {
         if (uiModeManager.getCurrentModeType() != Configuration.UI_MODE_TYPE_TELEVISION && checkBatteryIsTV()) {
             return "1";
         } else {
-            return "2";
+            if (Build.VERSION.SDK_INT > 23) {
+                return "2";
+            } else {
+                return "1";
+            }
         }
     }
 

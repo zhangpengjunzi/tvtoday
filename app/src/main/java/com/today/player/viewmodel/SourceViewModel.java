@@ -49,6 +49,7 @@ public class SourceViewModel extends ViewModel {
     }
 
     public void getSort() {
+        if (ApiConfig.get().getDefaultSourceBean() == null) return;
         OkGo.<String>get(ApiConfig.get().getBaseUrl())
                 .tag(ApiConfig.get().getBaseUrl())
                 .execute(new AbsCallback<String>() {
@@ -82,6 +83,7 @@ public class SourceViewModel extends ViewModel {
     }
 
     public void getList(int id, int page) {
+        if (ApiConfig.get().getDefaultSourceBean() == null) return;
         OkGo.<String>get(ApiConfig.get().getBaseUrl())
                 .tag(ApiConfig.get().getBaseUrl())
                 .params("ac", "videolist")
@@ -135,7 +137,8 @@ public class SourceViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String xml = response.body();
-                        if (ApiConfig.get().getDefaultSourceBean().getType() == 0) {
+                        int type = ApiConfig.get().getSource(sourceName).getType();
+                        if (type == 0) {
                             //xml解析
                             xml(searchResult, xml, api, sourceName);
                         } else {
@@ -171,7 +174,8 @@ public class SourceViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String xml = response.body();
-                        if (ApiConfig.get().getDefaultSourceBean().getType() == 0) {
+                        int type = ApiConfig.get().getSource(key).getType();
+                        if (type == 0) {
                             //xml解析
                             xml(detailResult, xml, api, key);
                         } else {

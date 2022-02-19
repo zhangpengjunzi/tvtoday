@@ -35,11 +35,9 @@ public class DownloadManager {
 
     private String codeUrl;
 
-    private String play;
+    private String playKey;
 
-    private String playStart;
-
-    private String playEnd;
+    private String playFlag;
 
     private List<String> ads = new ArrayList<>();
 
@@ -162,27 +160,18 @@ public class DownloadManager {
     }
 
     public String getPlay() {
-        return play;
+        return playKey;
     }
 
     public void setPlay(String play) {
-        this.play = play;
+        this.playKey = play;
     }
 
-    public String getPlayStart() {
-        return playStart;
+    public String getPlayFlag() {
+        return playFlag;
     }
 
-    public void setPlayStart(String playStart) {
-        this.playStart = playStart;
+    public void setPlayFlag(String playFlag) {
+        this.playFlag = playFlag;
     }
-
-    public String getPlayEnd() {
-        return playEnd;
-    }
-
-    public void setPlayEnd(String playEnd) {
-        this.playEnd = playEnd;
-    }
-
 }

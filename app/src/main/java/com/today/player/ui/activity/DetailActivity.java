@@ -220,6 +220,7 @@ public class DetailActivity extends BaseActivity {
             public void onChanged(AbsXml absXml) {
                 if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                     showSuccess();
+                    sourceUrl=absXml.api;
                     mVideo = absXml.movie.videoList.get(0);
                     vodInfo = new VodInfo();
                     VodInfo localVod = RoomDataManger.getVodInfo(sourceUrl, id);
@@ -238,7 +239,7 @@ public class DetailActivity extends BaseActivity {
                         List<VodInfo.VodSeries> seriesList = vodInfo.seriesMap.get(vodInfo.fromList.get(vodInfo.playFlag).name);
                         if (seriesList != null && seriesList.size() > 0) {
                             showSuccess();
-                            if (vodInfo.playIndex == seriesList.size()) {
+                            if (vodInfo.playIndex >= seriesList.size()) {
                                 vodInfo.playIndex = seriesList.size() - 1;
                             }
                             seriesList.get(vodInfo.playIndex).selected = true;

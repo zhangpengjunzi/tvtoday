@@ -23,6 +23,7 @@ import com.today.player.util.AdBlocker;
 import com.today.player.util.ChannelUtil;
 import com.today.player.util.HawkConfig;
 import com.today.player.util.LogUtil;
+import com.today.player.util.ProgressManagerImpl;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
@@ -30,6 +31,12 @@ import java.util.Locale;
 
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
+import xyz.doikki.videoplayer.exo.ExoMediaPlayer;
+import xyz.doikki.videoplayer.ijk.IjkPlayer;
+import xyz.doikki.videoplayer.player.PlayerFactory;
+import xyz.doikki.videoplayer.player.VideoView;
+import xyz.doikki.videoplayer.player.VideoViewConfig;
+import xyz.doikki.videoplayer.player.VideoViewManager;
 
 public class MyApplicationLike extends DefaultApplicationLike {
     public MyApplicationLike(Application application, int tinkerFlags, boolean tinkerLoadVerifyFlag, long applicationStartElapsedTime, long applicationStartMillisTime, Intent tinkerResultIntent) {
@@ -100,6 +107,7 @@ public class MyApplicationLike extends DefaultApplicationLike {
         if (!Hawk.contains(HawkConfig.PLAY_TYPE)) {
             Hawk.put(HawkConfig.PLAY_TYPE, 1);
         }
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setProgressManager(new ProgressManagerImpl()).build());
     }
 
 

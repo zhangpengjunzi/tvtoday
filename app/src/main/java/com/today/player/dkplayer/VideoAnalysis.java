@@ -37,6 +37,7 @@ import com.today.player.bean.PlayerModel;
 import com.today.player.ui.activity.PlayActivity;
 import com.today.player.ui.adapter.PraseAdapter;
 import com.today.player.util.FastClickCheckUtil;
+import com.upa.DownloadManager;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -147,6 +148,7 @@ public class VideoAnalysis {
             this.e = (TvRecyclerView) (a != null ? a.findViewById(R.id.mGridView) : null);
         }
         if (TextUtils.isEmpty(str2) || ApiConfig.get().getParseFlagList().contains(str2)) {
+            DownloadManager.getInstance().setCurrentPlayerUrl(str3);
             e.setVisibility(View.VISIBLE);
             this.f = new PraseAdapter();
             this.e.setAdapter(this.f);

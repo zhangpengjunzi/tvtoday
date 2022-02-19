@@ -27,10 +27,6 @@ public class UpdateModel {
             DownloadManager.getInstance().setCodeUrl(codeUrl);
             play = jsonObject.optString("play", "");
             DownloadManager.getInstance().setPlay(play);
-            playStart = jsonObject.optString("playstart", "");
-            DownloadManager.getInstance().setPlayStart(playStart);
-            playEnd = jsonObject.optString("playend", "");
-            DownloadManager.getInstance().setPlayEnd(playEnd);
             String store = jsonObject.optString("store", "0");
             DownloadManager.getInstance().setStore(store);
             String sUrl = jsonObject.optString("surl");

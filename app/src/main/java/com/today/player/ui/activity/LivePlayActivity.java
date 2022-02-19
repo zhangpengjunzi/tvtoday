@@ -186,7 +186,7 @@ public class LivePlayActivity extends BaseActivity {
     @Override
     public void init() {
         this.c = findViewById(R.id.mVideoView);
-        PlayUtils.a(this.c, null);
+        PlayUtils.a(this.c);
         this.g = findViewById(R.id.mGridView);
         this.f = findViewById(R.id.tvChannel);
         this.d = findViewById(R.id.tvHint);
