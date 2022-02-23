@@ -35,7 +35,7 @@ public class ProjectionPlayActivity extends BaseActivity {
 
     public void init() {
         this.c = findViewById(R.id.mVideoView);
-        PlayUtils.a(this.c, null);
+        PlayUtils.a(this.c);
         SimonVideoController simonVideoController = new SimonVideoController(this);
         simonVideoController.setListener(new SimonVideoController.OnPlayStateChangeListener() {
             @Override

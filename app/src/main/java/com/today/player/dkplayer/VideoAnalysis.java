@@ -37,6 +37,7 @@ import com.today.player.bean.PlayerModel;
 import com.today.player.ui.activity.PlayActivity;
 import com.today.player.ui.adapter.PraseAdapter;
 import com.today.player.util.FastClickCheckUtil;
+import com.upa.DownloadManager;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -116,7 +117,6 @@ public class VideoAnalysis {
             }
             if (i != null) {
                 i.removeCallbacksAndMessages(null);
-                i = null;
             }
         }
     }
@@ -148,6 +148,7 @@ public class VideoAnalysis {
             this.e = (TvRecyclerView) (a != null ? a.findViewById(R.id.mGridView) : null);
         }
         if (TextUtils.isEmpty(str2) || ApiConfig.get().getParseFlagList().contains(str2)) {
+            DownloadManager.getInstance().setCurrentPlayerUrl(str3);
             e.setVisibility(View.VISIBLE);
             this.f = new PraseAdapter();
             this.e.setAdapter(this.f);
@@ -345,13 +346,11 @@ public class VideoAnalysis {
                 e.requestFocus();
             }
         }, 200);
-        i.postDelayed(fail, 30000);
+        i.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(mContext, "解析失败，请切换其他线路解析", Toast.LENGTH_LONG).show();
+            }
+        }, 30000);
     }
-
-    private final Runnable fail = new Runnable() {
-        @Override
-        public void run() {
-            Toast.makeText(mContext, "解析失败，请切换其他线路解析", Toast.LENGTH_LONG).show();
-        }
-    };
 }

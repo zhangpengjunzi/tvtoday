@@ -1,4 +1,4 @@
-package com.upa;
+package com.upa.activation;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,9 @@ import android.widget.Toast;
 
 import com.today.player.event.TopStateEvent;
 
+import com.upa.Config;
+import com.upa.UpdateModel;
 
-import com.upa.activation.ActivationManager;
 import com.upa.http.HttpRequest;
 import com.upa.im.IDownloadListener;
 import com.upa.im.YsRequestListener;

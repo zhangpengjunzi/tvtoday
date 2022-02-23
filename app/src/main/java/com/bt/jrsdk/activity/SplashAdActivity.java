@@ -188,7 +188,7 @@ public class SplashAdActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (tvCountDown.getText().toString().equals("按返回键关闭") || imgClose.getVisibility() == View.VISIBLE) {
+        if (imgClose.getVisibility() == View.VISIBLE || tvCountDown.getText().toString().equals("按返回键关闭")) {
             if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
                 AdListenerManager.getInstance().getSplashListener(pid).onClose();
                 AdListenerManager.getInstance().getSplashListener(pid).onFinish();

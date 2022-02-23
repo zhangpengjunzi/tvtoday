@@ -63,9 +63,9 @@ public class VideoFullActivity extends BaseActivity {
     }
 
     private void initVideo() {
-        video.setScreenScaleType(xyz.doikki.videoplayer.player.VideoView.SCREEN_SCALE_MATCH_PARENT);
+        video.setScreenScaleType(VideoView.SCREEN_SCALE_MATCH_PARENT);
         video.setUrl(adInfo.getVideoUrl());
-        PlayUtils.a(video, null);
+        PlayUtils.a(video);
         video.release();
         if (!video.isPlaying()) {
             video.start();
@@ -200,7 +200,7 @@ public class VideoFullActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (tv_jump.getText().toString().equals("按返回键关闭")||close.getVisibility()==View.VISIBLE) {
+        if (close.getVisibility() == View.VISIBLE || tv_jump.getText().toString().equals("按返回键关闭")) {
             if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
                 AdListenerManager.getInstance().getSplashListener(pid).onClose();
                 AdListenerManager.getInstance().getSplashListener(pid).onFinish();

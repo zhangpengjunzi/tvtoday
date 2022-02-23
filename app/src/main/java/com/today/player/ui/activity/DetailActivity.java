@@ -220,6 +220,7 @@ public class DetailActivity extends BaseActivity {
             public void onChanged(AbsXml absXml) {
                 if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                     showSuccess();
+                    sourceUrl=absXml.api;
                     mVideo = absXml.movie.videoList.get(0);
                     vodInfo = new VodInfo();
                     VodInfo localVod = RoomDataManger.getVodInfo(sourceUrl, id);

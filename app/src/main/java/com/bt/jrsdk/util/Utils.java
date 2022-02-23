@@ -16,7 +16,6 @@ public class Utils {
     private Context context;
 
     private Utils() {
-
     }
 
     public static Utils getInstance() {

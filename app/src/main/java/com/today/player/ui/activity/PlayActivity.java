@@ -195,6 +195,7 @@ public class PlayActivity extends BaseActivity {
 
     private void initView() {
         mVideoView = findViewById(R.id.mVideoView);
+        PlayUtils.a(mVideoView);
         mController = new SimonVideoController(this);
         mController.setListener(new SimonVideoController.OnPlayStateChangeListener() {
             @Override
@@ -266,7 +267,7 @@ public class PlayActivity extends BaseActivity {
             Bundle bundle = intent.getExtras();
             mVodInfo = (VodInfo) bundle.getSerializable("VodInfo");
             sourceKey = bundle.getString("sourceKey");
-            PlayUtils.a(mVideoView, sourceKey);
+            DownloadManager.getInstance().setPlay(sourceKey);
             if (mVodInfo != null && mVodInfo.seriesMap != null) {
                 showLoading();
                 loadVideoAd();
@@ -282,6 +283,7 @@ public class PlayActivity extends BaseActivity {
         }
         EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_REFRESH, mVodInfo.playIndex));
         playUrl = mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).get(mVodInfo.playIndex).url;
+        DownloadManager.getInstance().setPlayFlag(mVodInfo.fromList.get(mVodInfo.playFlag).name);
         StringBuilder sb = new StringBuilder();
         sb.append(mVodInfo.name);
         sb.append(" ");
@@ -298,6 +300,7 @@ public class PlayActivity extends BaseActivity {
         }
         String srcName = DownloadManager.getInstance().getSrcName();
         if (!TextUtils.isEmpty(playUrl) && !TextUtils.isEmpty(srcName) && mVodInfo.sourceKey.equals(srcName)) {
+            DownloadManager.getInstance().setCurrentPlayerUrl(playUrl);
             setUrl();
             return;
         }

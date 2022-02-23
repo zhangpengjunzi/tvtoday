@@ -9,8 +9,8 @@ ext {
             applicationId    : "com.today.player",
     ]
     versions = [
-            versionCode: 27,
-            versionName: "4.5.3",
+            versionCode: 28,
+            versionName: "4.5.4",
     ]
     dependencies = [
             "appcompat"                    : "androidx.appcompat:appcompat:1.2.0",

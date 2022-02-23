@@ -22,7 +22,12 @@ public class VideoTimeUtil {
                 @Override
                 public void run() {
                     if (listener != null) {
-                        listener.currentTime(videoView.getCurrentPosition());
+                        videoView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.currentTime(videoView.getCurrentPosition());
+                            }
+                        });
                     }
                 }
             }, DELAY_TIME, DELAY_TIME);
