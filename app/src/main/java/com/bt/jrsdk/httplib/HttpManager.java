@@ -1,4 +1,5 @@
 package com.bt.jrsdk.httplib;
+
 import com.bt.jrsdk.httplib.config.HttpConfig;
 import com.bt.jrsdk.httplib.iml.IAdapter;
 import com.bt.jrsdk.httplib.iml.ResponseCallback;
@@ -69,7 +70,7 @@ public class HttpManager {
     public void request(String host, String path, Map<String, Object> header, String params, String method, IAdapter adapter, final ResponseCallback callback) {
         try {
             byte[] data = null;
-            LogUtil.d("MAP",params);
+            LogUtil.d("MAP", params);
             URL url = setRequestURL(host, path, params, method);
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             //connection 参数设置
@@ -97,8 +98,10 @@ public class HttpManager {
             adapter.dealStream(connection, callback);
         } catch (SocketTimeoutException socketTimeoutException) {
             socketTimeoutException.printStackTrace();
+            callback.fail("");
         } catch (Exception exception) {
             exception.printStackTrace();
+            callback.fail("");
         } finally {
             if (callback != null) {
                 MainThread.run(new Runnable() {
@@ -110,6 +113,7 @@ public class HttpManager {
             }
         }
     }
+
     private URL setRequestURL(String host, String path, String params, String method) throws MalformedURLException {
         URL url;
         if (method.equals(HttpConfig.METHOD_GET)) {

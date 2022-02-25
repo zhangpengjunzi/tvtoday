@@ -14,6 +14,7 @@ import androidx.core.content.PermissionChecker;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
+import com.lzy.okgo.OkGo;
 import com.today.player.callback.EmptyCallback;
 import com.today.player.callback.LoadingCallback;
 import com.today.player.util.AppManager;
@@ -89,6 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         AppManager.getInstance().finishActivity(this);
+        OkGo.getInstance().cancelAll();
     }
 
     public void jumpActivity(Class<? extends BaseActivity> clazz) {

@@ -5,6 +5,7 @@ import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
@@ -64,6 +65,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -335,9 +337,18 @@ public class HomeActivity extends BaseActivity {
                 public void run() {
                     Beta.appChannel = ChannelUtil.getChannel();
                     Beta.initDelay = 0;
+                    Beta.storageDir = getSdPath();
                     Bugly.init(App.getInstance(), "9d1bea1cca", false);
                 }
             });
+        }
+    }
+
+    private File getSdPath() {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        } else {
+            return Environment.getRootDirectory();
         }
     }
 

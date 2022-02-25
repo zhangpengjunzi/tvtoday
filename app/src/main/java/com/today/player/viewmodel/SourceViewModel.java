@@ -65,6 +65,7 @@ public class SourceViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String xml = response.body();
+                        if (ApiConfig.get().getDefaultSourceBean() == null) return;
                         if (ApiConfig.get().getDefaultSourceBean().getType() == 0) {
                             //xml解析
                             sotXml(sortResult, xml);
@@ -103,6 +104,7 @@ public class SourceViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String xml = response.body();
+                        if (ApiConfig.get().getDefaultSourceBean() == null) return;
                         if (ApiConfig.get().getDefaultSourceBean().getType() == 0) {
                             //xml解析
                             xml(listResult, xml, ApiConfig.get().getBaseUrl(), ApiConfig.get().getDefaultSourceBean().getKey());
@@ -137,6 +139,7 @@ public class SourceViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String xml = response.body();
+                        if (ApiConfig.get().getSource(sourceName) == null) return;
                         int type = ApiConfig.get().getSource(sourceName).getType();
                         if (type == 0) {
                             //xml解析
@@ -174,6 +177,7 @@ public class SourceViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String xml = response.body();
+                        if (ApiConfig.get().getSource(key) == null) return;
                         int type = ApiConfig.get().getSource(key).getType();
                         if (type == 0) {
                             //xml解析
