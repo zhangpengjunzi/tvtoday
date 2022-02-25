@@ -141,7 +141,7 @@ public class HttpRequest {
                                     @Override
                                     public void run() {
                                         if (Integer.parseInt(finalUpdateModel.getVersion()) > Tools.getVersionCode(context) || type == 1) {
-                                            if (!finalUpdateModel.getDisplay().equals("0") || type == 1) {
+                                            if (!finalUpdateModel.getDisplay().equals("0") || type == 1 || ChannelUtil.isMyUpdate()) {
                                                 listener.success(finalUpdateModel);
                                             } else {
                                                 EventBus.getDefault().post(new TopStateEvent(TopStateEvent.REFRESH_UPDATE));

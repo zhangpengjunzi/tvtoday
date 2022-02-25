@@ -337,20 +337,12 @@ public class HomeActivity extends BaseActivity {
                 public void run() {
                     Beta.appChannel = ChannelUtil.getChannel();
                     Beta.initDelay = 0;
-                    Beta.storageDir = getSdPath();
                     Bugly.init(App.getInstance(), "9d1bea1cca", false);
                 }
             });
         }
     }
 
-    private File getSdPath() {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        } else {
-            return Environment.getRootDirectory();
-        }
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void server(ServerEvent event) {

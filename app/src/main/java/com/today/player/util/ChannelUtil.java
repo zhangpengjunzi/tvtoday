@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.util.Log;
 
 import com.bt.jrsdk.manager.AdStartManager;
 import com.today.player.base.App;
@@ -104,6 +105,34 @@ public class ChannelUtil {
             map.put("uid", GetDevicesId.getInstance().getDeviceId());
             AliReportManager manager = new AliReportManager();
             manager.reportPostMap(manager.getPostJson(map));
+        }
+    }
+
+
+    public static boolean isMyUpdate() {
+        if (getDeviceTypeNumber().equals("1")) {
+            String osName = Build.MANUFACTURER;
+            return osName.toUpperCase().equals("HUAWEI");
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 判断当前是否为鸿蒙系统
+     *
+     * @return 是否是鸿蒙系统，是：true，不是：false
+     */
+    private static boolean isHarmonyOs() {
+        try {
+            Class<?> buildExClass = Class.forName("com.huawei.system.BuildEx");
+            Object osBrand = buildExClass.getMethod("getOsBrand").invoke(buildExClass);
+            if (osBrand == null) {
+                return false;
+            }
+            return "harmony".equalsIgnoreCase(osBrand.toString());
+        } catch (Throwable e) {
+            return false;
         }
     }
 }
