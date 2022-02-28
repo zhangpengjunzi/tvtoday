@@ -98,10 +98,21 @@ public class HttpManager {
             adapter.dealStream(connection, callback);
         } catch (SocketTimeoutException socketTimeoutException) {
             socketTimeoutException.printStackTrace();
+            MainThread.run(new Runnable() {
+                @Override
+                public void run() {
+                    callback.fail("");
+                }
+            });
             callback.fail("");
         } catch (Exception exception) {
             exception.printStackTrace();
-            callback.fail("");
+            MainThread.run(new Runnable() {
+                @Override
+                public void run() {
+                    callback.fail("");
+                }
+            });
         } finally {
             if (callback != null) {
                 MainThread.run(new Runnable() {
