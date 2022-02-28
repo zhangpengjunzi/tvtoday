@@ -104,7 +104,6 @@ public class HttpManager {
                     callback.fail("");
                 }
             });
-            callback.fail("");
         } catch (Exception exception) {
             exception.printStackTrace();
             MainThread.run(new Runnable() {
