@@ -1,9 +1,11 @@
 package com.upa;
 
+import com.bt.admanager.AdWeightManager;
 import com.today.player.base.App;
 import com.upa.source.PreferencesUtils;
 import com.upa.source.VideoSource;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -31,6 +33,8 @@ public class UpdateModel {
             DownloadManager.getInstance().setStore(store);
             String sUrl = jsonObject.optString("surl");
             DownloadManager.getInstance().setSurl(sUrl);
+            JSONArray adInfoArray = jsonObject.optJSONArray("adinfo");
+            AdWeightManager.getInstance().setAdInfoArray(adInfoArray);
         } catch (Exception e) {
         }
     }
