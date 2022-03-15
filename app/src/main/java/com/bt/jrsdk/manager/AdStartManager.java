@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 
 import com.bt.jrsdk.util.Utils;
+import com.qq.e.comm.managers.GDTAdSdk;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class AdStartManager {
                     hasInit = true;
                     Utils.getInstance().setContext(context.getApplicationContext());
                     AdStartManager.uid = uid;
+                    GDTAdSdk.init(context, "1200466434");
+
                 }
             }
         }
