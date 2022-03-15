@@ -15,6 +15,7 @@ public class VideoPlayAd {
     private String content;
     private GdtNativeAdPreMovie gdtNativeAdPreMovie;
 
+    //todo 暂时测广点通所以注掉了 VideoAd， 正常情况下需要权重分配
     public VideoPlayAd(Activity activity,String pid) {
 //        ad = new VideoAd(activity, pid);
         LogUtil.d("load video play ad");
