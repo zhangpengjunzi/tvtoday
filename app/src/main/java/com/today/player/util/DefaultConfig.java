@@ -34,6 +34,9 @@ public class DefaultConfig {
 
     public static boolean isContains(String s) {
         boolean contains = false;
+        if (TextUtils.isEmpty(s)) {
+            return true;
+        }
         String[] remove;
         if (!Hawk.get(HawkConfig.ADOLESCENT_MODEL, true)) {
             remove = new String[]{"连续剧", "电影", "剧集"};
