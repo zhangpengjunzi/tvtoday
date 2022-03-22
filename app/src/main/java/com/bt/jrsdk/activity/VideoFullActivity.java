@@ -130,7 +130,7 @@ public class VideoFullActivity extends BaseActivity {
                     }
                     showTime = System.currentTimeMillis();
                     reportClick(event.getRawX(), event.getRawY(), event.getPressure());
-                    VideoTimeUtil.recycler();
+                    //VideoTimeUtil.recycler();
                     go2WebActivity();
                 }
             }

@@ -49,9 +49,7 @@ public abstract class BaseAd {
     public void loadAd(String content) {
         this.content = content;
         loadCurrentAd();
-    }
-
-    ;
+    };
 
     protected abstract void loadCurrentAd();
 
@@ -123,5 +121,6 @@ public abstract class BaseAd {
 
         NetUtil.getInstance().report(reportParams, HttpMethod.GET);
     }
+
 
 }

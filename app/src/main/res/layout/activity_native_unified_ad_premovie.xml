@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bt.jrsdk.activity.NativeADUnifiedPreMovieActivity">
+
+
+    <TextView
+        android:id="@+id/fake_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+
+    <com.qq.e.ads.nativ.widget.NativeAdContainer
+        android:id="@+id/native_ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/custom_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true">
+
+                <!-- 原生广告的视频组件 -->
+                <com.qq.e.ads.nativ.MediaView
+                    android:id="@+id/gdt_media_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#000" />
+
+                <!-- 原生广告的大图 -->
+                <ImageView
+                    android:id="@+id/img_poster"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
+
+                <!-- 原生三小图 -->
+                <LinearLayout
+                    android:id="@+id/native_3img_ad_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <ImageView
+                        android:id="@+id/img_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:id="@+id/img_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:id="@+id/img_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </com.qq.e.ads.nativ.widget.NativeAdContainer>
+
+    <ImageView
+        android:id="@+id/close_button"
+        android:layout_width="@dimen/ad_image_close"
+        android:layout_height="@dimen/ad_image_close"
+        android:layout_alignTop="@id/fake_video_view"
+        android:layout_alignRight="@id/fake_video_view"
+        android:layout_marginTop="10pt"
+        android:layout_marginEnd="10pt"
+        android:src="@drawable/close"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/tv_jump"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/fake_video_view"
+        android:layout_alignRight="@id/fake_video_view"
+        android:layout_marginTop="10pt"
+        android:layout_marginRight="10pt"
+        android:background="@drawable/shape_jump"
+        android:gravity="center"
+        android:minWidth="120pt"
+        android:minHeight="50pt"
+        android:textSize="18pt"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -25,7 +25,6 @@ public class AdStartManager {
                     Utils.getInstance().setContext(context.getApplicationContext());
                     AdStartManager.uid = uid;
                     GDTAdSdk.init(context, "1200466434");
-
                 }
             }
         }

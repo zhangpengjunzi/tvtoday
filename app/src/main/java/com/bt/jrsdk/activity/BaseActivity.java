@@ -8,6 +8,7 @@ import android.net.Uri;
 import com.bt.jrsdk.httplib.config.HttpMethod;
 import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.NetUtil;
+import com.umeng.commonsdk.debug.E;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +56,9 @@ public abstract class BaseActivity extends Activity {
             startPage(webUrl);
             reportAdResult(webUrl, "deeplink");
         } else {
-            if (webUrl.endsWith(".apk")) {
+            goBrowser(webUrl);
+            reportAdResult(webUrl, "goBrowser");
+          /*  if (webUrl.endsWith(".apk")) {
                 startPage(webUrl);
                 reportAdResult(webUrl, "apk_download");
             } else {
@@ -64,7 +67,7 @@ public abstract class BaseActivity extends Activity {
                 intent.putExtra("reqId", reqId);
                 intent.putExtra("ads_id", ads_id);
                 startActivityForResult(intent, REQUEST_CODE);
-            }
+            }*/
         }
     }
 
@@ -109,10 +112,29 @@ public abstract class BaseActivity extends Activity {
     private void startPage(String url) {
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-            reportFinish();
-            onResult();
-            this.finish();
         } catch (Exception e) {
         }
+        reportFinish();
+        onResult();
+        this.finish();
+    }
+
+    private void goBrowser(String url) {
+        try {
+            Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            it.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+            startActivity(it);
+        } catch (Exception e) {
+            try {
+                Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(it);
+            } catch (Exception e1) {
+            }
+        }
+        //reportFinish();
+        //onResult();
+        //this.finish();
     }
 }

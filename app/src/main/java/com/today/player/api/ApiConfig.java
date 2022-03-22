@@ -54,6 +54,7 @@ public class ApiConfig {
     private List<MediaCodeDialog.pg> ijkConfigList;
     private List<String> adsList;
     private List<String> parseFlag;
+    private PlayerModel.TxadDTO txadDTO;
 
     private ApiConfig() {
         sourceBeanList = new ArrayList<>();
@@ -133,6 +134,8 @@ public class ApiConfig {
         adsList = model.getAds();
 
         parseFlag = model.getParseFlag();
+
+        txadDTO = model.getTxad();
     }
 
     private void loadIjkConfigSource(PlayerModel model) {
@@ -286,6 +289,10 @@ public class ApiConfig {
         return filterResult;
     }
 
+    public PlayerModel.TxadDTO getTxad(){
+        return txadDTO;
+    }
+
     public void setDefault(PlayerModel.ParseUrlDTO tgVar) {
         if (this.mParseUrl != null) {
             this.mParseUrl.setDefault(false);
@@ -307,6 +314,7 @@ public class ApiConfig {
             }
         });
     }
+
 
 
 }

@@ -91,8 +91,6 @@ public class InteractionAdActivity extends BaseActivity {
         if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
             AdListenerManager.getInstance().getVideoListener(pid).onShow();
         }
-
-
     }
 
 

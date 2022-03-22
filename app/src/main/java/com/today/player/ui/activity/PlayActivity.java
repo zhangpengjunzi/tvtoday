@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 
+import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
 import com.today.player.R;
@@ -22,6 +23,7 @@ import com.today.player.dkplayer.SimonVideoController;
 import com.today.player.dkplayer.SimonVodControlView;
 import com.today.player.dkplayer.VideoAnalysis;
 import com.today.player.event.RefreshEvent;
+import com.today.player.event.TopStateEvent;
 import com.today.player.ui.weight.GestureView;
 import com.today.player.util.PlayUtils;
 import com.upa.DownloadManager;
@@ -29,6 +31,8 @@ import com.upa.http.HttpRequest;
 import com.upa.http.SSLSocketFactoryCompat;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -143,6 +147,7 @@ public class PlayActivity extends BaseActivity {
             @Override
             public void onShow() {
                 if (pauseAd != null) {
+                    AdWeightManager.getInstance().splashImageCountAdd();
                     showSuccess();
                     pauseAd.setReady(false);
                 }
@@ -320,6 +325,7 @@ public class PlayActivity extends BaseActivity {
             }
         }
     }
+
 
 
     public class a implements VideoAnalysis.j {

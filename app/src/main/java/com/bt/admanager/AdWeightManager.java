@@ -1,5 +1,7 @@
 package com.bt.admanager;
 
+import com.qq.e.ads.nativ.NativeUnifiedADData;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,6 +14,9 @@ import java.util.Random;
 public class AdWeightManager {
     private Map<String, Integer> weightMap = new HashMap<>();
     private List<String> adList = new ArrayList<>();
+    public List<NativeUnifiedADData> gdtAds = new ArrayList();
+    private int splashImageCount;
+    private int gdtAdType;
 
     private AdWeightManager() {
 
@@ -23,6 +28,22 @@ public class AdWeightManager {
 
     private static class SingletonHolder {
         private static final AdWeightManager sInstance = new AdWeightManager();
+    }
+
+    public int getGdtAdType() {
+        return gdtAdType;
+    }
+
+    public void setGdtAdType(int gdtAdType) {
+        this.gdtAdType = gdtAdType;
+    }
+
+    public int getSplashImageCount() {
+        return splashImageCount;
+    }
+
+    public void splashImageCountAdd() {
+        splashImageCount++;
     }
 
     public void setAdInfoArray(JSONArray jsonArray) {
@@ -63,7 +84,6 @@ public class AdWeightManager {
                     adList.add(ad);
                 }
             }
-
         }
     }
 
@@ -71,9 +91,17 @@ public class AdWeightManager {
         return adList.size() > 0;
     }
 
+    public boolean canGdt() {
+        return adList.size() > 0 && adList.contains("tx");
+    }
+
     public String getCurrentAd() {
         Random random = new Random();
         int index = random.nextInt(adList.size());
         return adList.get(index);
+    }
+
+    public boolean canJump() {
+        return gdtAds.size() > 0;
     }
 }
