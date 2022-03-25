@@ -3,6 +3,7 @@ package com.bt.jrsdk.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -73,6 +74,10 @@ public class NativeADUnifiedPreMovieActivity extends Activity {
         gdtAdType = AdWeightManager.getInstance().getGdtAdType();
         if (gdtAdType == 0) {
             setTheme(android.R.style.Theme_NoTitleBar_Fullscreen);
+        } else {
+          /*  if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
+                setTheme(R.style.Theme_MyTransparent1);
+            }*/
         }
         super.onCreate(savedInstanceState);
         if (gdtAdType == 0) {
@@ -329,10 +334,11 @@ public class NativeADUnifiedPreMovieActivity extends Activity {
                         int currentPosition = mAdData.getVideoCurrentPosition();
                         int total = mAdData.getVideoDuration();
                         int display = (total - currentPosition) / 1000;
-                        Log.i("_position", currentPosition + "  " + total + "  " + display);
                         tv_jump.setText(display + "s");
                         if (display > 0) {
                             mHandler.sendEmptyMessageDelayed(MSG_INIT_AD, 1000);
+                        } else {
+                            adFinish();
                         }
                     }
                     break;

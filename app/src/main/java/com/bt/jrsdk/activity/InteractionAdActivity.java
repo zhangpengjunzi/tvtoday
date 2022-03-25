@@ -1,6 +1,8 @@
 package com.bt.jrsdk.activity;
 
 
+import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +27,9 @@ public class InteractionAdActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+      /*  if(Build.VERSION.SDK_INT==Build.VERSION_CODES.O||Build.VERSION.SDK_INT==Build.VERSION_CODES.O_MR1){
+            setTheme(R.style.Theme_MyTransparent1);
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interaction_ad);
         if (getIntent().hasExtra("pid")) {

@@ -107,7 +107,6 @@ public class SplashAd extends BaseAd {
                     }
                 }).apply();
         HttpManager.getInstance().doRequest(request);
-
     }
 
     private void getAdInfo(String picUrl, int countDown, String webUrl, String aliYunUrl, int isVideo, String videoUrl, int ads_id) {
