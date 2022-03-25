@@ -10,6 +10,9 @@ import android.os.Environment;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.bt.jrsdk.util.PangleSpUtils;
+import com.bytedance.sdk.openadsdk.TTAdConfig;
+import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.kingja.loadsir.core.LoadSir;
 import com.orhanobut.hawk.Hawk;
 
@@ -71,8 +74,31 @@ public class App extends MultiDexApplication {
 
         UMConfigure.init(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(), 1, "");
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+
+        TTAdSdk.init(this, buildConfig(), new TTAdSdk.InitCallback() {
+            @Override
+            public void success() {
+                //load pangle ads after this method is triggered.
+                String    ggfg ="2";
+            }
+
+            @Override
+            public void fail(int code, String msg) {
+                String sss="1";
+            }
+        });
     }
 
+    private TTAdConfig buildConfig() {
+        return new TTAdConfig.Builder()
+                .appId("8032441")
+                .useTextureView(true)// Use TextureView to play the video. The default setting is SurfaceView, when the context is in conflict with SurfaceView, you can use TextureView.You will need to save the changed Gdpr locally and retrieve it from the local store the next time the process starts
+                .setGDPR(PangleSpUtils.getInstance().getGdpr())
+                .setCCPA(PangleSpUtils.getInstance().getCcpa())
+                .supportMultiProcess(false)
+                .coppa(0) //CoppaValue: 0 adult, 1 child
+                .build();
+    }
 
     private void initParams() {
         // Hawk

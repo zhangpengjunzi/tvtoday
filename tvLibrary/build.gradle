@@ -49,7 +49,6 @@ dependencies {
     api rootProject.ext.dependencies['exoplayer-smoothstreaming']
     api rootProject.ext.dependencies['extension-rtmp']
     api rootProject.ext.dependencies['hawk']
-
 //    api(rootProject.ext.dependencies['xstream']) {
 //        exclude group: 'xmlpull', module: 'xmlpull'
 //    }
