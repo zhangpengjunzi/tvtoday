@@ -165,7 +165,7 @@
             android:exported="false"
             android:hardwareAccelerated="true"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:theme="@style/Theme.MyTransparent" />
 
     </application>
 

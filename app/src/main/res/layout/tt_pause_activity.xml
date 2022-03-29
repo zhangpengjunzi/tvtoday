@@ -4,21 +4,22 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="false">
+    android:focusable="false"
+    android:gravity="center">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="@dimen/interaction_width"
+        android:layout_height="@dimen/interaction_height">
 
         <FrameLayout
             android:id="@+id/ad_video"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="@dimen/interaction_width"
+            android:layout_height="@dimen/interaction_height" />
 
         <ImageView
             android:id="@+id/ad_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/interaction_width"
+            android:layout_height="@dimen/interaction_height"
             android:scaleType="fitXY" />
 
 

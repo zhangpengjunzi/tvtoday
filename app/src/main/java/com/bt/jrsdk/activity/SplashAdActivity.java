@@ -117,9 +117,9 @@ public class SplashAdActivity extends BaseActivity {
             }
             showTime = System.currentTimeMillis();
             go2WebActivity();
-            if (handler != null && handler.hasMessages(COUNT_DOWN)) {
+          /*  if (handler != null && handler.hasMessages(COUNT_DOWN)) {
                 handler.removeCallbacksAndMessages(null);
-            }
+            }*/
             LogUtil.d("splash click");
         }
     }

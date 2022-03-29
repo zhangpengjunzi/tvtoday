@@ -133,7 +133,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public Resources getResources() {
-        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());
-        return super.getResources();
+        final Resources resources = super.getResources();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AutoSizeCompat.autoConvertDensityOfGlobal(resources);
+            }
+        });
+        return resources;
     }
 }

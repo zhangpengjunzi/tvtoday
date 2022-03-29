@@ -11,5 +11,6 @@
     <dimen name="interaction_height">400pt</dimen>
     <dimen name="interaction_close">50pt</dimen>
     <dimen name="ad_image_close">80pt</dimen>
-    <dimen name="ad_logo">30pt</dimen>
+    <dimen name="ad_logo_width">50pt</dimen>
+    <dimen name="ad_logo_height">30pt</dimen>
 </resources>

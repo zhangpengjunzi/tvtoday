@@ -2,51 +2,36 @@ package com.today.player.ad;
 
 import android.app.Activity;
 
+import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.ads.SplashAd;
 import com.bt.jrsdk.listener.SplashAdListener;
+import com.bt.txad.TTFeedAd;
+import com.today.player.api.ApiConfig;
+import com.today.player.bean.PlayerModel;
 
-public class VideoSplashAd {
-    private SplashAd ad;
-    private boolean isReady;
-    private String content;
+import java.util.List;
+import java.util.Random;
+
+public class VideoSplashAd extends BasePangleAd {
 
     public VideoSplashAd(Activity activity, String pid, String ad_type) {
         ad = new SplashAd(activity, pid, ad_type);
+        ttFeedAd = new TTFeedAd(activity, pid, 0,this);
+        setAdType();
     }
 
 
     public void setListener(SplashAdListener splashAdListener) {
         if (ad != null) {
-            ad.setSplashListener(splashAdListener);
+            ((SplashAd) ad).setSplashListener(splashAdListener);
         }
-    }
-
-
-    public void loadAd(String content) {
-        if (ad != null) {
-            this.content = content;
-            ad.loadAd(content);
+        if (ttFeedAd != null) {
+//            ad.setVideoListener(adListener);
+            ttFeedAd.setSplashListener(splashAdListener);
         }
-    }
 
-    public void showAd() {
-        if (ad != null) {
-            if (isReady) {
-                ad.showAd();
-            } else {
-                loadAd(content);
-            }
-        }
-    }
-
-    public void setReady(boolean ready) {
-        this.isReady = ready;
     }
 
 
-    public void recycler() {
-        if (ad != null) {
-            ad.recycle();
-        }
-    }
+
 }

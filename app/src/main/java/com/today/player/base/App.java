@@ -61,6 +61,7 @@ public class App extends MultiDexApplication {
         ControlManager.init(this);
         //初始化数据库
         AppDataManager.init();
+        initPangle();
         LoadSir.beginBuilder()
                 .addCallback(new EmptyCallback())
                 .addCallback(new LoadingCallback())
@@ -74,24 +75,26 @@ public class App extends MultiDexApplication {
 
         UMConfigure.init(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(), 1, "");
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+    }
 
+    private void initPangle() {
         TTAdSdk.init(this, buildConfig(), new TTAdSdk.InitCallback() {
             @Override
             public void success() {
                 //load pangle ads after this method is triggered.
-                String    ggfg ="2";
+                String ggfg = "2";
             }
 
             @Override
             public void fail(int code, String msg) {
-                String sss="1";
+                String sss = "1";
             }
         });
     }
 
     private TTAdConfig buildConfig() {
         return new TTAdConfig.Builder()
-                .appId("8032441")
+                .appId("8014748")
                 .useTextureView(true)// Use TextureView to play the video. The default setting is SurfaceView, when the context is in conflict with SurfaceView, you can use TextureView.You will need to save the changed Gdpr locally and retrieve it from the local store the next time the process starts
                 .setGDPR(PangleSpUtils.getInstance().getGdpr())
                 .setCCPA(PangleSpUtils.getInstance().getCcpa())

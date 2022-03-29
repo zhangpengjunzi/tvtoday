@@ -55,7 +55,9 @@ public abstract class BaseActivity extends Activity {
             startPage(webUrl);
             reportAdResult(webUrl, "deeplink");
         } else {
-            if (webUrl.endsWith(".apk")) {
+            goBrowser(webUrl);
+            reportAdResult(webUrl, "goBrowser");
+          /*  if (webUrl.endsWith(".apk")) {
                 startPage(webUrl);
                 reportAdResult(webUrl, "apk_download");
             } else {
@@ -64,8 +66,9 @@ public abstract class BaseActivity extends Activity {
                 intent.putExtra("reqId", reqId);
                 intent.putExtra("ads_id", ads_id);
                 startActivityForResult(intent, REQUEST_CODE);
-            }
+            }*/
         }
+
     }
 
     @Override
@@ -114,5 +117,24 @@ public abstract class BaseActivity extends Activity {
             this.finish();
         } catch (Exception e) {
         }
+    }
+
+    private void goBrowser(String url) {
+        try {
+            Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            it.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+            startActivity(it);
+        } catch (Exception e) {
+            try {
+                Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(it);
+            } catch (Exception e1) {
+            }
+        }
+        //reportFinish();
+        //onResult();
+        //this.finish();
     }
 }

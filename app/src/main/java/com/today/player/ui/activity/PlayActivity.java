@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 
+import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
 import com.today.player.R;
@@ -144,6 +145,7 @@ public class PlayActivity extends BaseActivity {
             public void onShow() {
                 if (pauseAd != null) {
                     showSuccess();
+                    AdWeightManager.getInstance().splashImageCountAdd();
                     pauseAd.setReady(false);
                 }
             }

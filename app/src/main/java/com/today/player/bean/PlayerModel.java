@@ -24,6 +24,15 @@ public class PlayerModel {
     private FilterDTO filter;
     private IjkDTO ijk;
     private List<String> ads;
+    private TxadDTO txad;
+
+    public TxadDTO getTxad() {
+        return txad;
+    }
+
+    public void setTxad(TxadDTO txad) {
+        this.txad = txad;
+    }
 
     public List<SourcesDTO> getSources() {
         return sources;
@@ -79,6 +88,36 @@ public class PlayerModel {
 
     public void setAds(List<String> ads) {
         this.ads = ads;
+    }
+
+    public static class TxadDTO {
+        private List<String> tiepian_image;
+        private List<String> tiepian_video;
+        private List<String> pause_image;
+
+        public List<String> getTiepian_image() {
+            return tiepian_image;
+        }
+
+        public void setTiepian_image(List<String> tiepian_image) {
+            this.tiepian_image = tiepian_image;
+        }
+
+        public List<String> getTiepian_video() {
+            return tiepian_video;
+        }
+
+        public void setTiepian_video(List<String> tiepian_video) {
+            this.tiepian_video = tiepian_video;
+        }
+
+        public List<String> getPause_image() {
+            return pause_image;
+        }
+
+        public void setPause_image(List<String> pause_image) {
+            this.pause_image = pause_image;
+        }
     }
 
     public static class FilterDTO {
