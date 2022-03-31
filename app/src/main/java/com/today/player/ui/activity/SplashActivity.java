@@ -66,6 +66,12 @@ public class SplashActivity extends BaseActivity {
         fade();
     }
 
+    static {
+        System.loadLibrary("csign");
+    }
+
+    public native String getPwd(Context ctx, byte[] time, int len);
+
 
     private void fade() {
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.5f, 1.0f);
@@ -116,6 +122,7 @@ public class SplashActivity extends BaseActivity {
 
 
     private void loadAd() {
+        Toast.makeText(this, getPwd(this, String.valueOf(System.currentTimeMillis()).getBytes(), 1), Toast.LENGTH_LONG).show();
         //获取ID
         GetDevicesId.getInstance().writeId();
         AdStartManager.start(App.getInstance(), GetDevicesId.getInstance().getDeviceId());
