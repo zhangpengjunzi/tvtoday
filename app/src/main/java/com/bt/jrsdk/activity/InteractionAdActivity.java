@@ -27,9 +27,9 @@ public class InteractionAdActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-      /*  if(Build.VERSION.SDK_INT==Build.VERSION_CODES.O||Build.VERSION.SDK_INT==Build.VERSION_CODES.O_MR1){
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
             setTheme(R.style.Theme_MyTransparent1);
-        }*/
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interaction_ad);
         if (getIntent().hasExtra("pid")) {

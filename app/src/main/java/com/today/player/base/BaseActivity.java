@@ -121,8 +121,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public Resources getResources() {
-        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());
-        return super.getResources();
+        Resources resources = super.getResources();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AutoSizeCompat.autoConvertDensityOfGlobal(resources);
+            }
+        });
+        return resources;
     }
 
     protected void retrySetLoadSir(View view) {

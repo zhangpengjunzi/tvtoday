@@ -75,9 +75,9 @@ public class NativeADUnifiedPreMovieActivity extends Activity {
         if (gdtAdType == 0) {
             setTheme(android.R.style.Theme_NoTitleBar_Fullscreen);
         } else {
-          /*  if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
                 setTheme(R.style.Theme_MyTransparent1);
-            }*/
+            }
         }
         super.onCreate(savedInstanceState);
         if (gdtAdType == 0) {

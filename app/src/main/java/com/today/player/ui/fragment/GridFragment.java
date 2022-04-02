@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import com.ma.ds.ZuImpl;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.today.player.R;
@@ -45,7 +46,7 @@ public class GridFragment extends BaseLazyFragment {
     private int maxPage = 1;
     private boolean isLoad = false;
     private boolean isTop = true;
-
+    private ZuImpl zu=new ZuImpl();
     public static GridFragment newInstance(int id) {
         return new GridFragment().setArguments(id);
     }

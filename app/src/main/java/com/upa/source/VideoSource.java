@@ -33,7 +33,7 @@ import javax.net.ssl.X509TrustManager;
 
 
 public class VideoSource {
-    public static final String url = "https://lfqdy.oss-cn-hongkong.aliyuncs.com/lfqdyapp/cn/tvs";
+    public static final String url = "https://lfqdy.oss-cn-hongkong.aliyuncs.com/lfqdyapp/cn/tvb";
 
     public static final String NET_MD5_FILE_NAME = "tv_source_file_name";
     public static final String NET_MD5 = "tv_source_net_md5";
@@ -41,7 +41,6 @@ public class VideoSource {
     public static final String LOCAL_SOURCE = "tv_source_local_data";
 
     private byte[] sourceData;
-
 
     public static VideoSource getInstance() {
         return SourceInit.source;

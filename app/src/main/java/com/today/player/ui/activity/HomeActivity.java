@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ma.ds.ZuImpl;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.tencent.bugly.Bugly;
@@ -118,6 +119,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initView() {
+        Toast.makeText(this,new ZuImpl().a(this),Toast.LENGTH_LONG).show();
         tvName = findViewById(R.id.tvName);
         topLayout = findViewById(R.id.topLayout);
         contentLayout = findViewById(R.id.contentLayout);
@@ -331,6 +333,7 @@ public class HomeActivity extends BaseActivity {
             if (!NetUtils.isWifiProxy(App.getInstance())) {
                 loadSource();
             }
+
         } else if (event.type == TopStateEvent.REFRESH_UPDATE) {
             runOnUiThread(new Runnable() {
                 @Override

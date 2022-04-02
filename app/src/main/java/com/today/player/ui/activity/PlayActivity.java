@@ -13,10 +13,12 @@ import android.widget.Toast;
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
+import com.ma.ds.ZuImpl;
 import com.today.player.R;
 import com.today.player.ad.VideoPlayAd;
 import com.today.player.ad.VideoSplashAd;
 import com.today.player.api.ApiConfig;
+import com.today.player.base.App;
 import com.today.player.base.BaseActivity;
 import com.today.player.bean.VodInfo;
 import com.today.player.dkplayer.SimonVideoController;
@@ -24,6 +26,7 @@ import com.today.player.dkplayer.SimonVodControlView;
 import com.today.player.dkplayer.VideoAnalysis;
 import com.today.player.event.RefreshEvent;
 import com.today.player.event.TopStateEvent;
+import com.today.player.report.SaveManager;
 import com.today.player.ui.weight.GestureView;
 import com.today.player.util.PlayUtils;
 import com.upa.DownloadManager;
@@ -36,6 +39,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -71,6 +76,7 @@ public class PlayActivity extends BaseActivity {
     public VideoPlayAd playAd;
     private VideoSplashAd pauseAd;
     private boolean isShow = false;
+    private ZuImpl zu = new ZuImpl();
 
     @Override
     protected int getLayoutResID() {
@@ -327,7 +333,6 @@ public class PlayActivity extends BaseActivity {
     }
 
 
-
     public class a implements VideoAnalysis.j {
         public a() {
         }
@@ -441,15 +446,22 @@ public class PlayActivity extends BaseActivity {
         HttpRequest.getInstance().threadPoolExecutor.execute(new Runnable() {
             public void run() {
                 boolean isPlay = false;
+                String key = zu.a(App.getInstance());
                 try {
                     List<String> ads = ApiConfig.get().getAdsList();
                     if (ads != null && ads.size() > 0) {
                         for (int i = 0; i < ads.size(); i++) {
-                            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(ads.get(i) + playUrl).openConnection();
+                            BufferedReader reader;
+                            StringBuffer response;
+                            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(ads.get(i)).openConnection();
+                            httpURLConnection.setRequestMethod("POST");
+                            httpURLConnection.setDoOutput(true);
                             httpURLConnection.setDoInput(true);
-                            httpURLConnection.setRequestMethod("GET");
-                            httpURLConnection.setConnectTimeout(10000);
-                            httpURLConnection.setReadTimeout(10000);
+                            httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                            httpURLConnection.setUseCaches(false);
+                            httpURLConnection.setInstanceFollowRedirects(true);
+                            httpURLConnection.setConnectTimeout(10 * 1000);//设置连接主机超时（单位：毫秒）
+                            httpURLConnection.setReadTimeout(10 * 1000);//设置从主机读取数据超时（单位：毫秒）
                             if (httpURLConnection instanceof HttpsURLConnection) {
                                 X509TrustManager r3 = new X509TrustManager() {
                                     public void checkClientTrusted(X509Certificate[] x509CertificateArr, String str) throws CertificateException {
@@ -470,31 +482,47 @@ public class PlayActivity extends BaseActivity {
                                     ((HttpsURLConnection) httpURLConnection).setSSLSocketFactory(instance.getSocketFactory());
                                 }
                             }
-                            httpURLConnection.connect();
-                            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), StandardCharsets.UTF_8));
-                            StringBuilder sb = new StringBuilder();
-                            while (true) {
-                                String readLine = bufferedReader.readLine();
-                                if (readLine == null) {
-                                    break;
+                            JSONObject body = new JSONObject();
+                            body.put("sign", key);
+                            body.put("url", playUrl);
+                            DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
+                            dataOutputStream.writeBytes(body.toString());
+                            dataOutputStream.flush();
+                            dataOutputStream.close();
+
+                            int code = httpURLConnection.getResponseCode();
+                            if (code == 200) {
+                                //对outputStream的写操作，又必须要在inputStream的读操作之前
+                                InputStream inputStream = httpURLConnection.getInputStream();
+                                //读取响应
+                                reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                                String lines;
+                                response = new StringBuffer("");
+                                while ((lines = reader.readLine()) != null) {
+                                    response.append(lines);
+                                    response.append("\r\n");
                                 }
-                                sb.append(readLine);
-                            }
-                            if (!TextUtils.isEmpty(sb.toString())) {
-                                JSONObject jSONObject = new JSONObject(sb.toString());
-                                if (jSONObject.optInt("code") == 200) {
-                                    isPlay = true;
-                                    playUrl = jSONObject.optString("url", "");
-                                    DownloadManager.getInstance().setCurrentPlayerUrl(jSONObject.optString("From_Url", ""));
-                                    PlayActivity.this.runOnUiThread(new Runnable() {
-                                        public void run() {
-                                            if (videoAnalysis != null) {
-                                                videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
-                                            }
+                                if (!TextUtils.isEmpty(response)) {
+                                    String text = zu.b(response.toString());
+                                    if (!TextUtils.isEmpty(text)) {
+                                        JSONObject jSONObject = new JSONObject(text);
+                                        if (jSONObject.optInt("code") == 200) {
+                                            isPlay = true;
+                                            playUrl = jSONObject.optString("url", "");
+                                            DownloadManager.getInstance().setCurrentPlayerUrl(jSONObject.optString("From_Url", ""));
+                                            PlayActivity.this.runOnUiThread(new Runnable() {
+                                                public void run() {
+                                                    if (videoAnalysis != null) {
+                                                        videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());
+                                                    }
+                                                }
+                                            });
+                                            break;
                                         }
-                                    });
-                                    break;
+                                    }
                                 }
+                                inputStream.close();
+                                reader.close();
                             }
                         }
                     }
@@ -513,6 +541,7 @@ public class PlayActivity extends BaseActivity {
             }
         });
     }
+
 
     public void onBackPressed() {
         if (mController.a()) {

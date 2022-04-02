@@ -10,6 +10,8 @@ import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.GetRequest;
+import com.ma.ds.ZuImpl;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
@@ -21,6 +23,7 @@ import com.today.player.bean.Movie;
 import com.today.player.bean.MovieSort;
 import com.today.player.bean.SortTitle;
 import com.today.player.event.RefreshEvent;
+import com.upa.DownloadManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -85,41 +88,40 @@ public class SourceViewModel extends ViewModel {
 
     public void getList(int id, int page) {
         if (ApiConfig.get().getDefaultSourceBean() == null) return;
-        OkGo.<String>get(ApiConfig.get().getBaseUrl())
+        GetRequest<String> request = OkGo.<String>get(ApiConfig.get().getBaseUrl())
                 .tag(ApiConfig.get().getBaseUrl())
                 .params("ac", "videolist")
                 .params("t", id)
-                .params("pg", page)
-                .execute(new AbsCallback<String>() {
+                .params("pg", page);
+        request.execute(new AbsCallback<String>() {
+            @Override
+            public String convertResponse(okhttp3.Response response) throws Throwable {
+                if (response.body() != null) {
+                    return response.body().string();
+                } else {
+                    throw new IllegalStateException("网络请求错误");
+                }
+            }
 
-                    @Override
-                    public String convertResponse(okhttp3.Response response) throws Throwable {
-                        if (response.body() != null) {
-                            return response.body().string();
-                        } else {
-                            throw new IllegalStateException("网络请求错误");
-                        }
-                    }
+            @Override
+            public void onSuccess(Response<String> response) {
+                String xml = response.body();
+                if (ApiConfig.get().getDefaultSourceBean() == null) return;
+                if (ApiConfig.get().getDefaultSourceBean().getType() == 0) {
+                    //xml解析
+                    xml(listResult, xml, ApiConfig.get().getBaseUrl(), ApiConfig.get().getDefaultSourceBean().getKey());
+                } else {
+                    //JSON解析
+                    json(listResult, xml, ApiConfig.get().getBaseUrl(), ApiConfig.get().getDefaultSourceBean().getKey());
+                }
+            }
 
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        String xml = response.body();
-                        if (ApiConfig.get().getDefaultSourceBean() == null) return;
-                        if (ApiConfig.get().getDefaultSourceBean().getType() == 0) {
-                            //xml解析
-                            xml(listResult, xml, ApiConfig.get().getBaseUrl(), ApiConfig.get().getDefaultSourceBean().getKey());
-                        } else {
-                            //JSON解析
-                            json(listResult, xml, ApiConfig.get().getBaseUrl(), ApiConfig.get().getDefaultSourceBean().getKey());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        listResult.postValue(null);
-                    }
-                });
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                listResult.postValue(null);
+            }
+        });
     }
 
     public void getSearch(String api, String wd, String sourceName) {

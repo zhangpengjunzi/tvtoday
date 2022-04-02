@@ -10,6 +10,9 @@ import android.util.DisplayMetrics;
 import androidx.multidex.MultiDex;
 
 import com.kingja.loadsir.core.LoadSir;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.HttpHeaders;
+import com.ma.ds.ZuImpl;
 import com.orhanobut.hawk.Hawk;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
@@ -51,6 +54,10 @@ public class MyApplicationLike extends DefaultApplicationLike {
         // 调试时，将第三个参数改为true
 //        Bugly.init(getApplication(), "900029763", false);
         ControlManager.init(getApplication());
+        OkGo.getInstance().init(getApplication());
+        HttpHeaders headers = new HttpHeaders();
+        headers.put("sign", new ZuImpl().a(getApplication()));
+        OkGo.getInstance().addCommonHeaders(headers);
         //初始化数据库
         AppDataManager.init();
         LoadSir.beginBuilder()
