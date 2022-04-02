@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:padding="30.0pt" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="25.0pt" android:textColor="@color/black" android:layout_gravity="center_horizontal" android:focusableInTouchMode="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="今日影视激活" />
+    <com.upa.activation.LQREditText android:textSize="25.0pt" android:textColor="@color/black" android:textColorHint="#ff636161" android:gravity="center" android:layout_gravity="center" android:id="@id/activation_text" android:background="@drawable/edit_bg_focus" android:focusable="true" android:focusableInTouchMode="true" android:nextFocusDown="@id/activation_button" android:layout_width="400.0pt" android:layout_height="50.0pt" android:layout_marginLeft="10.0pt" android:layout_marginTop="20.0pt" android:layout_marginRight="10.0pt" android:layout_marginBottom="20.0pt" android:hint="请输入激活码" android:inputType="text" />
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView android:textSize="25.0pt" android:textColor="@color/black" android:gravity="center" android:id="@id/activation_button" android:background="@drawable/button_bg" android:focusable="true" android:focusableInTouchMode="true" android:nextFocusUp="@id/activation_text" android:layout_width="150.0pt" android:layout_height="40.0pt" android:text="激活" />
+        <ProgressBar android:layout_gravity="center" android:id="@id/activation_bar" android:focusable="false" android:visibility="gone" android:layout_width="20.0pt" android:layout_height="20.0pt" style="?android:progressBarStyleInverse" />
+    </FrameLayout>
+</LinearLayout>

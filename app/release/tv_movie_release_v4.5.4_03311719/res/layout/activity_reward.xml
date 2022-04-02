@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingLeft="60.0pt" android:paddingRight="60.0pt" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="30.0pt"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="24.0pt" android:textColor="@android:color/white" android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="撸码不易，如果您觉得还不错就打赏一波吧，欢迎您的打赏" android:lineSpacingMultiplier="1.4" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="40.0pt">
+        <Space android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+        <ImageView android:layout_width="384.0pt" android:layout_height="526.0pt" />
+        <Space android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+        <ImageView android:layout_width="384.0pt" android:layout_height="526.0pt" />
+        <Space android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+    </LinearLayout>
+</LinearLayout>

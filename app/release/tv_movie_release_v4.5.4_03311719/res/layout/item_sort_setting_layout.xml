@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:background="@drawable/setting_sort_focus" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="10.0pt"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="24.0pt" android:textColor="@color/color_CCFFFFFF" android:gravity="center" android:id="@id/tvName" android:paddingLeft="5.0pt" android:paddingRight="5.0pt" android:layout_width="170.0pt" android:layout_height="40.0pt" android:layout_marginTop="15.0pt" android:layout_marginBottom="15.0pt" android:singleLine="true" />
+</FrameLayout>

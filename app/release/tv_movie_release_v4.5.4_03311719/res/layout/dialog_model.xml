@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_gravity="center" android:orientation="vertical" android:background="@drawable/model_dialog_bg" android:padding="30.0pt" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="18.0pt" android:textColor="@android:color/white" android:gravity="center" android:layout_width="300.0pt" android:layout_height="wrap_content" android:text="免责声明,打开青少年模式出现任何问题与作者无关,自行负责" android:lineSpacingMultiplier="1.2" />
+    <EditText android:textSize="20.0pt" android:textColor="@android:color/black" android:gravity="center_vertical" android:layout_gravity="center_horizontal" android:id="@id/etPassword" android:background="@drawable/password_shape" android:paddingLeft="10.0pt" android:paddingRight="10.0pt" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="300.0pt" android:layout_height="40.0pt" android:layout_marginTop="20.0pt" android:hint="请输入密码" android:maxLines="1" android:inputType="textPassword" />
+    <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="300.0pt" android:layout_height="40.0pt" android:layout_marginTop="30.0pt">
+        <TextView android:textSize="18.0pt" android:textColor="@android:color/black" android:gravity="center" android:id="@id/tvConfirm" android:background="@drawable/splash_focus" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="120.0pt" android:layout_height="40.0pt" android:text="确定" />
+        <Space android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+        <TextView android:textSize="18.0pt" android:textColor="@android:color/black" android:gravity="center" android:id="@id/tvCancel" android:background="@drawable/splash_focus" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="120.0pt" android:layout_height="40.0pt" android:text="取消" />
+    </LinearLayout>
+</LinearLayout>

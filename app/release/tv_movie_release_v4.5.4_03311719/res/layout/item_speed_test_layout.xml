@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:background="@drawable/speed_test_focus" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="20.0pt" android:textColor="@android:color/white" android:ellipsize="end" android:gravity="center_vertical" android:layout_gravity="center|left" android:id="@id/tvName" android:paddingLeft="10.0pt" android:paddingRight="10.0pt" android:layout_width="wrap_content" android:layout_height="40.0pt" android:text="11111" android:singleLine="true" />
+    <TextView android:textSize="20.0pt" android:textColor="@android:color/white" android:ellipsize="end" android:gravity="center_vertical" android:layout_gravity="center|right" android:id="@id/tvSpeed" android:paddingLeft="10.0pt" android:paddingRight="10.0pt" android:layout_width="wrap_content" android:layout_height="40.0pt" android:text="11111" android:singleLine="true" />
+</FrameLayout>

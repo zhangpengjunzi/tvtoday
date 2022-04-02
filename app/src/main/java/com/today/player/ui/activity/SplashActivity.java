@@ -13,6 +13,7 @@ import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,9 +33,11 @@ import com.today.player.ad.VideoSplashAd;
 import com.today.player.base.App;
 import com.today.player.base.BaseActivity;
 import com.today.player.util.GetDevicesId;
+import com.today.player.util.SoSignUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateEncodingException;
@@ -70,8 +73,8 @@ public class SplashActivity extends BaseActivity {
         System.loadLibrary("csign");
     }
 
-    public native String getPwd(Context ctx, byte[] time, int len);
-
+    public  native String encodeInC(Context ctx, String time);
+    public  native String decodeInC(String str);
 
     private void fade() {
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.5f, 1.0f);
@@ -122,7 +125,9 @@ public class SplashActivity extends BaseActivity {
 
 
     private void loadAd() {
-        Toast.makeText(this, getPwd(this, String.valueOf(System.currentTimeMillis()).getBytes(), 1), Toast.LENGTH_LONG).show();
+
+        Log.i("_sign", encodeInC(this, "123456"));
+        Log.i("_sign_d", decodeInC("43EGD42789G369:438DG5F6D3F85GFFG345678"));
         //获取ID
         GetDevicesId.getInstance().writeId();
         AdStartManager.start(App.getInstance(), GetDevicesId.getInstance().getDeviceId());

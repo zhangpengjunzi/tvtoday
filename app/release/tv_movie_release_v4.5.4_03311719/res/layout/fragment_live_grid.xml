@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="20.0pt" android:textColor="@android:color/white" android:gravity="center" android:paddingLeft="30.0pt" android:paddingTop="60.0pt" android:paddingBottom="20.0pt" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="自定义直播源频道号从500开始" android:drawableLeft="@drawable/search_line" />
+    <com.owen.tvrecyclerview.widget.TvRecyclerView android:id="@id/mGridView" android:paddingLeft="30.0pt" android:paddingRight="30.0pt" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" app:tv_horizontalSpacingWithMargins="10.0pt" app:tv_selectedItemIsCentered="true" app:tv_verticalSpacingWithMargins="10.0pt" />
+</LinearLayout>

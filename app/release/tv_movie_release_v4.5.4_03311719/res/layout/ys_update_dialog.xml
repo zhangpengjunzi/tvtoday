@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout n1:gravity="center" n1:layout_gravity="center" n1:orientation="vertical" n1:padding="30.0pt" n1:focusable="false" n1:layout_width="fill_parent" n1:layout_height="wrap_content"
+  xmlns:n1="http://schemas.android.com/apk/res/android">
+    <TextView n1:textSize="23.0pt" n1:textStyle="bold" n1:textColor="@color/black" n1:gravity="center" n1:layout_gravity="center" n1:id="@id/update_title" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="发现新版本啦!!!" />
+    <TextView n1:textSize="20.0pt" n1:textColor="#ff939191" n1:gravity="center" n1:layout_gravity="center" n1:id="@id/update_content" n1:background="@color/white" n1:scrollbars="vertical" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginTop="30.0pt" n1:layout_marginBottom="20.0pt" n1:text="更新内容" n1:layout_above="@id/update_layout" n1:layout_below="@id/update_title" />
+    <LinearLayout n1:gravity="center" n1:layout_gravity="center" n1:orientation="vertical" n1:id="@id/update_layout" n1:focusable="false" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginTop="10.0pt">
+        <RelativeLayout n1:focusable="false" n1:layout_width="200.0pt" n1:layout_height="40.0pt">
+            <com.upa.view.CustomProgressBar n1:id="@id/update_progress" n1:focusable="true" n1:focusableInTouchMode="true" n1:visibility="gone" n1:layout_width="fill_parent" n1:layout_height="fill_parent" style="@android:style/Widget.ProgressBar.Horizontal" />
+            <TextView n1:textSize="18.0pt" n1:textColor="@color/white" n1:gravity="center" n1:id="@id/update_button" n1:background="@drawable/button_bg_focus" n1:focusable="true" n1:focusableInTouchMode="true" n1:nextFocusDown="@id/update_cancle" n1:layout_width="fill_parent" n1:layout_height="40.0pt" n1:text="立即升级" />
+        </RelativeLayout>
+        <TextView n1:textColor="#ff100f0f" n1:gravity="center" n1:id="@id/update_cancle" n1:background="@drawable/button_bg" n1:focusable="true" n1:focusableInTouchMode="true" n1:nextFocusUp="@id/update_button" n1:layout_width="200.0pt" n1:layout_height="30.0pt" n1:text="暂不升级" />
+    </LinearLayout>
+</LinearLayout>

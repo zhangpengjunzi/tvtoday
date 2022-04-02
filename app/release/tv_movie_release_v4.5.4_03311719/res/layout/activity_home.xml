@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/topLayout" android:paddingLeft="50.0pt" android:paddingRight="50.0pt" android:layout_width="fill_parent" android:layout_height="60.0pt" android:layout_marginTop="10.0pt">
+        <TextView android:textSize="32.0pt" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center" android:layout_gravity="center|left" android:id="@id/tvName" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="140.0pt" android:layout_height="44.0pt" android:text="今日影视" />
+        <Space android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+        <TextView android:textSize="28.0pt" android:textColor="@android:color/white" android:gravity="center" android:layout_gravity="center|right" android:id="@id/tvDate" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="240.0pt" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/contentLayout" android:clipChildren="false" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.owen.tvrecyclerview.widget.TvRecyclerView android:id="@id/mGridView" android:paddingLeft="60.0pt" android:paddingRight="60.0pt" android:layout_width="fill_parent" android:layout_height="45.0pt" android:layout_marginTop="80.0pt" android:layout_marginBottom="20.0pt" app:tv_selectedItemIsCentered="true" />
+        <com.tv.widget.NoScrollViewPager android:id="@id/mViewPager" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </LinearLayout>
+</FrameLayout>

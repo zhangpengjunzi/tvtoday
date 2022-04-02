@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:background="@drawable/source_focus" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="24.0pt" android:textColor="@color/color_CBF46A" android:ellipsize="end" android:gravity="center" android:id="@id/tvParseAdd" android:paddingLeft="5.0pt" android:paddingRight="5.0pt" android:focusable="false" android:focusableInTouchMode="false" android:visibility="gone" android:layout_width="190.0pt" android:layout_height="50.0pt" android:text="+新增解析" android:singleLine="true" />
+    <TextView android:textSize="22.0pt" android:textColor="@android:color/white" android:ellipsize="end" android:gravity="center" android:id="@id/tvParse" android:paddingLeft="5.0pt" android:paddingRight="5.0pt" android:focusable="false" android:focusableInTouchMode="false" android:layout_width="190.0pt" android:layout_height="50.0pt" android:singleLine="true" />
+</FrameLayout>
