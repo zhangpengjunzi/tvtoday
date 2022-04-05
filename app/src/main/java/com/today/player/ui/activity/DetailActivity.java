@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,7 +125,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 FastClickCheckUtil.check(v);
-                if (vodInfo != null && seriesAdapter.getData() != null) {
+                if (vodInfo != null && seriesAdapter.getData() != null && seriesAdapter.getData().size() > 0) {
                     Bundle bundle = new Bundle();
                     seriesAdapter.getData().get(vodInfo.playIndex).selected = true;
                     seriesAdapter.notifyItemChanged(vodInfo.playIndex);
@@ -220,7 +221,7 @@ public class DetailActivity extends BaseActivity {
             public void onChanged(AbsXml absXml) {
                 if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                     showSuccess();
-                    sourceUrl=absXml.api;
+                    sourceUrl = absXml.api;
                     mVideo = absXml.movie.videoList.get(0);
                     vodInfo = new VodInfo();
                     VodInfo localVod = RoomDataManger.getVodInfo(sourceUrl, id);
@@ -417,7 +418,15 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void searchResult() {
-        if (sourceIndex < searchRequestList.size()) {
+        for (int i = 0; i < searchRequestList.size(); i++) {
+            boolean isActive = searchRequestList.get(i).isActive();
+            if (isActive) {
+                String api = searchRequestList.get(i).getApi();
+                String sourceName = searchRequestList.get(i).getName();
+                sourceViewModel.getSearch(api, title, sourceName);
+            }
+        }
+       /* if (sourceIndex < searchRequestList.size()) {
             boolean isActive = searchRequestList.get(sourceIndex).isActive();
             if (isActive) {
                 String api = searchRequestList.get(sourceIndex).getApi();
@@ -427,24 +436,27 @@ public class DetailActivity extends BaseActivity {
                 sourceIndex++;
                 searchResult();
             }
-        }
+        }*/
     }
 
     private void searchData(AbsXml absXml) {
         if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
             List<Movie.Video> data = new ArrayList<>();
             for (Movie.Video video : absXml.movie.videoList) {
-                if (!DefaultConfig.isContains(video.type)) {
+                if (!ApiConfig.get().getFilterResult().contains(video.type)) {
                     data.add(video);
                 }
             }
+            Log.i("_error", data.size() + "");
             EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_SEARCH_LIST, data));
+        } else {
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_SEARCH_LIST, null));
         }
 
         if (++sourceIndex == searchRequestList.size()) {
             OkGo.getInstance().cancelAll();
-        } else {
+        }/* else {
             searchResult();
-        }
+        }*/
     }
 }

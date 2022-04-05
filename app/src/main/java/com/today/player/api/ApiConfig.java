@@ -107,7 +107,6 @@ public class ApiConfig {
                 if (sourceBean.isHome()) {
                     setSourceBean(sourceBean);
                     cc(sourceBeanList.get(0));
-                    break;
                 }
             }
             if (mSourceBean == null) {

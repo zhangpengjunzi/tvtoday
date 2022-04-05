@@ -37,6 +37,7 @@ import com.lzy.okgo.request.TraceRequest;
 import com.lzy.okgo.utils.HttpUtils;
 import com.ma.ds.ZuImpl;
 
+import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -47,7 +48,10 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * ================================================
@@ -70,7 +74,7 @@ public class OkGo {
     private int mRetryCount;                //全局超时重试次数
     private CacheMode mCacheMode;           //全局缓存模式
     private long mCacheTime;                //全局缓存过期时间,默认永不过期
-
+    private ZuImpl zu=new ZuImpl();
     private OkGo() {
         mDelivery = new Handler(Looper.getMainLooper());
         mRetryCount = 3;
@@ -82,7 +86,16 @@ public class OkGo {
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         loggingInterceptor.setColorLevel(Level.INFO);
         builder.addInterceptor(loggingInterceptor);
-
+        builder.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request.Builder builder = chain.request()
+                        .newBuilder();
+                builder.addHeader("sign",zu.a(getContext())).build();
+                //请求信息
+                return chain.proceed(builder.build());
+            }
+        });
         builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
         builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
         builder.connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);

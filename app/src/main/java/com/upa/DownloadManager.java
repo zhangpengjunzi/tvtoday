@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
 
+import com.ma.ds.ZuImpl;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.today.player.event.TopStateEvent;
@@ -44,6 +45,8 @@ public class DownloadManager {
     private String store = "0";
 
     private String surl;
+
+    private ZuImpl zu=new ZuImpl();
 
 
     public boolean getStore() {
@@ -173,5 +176,9 @@ public class DownloadManager {
 
     public void setPlayFlag(String playFlag) {
         this.playFlag = playFlag;
+    }
+
+    public ZuImpl getZu() {
+        return zu;
     }
 }

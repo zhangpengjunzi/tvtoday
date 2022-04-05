@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.ads.SplashAd;
+import com.bt.jrsdk.config.AdType;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.txad.GdtNativeAdPreMovie;
 import com.today.player.api.ApiConfig;
@@ -16,9 +17,11 @@ import java.util.Random;
 public class VideoSplashAd extends BaseVideoAd {
 
     public VideoSplashAd(Activity activity, String pid, String ad_type) {
-        setAdType();
-        ad = new SplashAd(activity, pid, ad_type);
-        gdtNativeAdPreMovie = new GdtNativeAdPreMovie(activity, pid, this, getGdtPid(), 0);
+        if (!pid.equals(AdType.AD_SPLASH)) {
+            setAdType();
+            ad = new SplashAd(activity, pid, ad_type);
+            gdtNativeAdPreMovie = new GdtNativeAdPreMovie(activity, pid, this, getGdtPid(), 0);
+        }
     }
 
     public void setListener(SplashAdListener splashAdListener) {

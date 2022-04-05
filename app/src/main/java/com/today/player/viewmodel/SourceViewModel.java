@@ -1,6 +1,8 @@
 package com.today.player.viewmodel;
 
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,6 +18,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import com.today.player.api.ApiConfig;
+import com.today.player.base.App;
 import com.today.player.bean.AbsSortXml;
 import com.today.player.bean.AbsXml;
 import com.today.player.bean.ListBean;
@@ -67,8 +70,8 @@ public class SourceViewModel extends ViewModel {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        String xml = response.body();
                         if (ApiConfig.get().getDefaultSourceBean() == null) return;
+                        String xml = getXml(response.body(),ApiConfig.get().getDefaultSourceBean().getKey());
                         if (ApiConfig.get().getDefaultSourceBean().getType() == 0) {
                             //xml解析
                             sotXml(sortResult, xml);
@@ -105,8 +108,8 @@ public class SourceViewModel extends ViewModel {
 
             @Override
             public void onSuccess(Response<String> response) {
-                String xml = response.body();
                 if (ApiConfig.get().getDefaultSourceBean() == null) return;
+                String xml = getXml(response.body(),ApiConfig.get().getDefaultSourceBean().getKey());
                 if (ApiConfig.get().getDefaultSourceBean().getType() == 0) {
                     //xml解析
                     xml(listResult, xml, ApiConfig.get().getBaseUrl(), ApiConfig.get().getDefaultSourceBean().getKey());
@@ -140,8 +143,8 @@ public class SourceViewModel extends ViewModel {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        String xml = response.body();
                         if (ApiConfig.get().getSource(sourceName) == null) return;
+                        String xml = getXml(response.body(),sourceName);
                         int type = ApiConfig.get().getSource(sourceName).getType();
                         if (type == 0) {
                             //xml解析
@@ -178,8 +181,8 @@ public class SourceViewModel extends ViewModel {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        String xml = response.body();
                         if (ApiConfig.get().getSource(key) == null) return;
+                        String xml = getXml(response.body(),key);
                         int type = ApiConfig.get().getSource(key).getType();
                         if (type == 0) {
                             //xml解析
@@ -379,5 +382,16 @@ public class SourceViewModel extends ViewModel {
                         detailResult.postValue(null);
                     }
                 });
+    }
+
+
+    public String getXml(String xml,String key) {
+        try {
+            if (DownloadManager.getInstance().getSrcName().equals(key)) {
+                xml = DownloadManager.getInstance().getZu().b(xml);
+            }
+        } catch (Exception e) {
+        }
+        return xml;
     }
 }

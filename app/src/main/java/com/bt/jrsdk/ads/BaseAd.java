@@ -49,7 +49,9 @@ public abstract class BaseAd {
     public void loadAd(String content) {
         this.content = content;
         loadCurrentAd();
-    };
+    }
+
+    ;
 
     protected abstract void loadCurrentAd();
 
@@ -65,6 +67,7 @@ public abstract class BaseAd {
     protected void go2AdActivity(Class<?> cls) {
         Intent intent = new Intent(getActivity(), cls);
         intent.putExtra("pid", pid);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getActivity().startActivity(intent);
         reportShow();
     }

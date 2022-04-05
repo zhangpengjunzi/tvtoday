@@ -15,6 +15,7 @@ public class BaseVideoAd implements GdtAdListener {
     protected boolean isReady;
     protected String content;
 
+
     protected void setAdType() {
         if (AdWeightManager.getInstance().canGetAd()) {
             if (AdWeightManager.getInstance().canGdt() && AdWeightManager.getInstance().getSplashImageCount() != 0 && AdWeightManager.getInstance().getSplashImageCount() % 3 == 0) {

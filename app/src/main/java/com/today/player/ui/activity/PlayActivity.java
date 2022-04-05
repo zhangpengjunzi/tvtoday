@@ -76,7 +76,6 @@ public class PlayActivity extends BaseActivity {
     public VideoPlayAd playAd;
     private VideoSplashAd pauseAd;
     private boolean isShow = false;
-    private ZuImpl zu = new ZuImpl();
 
     @Override
     protected int getLayoutResID() {
@@ -167,8 +166,13 @@ public class PlayActivity extends BaseActivity {
             @Override
             public void onFinish() {
                 if (pauseAd != null && !isFinishing()) {
-                    showSuccess();
-                    playSet();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showSuccess();
+                            playSet();
+                        }
+                    });
                 }
             }
 
@@ -446,17 +450,18 @@ public class PlayActivity extends BaseActivity {
         HttpRequest.getInstance().threadPoolExecutor.execute(new Runnable() {
             public void run() {
                 boolean isPlay = false;
-                String key = zu.a(App.getInstance());
                 try {
                     List<String> ads = ApiConfig.get().getAdsList();
                     if (ads != null && ads.size() > 0) {
                         for (int i = 0; i < ads.size(); i++) {
                             BufferedReader reader;
                             StringBuffer response;
-                            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(ads.get(i)).openConnection();
-                            httpURLConnection.setRequestMethod("POST");
+                            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(ads.get(i) + "?url=" + playUrl).openConnection();
+                            httpURLConnection.setRequestMethod("GET");
                             httpURLConnection.setDoOutput(true);
                             httpURLConnection.setDoInput(true);
+                            String key = DownloadManager.getInstance().getZu().a(App.getInstance());
+                            httpURLConnection.setRequestProperty("sign", key);
                             httpURLConnection.setRequestProperty("Content-Type", "application/json");
                             httpURLConnection.setUseCaches(false);
                             httpURLConnection.setInstanceFollowRedirects(true);
@@ -482,14 +487,6 @@ public class PlayActivity extends BaseActivity {
                                     ((HttpsURLConnection) httpURLConnection).setSSLSocketFactory(instance.getSocketFactory());
                                 }
                             }
-                            JSONObject body = new JSONObject();
-                            body.put("sign", key);
-                            body.put("url", playUrl);
-                            DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-                            dataOutputStream.writeBytes(body.toString());
-                            dataOutputStream.flush();
-                            dataOutputStream.close();
-
                             int code = httpURLConnection.getResponseCode();
                             if (code == 200) {
                                 //对outputStream的写操作，又必须要在inputStream的读操作之前
@@ -503,7 +500,7 @@ public class PlayActivity extends BaseActivity {
                                     response.append("\r\n");
                                 }
                                 if (!TextUtils.isEmpty(response)) {
-                                    String text = zu.b(response.toString());
+                                    String text = DownloadManager.getInstance().getZu().b(response.toString());
                                     if (!TextUtils.isEmpty(text)) {
                                         JSONObject jSONObject = new JSONObject(text);
                                         if (jSONObject.optInt("code") == 200) {

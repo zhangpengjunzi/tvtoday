@@ -29,6 +29,7 @@ import com.today.player.util.LogUtil;
 import com.today.player.util.ProgressManagerImpl;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
+import com.upa.DownloadManager;
 
 import java.util.Locale;
 
@@ -54,10 +55,7 @@ public class MyApplicationLike extends DefaultApplicationLike {
         // 调试时，将第三个参数改为true
 //        Bugly.init(getApplication(), "900029763", false);
         ControlManager.init(getApplication());
-        OkGo.getInstance().init(getApplication());
-        HttpHeaders headers = new HttpHeaders();
-        headers.put("sign", new ZuImpl().a(getApplication()));
-        OkGo.getInstance().addCommonHeaders(headers);
+        initHttp();
         //初始化数据库
         AppDataManager.init();
         LoadSir.beginBuilder()
@@ -115,6 +113,10 @@ public class MyApplicationLike extends DefaultApplicationLike {
             Hawk.put(HawkConfig.PLAY_TYPE, 1);
         }
         VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setProgressManager(new ProgressManagerImpl()).build());
+    }
+
+    private void initHttp() {
+        OkGo.getInstance().init(getApplication());
     }
 
 

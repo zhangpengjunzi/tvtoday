@@ -119,7 +119,6 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initView() {
-        Toast.makeText(this,new ZuImpl().a(this),Toast.LENGTH_LONG).show();
         tvName = findViewById(R.id.tvName);
         topLayout = findViewById(R.id.topLayout);
         contentLayout = findViewById(R.id.contentLayout);
@@ -340,7 +339,8 @@ public class HomeActivity extends BaseActivity {
                 public void run() {
                     Beta.appChannel = ChannelUtil.getChannel();
                     Beta.initDelay = 0;
-                    Bugly.init(App.getInstance(), "9d1bea1cca", false);
+                    //  Bugly.init(App.getInstance(), "9d1bea1cca", false);
+                    Bugly.init(App.getInstance(), "661aeaabe3", false);
                 }
             });
         }

@@ -60,6 +60,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                anim.cancel();
                 setLoadSir(imageView);
                 start();
             }
@@ -76,7 +77,7 @@ public class SplashActivity extends BaseActivity {
         super.onDestroy();
         if (splashAd != null) {
             splashAd.recycler();
-            splashAd=null;
+            splashAd = null;
         }
         imageView.setImageDrawable(null);
         imageView = null;
