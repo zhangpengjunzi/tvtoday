@@ -63,6 +63,14 @@ public class VideoFullActivity extends BaseActivity {
     }
 
     private void initVideo() {
+        if (adInfo == null) {
+            if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
+                AdListenerManager.getInstance().getSplashListener(pid).onError(Config.AD_INFO_NULL, Config.CODE_AD_INFO_NULL);
+                AdListenerManager.getInstance().getSplashListener(pid).onFinish();
+            }
+            this.finish();
+            return;
+        }
         video.setScreenScaleType(VideoView.SCREEN_SCALE_MATCH_PARENT);
         video.setUrl(adInfo.getVideoUrl());
         PlayUtils.a(video);
@@ -109,7 +117,6 @@ public class VideoFullActivity extends BaseActivity {
                         VideoFullActivity.this.finish();
                         break;
                 }
-                Log.i("_playState", playState + "");
             }
         });
     }

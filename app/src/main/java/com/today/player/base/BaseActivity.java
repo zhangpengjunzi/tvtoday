@@ -89,8 +89,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppManager.getInstance().finishActivity(this);
         OkGo.getInstance().cancelAll();
+        AppManager.getInstance().finishActivity(this);
     }
 
     public void jumpActivity(Class<? extends BaseActivity> clazz) {

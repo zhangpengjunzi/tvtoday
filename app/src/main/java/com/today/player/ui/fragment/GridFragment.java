@@ -46,7 +46,6 @@ public class GridFragment extends BaseLazyFragment {
     private int maxPage = 1;
     private boolean isLoad = false;
     private boolean isTop = true;
-    private ZuImpl zu=new ZuImpl();
     public static GridFragment newInstance(int id) {
         return new GridFragment().setArguments(id);
     }
@@ -133,26 +132,30 @@ public class GridFragment extends BaseLazyFragment {
         sourceViewModel.listResult.observe(this, new Observer<AbsXml>() {
             @Override
             public void onChanged(AbsXml absXml) {
-                if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
-                    if (page == 1) {
-                        showSuccess();
-                        isLoad = true;
-                        gridAdapter.setNewData(absXml.movie.videoList);
-                    } else {
-                        gridAdapter.addData(absXml.movie.videoList);
-                    }
-                    page++;
-                    maxPage = absXml.movie.pagecount;
-                } else {
-                    if (page == 1) {
-                        showEmpty();
-                    }
-                }
-                if (page > maxPage) {
-                    gridAdapter.loadMoreEnd();
-                } else {
-                    gridAdapter.loadMoreComplete();
-                }
+               try {
+                   if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
+                       if (page == 1) {
+                           showSuccess();
+                           isLoad = true;
+                           gridAdapter.setNewData(absXml.movie.videoList);
+                       } else {
+                           gridAdapter.addData(absXml.movie.videoList);
+                       }
+                       page++;
+                       maxPage = absXml.movie.pagecount;
+                   } else {
+                       if (page == 1) {
+                           showEmpty();
+                       }
+                   }
+                   if (page > maxPage) {
+                       gridAdapter.loadMoreEnd();
+                   } else {
+                       gridAdapter.loadMoreComplete();
+                   }
+               }catch (Exception e){
+
+               }
             }
         });
     }

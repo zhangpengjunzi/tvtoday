@@ -17,15 +17,18 @@ import java.util.List;
  */
 public class RoomDataManger {
     public static void insertVodRecord(String apiUrl, VodInfo vodInfo) {
-        VodRecord record = AppDataManager.get().getVodRecordDao().getVodRecord(apiUrl, vodInfo.id);
-        if (record == null) {
-            record = new VodRecord();
+        try {
+            VodRecord record = AppDataManager.get().getVodRecordDao().getVodRecord(apiUrl, vodInfo.id);
+            if (record == null) {
+                record = new VodRecord();
+            }
+            record.apiUrl = apiUrl;
+            record.vodId = vodInfo.id;
+            record.updateTime = System.currentTimeMillis();
+            record.data = toByteArray(vodInfo);
+            AppDataManager.get().getVodRecordDao().insert(record);
+        } catch (Exception e) {
         }
-        record.apiUrl = apiUrl;
-        record.vodId = vodInfo.id;
-        record.updateTime = System.currentTimeMillis();
-        record.data = toByteArray(vodInfo);
-        AppDataManager.get().getVodRecordDao().insert(record);
     }
 
     public static VodInfo getVodInfo(String apiUrl, int vodId) {

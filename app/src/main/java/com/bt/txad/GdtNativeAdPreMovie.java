@@ -27,6 +27,7 @@ import com.qq.e.ads.nativ.NativeUnifiedAD;
 import com.qq.e.ads.nativ.NativeUnifiedADData;
 import com.qq.e.comm.constants.AdPatternType;
 import com.qq.e.comm.util.AdError;
+import com.today.player.ad.BaseVideoAd;
 import com.today.player.ad.GdtAdListener;
 import com.today.player.api.ApiConfig;
 import com.today.player.bean.PlayerModel;
@@ -45,7 +46,6 @@ public class GdtNativeAdPreMovie extends BaseAd implements NativeADUnifiedListen
     private GdtAdListener mListener;
     private int adType;
     private String gdtPid;
-    private boolean isLoad = false;
 
     public GdtNativeAdPreMovie(Activity activity, String pid, GdtAdListener listener, String gdtPid, int type) {
         super(activity, pid);
@@ -60,10 +60,11 @@ public class GdtNativeAdPreMovie extends BaseAd implements NativeADUnifiedListen
         this.gdtPid = gdtPid;
     }
 
+
+
     @Override
     protected void loadCurrentAd() {
         if (nativeUnifiedAD != null) {
-            isLoad = true;
             nativeUnifiedAD.loadData(1);
         } else {
             if (mListener != null) {
@@ -102,7 +103,6 @@ public class GdtNativeAdPreMovie extends BaseAd implements NativeADUnifiedListen
     public void onADLoaded(List<NativeUnifiedADData> list) {
         LogUtil.d("onADLoaded");
         if (list != null && list.size() > 0) {
-            isLoad = false;
             adData = list.get(0);
             AdWeightManager.getInstance().gdtAds = list;
             setAdData(adData);
@@ -149,10 +149,8 @@ public class GdtNativeAdPreMovie extends BaseAd implements NativeADUnifiedListen
 
     @Override
     public void onNoAD(AdError adError) {
-        LogUtil.d("onNoAD");
-        if (mListener != null && isLoad) {
+        if (mListener != null) {
             mListener.noAd();
-            isLoad = false;
         }
     }
 

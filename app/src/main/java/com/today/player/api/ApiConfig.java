@@ -6,6 +6,8 @@ import android.content.res.AssetManager;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.hawk.Hawk;
 import com.today.player.bean.LiveChannel;
@@ -26,6 +28,8 @@ import com.upa.source.HintSource;
 import com.upa.view.ConfirmSourceDialog;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,6 +59,7 @@ public class ApiConfig {
     private List<String> adsList;
     private List<String> parseFlag;
     private PlayerModel.TxadDTO txadDTO;
+    private String json;
 
     private ApiConfig() {
         sourceBeanList = new ArrayList<>();
@@ -77,6 +82,7 @@ public class ApiConfig {
     }
 
     public void loadSource(String json) {
+        this.json = json;
         Gson gson = new Gson();
         PlayerModel model = gson.fromJson(json, PlayerModel.class);
         sourceBeanList = model.getSources();
@@ -280,6 +286,7 @@ public class ApiConfig {
         return adsList;
     }
 
+
     public String getBaseUrl() {
         return mSourceBean.getApi();
     }
@@ -288,7 +295,7 @@ public class ApiConfig {
         return filterResult;
     }
 
-    public PlayerModel.TxadDTO getTxad(){
+    public PlayerModel.TxadDTO getTxad() {
         return txadDTO;
     }
 
@@ -314,6 +321,21 @@ public class ApiConfig {
         });
     }
 
+
+    public List<String> getPlbList(String key) {
+        List<String> list = new ArrayList<>();
+        try {
+            JSONArray array = new JSONObject(this.json).optJSONArray(key);
+            if (array != null && array.length() > 0) {
+                for (int i = 0; i < array.length(); i++) {
+                    list.add(array.optString(i));
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        return list;
+    }
 
 
 }

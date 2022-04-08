@@ -3,14 +3,13 @@ package com.upa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.ma.ds.ZuImpl;
-import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
+import com.today.player.base.App;
 import com.today.player.event.TopStateEvent;
-import com.today.player.report.AliReportManager;
-import com.today.player.util.ChannelUtil;
+import com.lzy.okgo.utils.SaveManager;
 import com.upa.activation.ActivationManager;
 import com.upa.http.HttpRequest;
 import com.upa.im.IDownloadListener;
@@ -45,9 +44,6 @@ public class DownloadManager {
     private String store = "0";
 
     private String surl;
-
-    private ZuImpl zu=new ZuImpl();
-
 
     public boolean getStore() {
         if (store.equals("1")) {
@@ -178,7 +174,5 @@ public class DownloadManager {
         this.playFlag = playFlag;
     }
 
-    public ZuImpl getZu() {
-        return zu;
-    }
+
 }

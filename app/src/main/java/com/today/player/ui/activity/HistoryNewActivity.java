@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.today.player.R;
+import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
 import com.today.player.bean.VodInfo;
 import com.today.player.cache.RoomDataManger;
@@ -123,7 +124,7 @@ public class HistoryNewActivity extends BaseActivity {
         List<VodInfo> allVodRecord = RoomDataManger.getAllVodRecord();
         List<VodInfo> vodInfoList = new ArrayList<>();
         for (VodInfo vodInfo : allVodRecord) {
-            if (!DefaultConfig.isContains(vodInfo.type)) {
+            if (!ApiConfig.get().getFilterResult().contains(vodInfo.type)) {
                 vodInfoList.add(vodInfo);
             }
         }

@@ -10,21 +10,31 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.manager.AdStartManager;
 
-import com.ma.ds.ZuImpl;
+import com.sigmob.windad.WindAdError;
+import com.sigmob.windad.WindAds;
+import com.sigmob.windad.natives.NativeADData;
+import com.sigmob.windad.natives.WindNativeAdRequest;
+import com.sigmob.windad.natives.WindNativeUnifiedAd;
 import com.today.player.R;
 import com.today.player.ad.VideoSplashAd;
 import com.today.player.base.App;
 import com.today.player.base.BaseActivity;
+import com.today.player.base.MyApplicationLike;
 import com.today.player.util.GetDevicesId;
+
+import java.util.List;
 
 /**
  * @author pj567
@@ -34,8 +44,9 @@ import com.today.player.util.GetDevicesId;
 public class SplashActivity extends BaseActivity {
     private String TAG = "SplashActivity";
     private ImageView imageView;
-    private VideoSplashAd splashAd;
+    // private VideoSplashAd splashAd;
     private boolean isSettingBack = false;
+
 
     @Override
     protected int getLayoutResID() {
@@ -45,8 +56,11 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void init() {
         imageView = findViewById(R.id.splash_img);
+
+        WindAds.requestPermission(this);
         fade();
     }
+
 
 
     private void fade() {
@@ -75,10 +89,10 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (splashAd != null) {
+       /* if (splashAd != null) {
             splashAd.recycler();
             splashAd = null;
-        }
+        }*/
         imageView.setImageDrawable(null);
         imageView = null;
     }
@@ -102,7 +116,8 @@ public class SplashActivity extends BaseActivity {
         //获取ID
         GetDevicesId.getInstance().writeId();
         AdStartManager.start(App.getInstance(), GetDevicesId.getInstance().getDeviceId());
-        showLoading();
+        jumpActivity();
+        /*showLoading();
         splashAd = new VideoSplashAd(this, "splash", "1");
         splashAd.loadAd("splash");
         splashAd.setListener(new SplashAdListener() {
@@ -141,7 +156,7 @@ public class SplashActivity extends BaseActivity {
             public void onClose() {
 
             }
-        });
+        });*/
     }
 
     /**
@@ -160,7 +175,7 @@ public class SplashActivity extends BaseActivity {
     //检测权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
+       /* switch (requestCode) {
             case 0: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -193,7 +208,7 @@ public class SplashActivity extends BaseActivity {
                     }
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -203,5 +218,6 @@ public class SplashActivity extends BaseActivity {
             start();
         }
     }
+
 
 }

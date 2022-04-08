@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.orhanobut.hawk.Hawk;
+import com.today.player.api.ApiConfig;
 import com.today.player.bean.MovieSort;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class DefaultConfig {
     public static List<MovieSort.SortData> adjustSort(List<MovieSort.SortData> list) {
         List<MovieSort.SortData> data = new ArrayList<>();
         for (MovieSort.SortData sortData : list) {
-            if (!isContains(sortData.name)) {
+            if (!ApiConfig.get().getFilterResult().contains(sortData.name)) {
                 data.add(sortData);
             }
         }

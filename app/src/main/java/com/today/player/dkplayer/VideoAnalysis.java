@@ -135,11 +135,14 @@ public class VideoAnalysis {
 
     public final void a(String str, String str2, String str3, VideoAnalysis.play kVar) {
         this.d.setText("资源解析中，请稍后");
-        if (this.webView != null) {
-            b(str, str2, str3);
-        } else {
-            a(kVar);
-            b(str, str2, str3);
+        try {
+            if (this.webView != null) {
+                b(str, str2, str3);
+            } else {
+                a(kVar);
+                b(str, str2, str3);
+            }
+        } catch (Exception e) {
         }
     }
 
@@ -280,7 +283,6 @@ public class VideoAnalysis {
         }
 
         public WebResourceResponse shouldInterceptRequest(WebView webView, String str) {
-            Log.i("url", str);
             if (str.endsWith("/favicon.ico")) {
                 return new WebResourceResponse("image/png", (String) null, (InputStream) null);
             }

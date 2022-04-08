@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import androidx.multidex.MultiDex;
 
@@ -14,6 +15,10 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.HttpHeaders;
 import com.ma.ds.ZuImpl;
 import com.orhanobut.hawk.Hawk;
+
+import com.sigmob.windad.WindAdOptions;
+import com.sigmob.windad.WindAds;
+import com.squareup.picasso.Picasso;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.interfaces.BetaPatchListener;
@@ -47,6 +52,7 @@ public class MyApplicationLike extends DefaultApplicationLike {
         super(application, tinkerFlags, tinkerLoadVerifyFlag, applicationStartElapsedTime, applicationStartMillisTime, tinkerResultIntent);
     }
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -74,7 +80,17 @@ public class MyApplicationLike extends DefaultApplicationLike {
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
 
         jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(getApplication(), ChannelUtil.BASE_CHANNEL);
+
+        WindAds ads = WindAds.sharedAds();
+
+        ads.setAdult(true);//是否未成年/true成年/flase未成年
+        ads.setPersonalizedAdvertisingOn(true);//是否关闭个性化推荐接口/true关闭/false开启
+
+        //useMediation:true代表使用聚合服务;false:代表单接SigMob
+        ads.startWithOptions(getApplication(), new WindAdOptions("20356", "b174f0e00ae475b2", false));
     }
+
+
 
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -162,6 +178,6 @@ public class MyApplicationLike extends DefaultApplicationLike {
                 LogUtil.d("补丁回滚");
             }
         };
-
     }
+
 }

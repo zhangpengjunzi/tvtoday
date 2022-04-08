@@ -35,6 +35,7 @@ import com.lzy.okgo.request.PostRequest;
 import com.lzy.okgo.request.PutRequest;
 import com.lzy.okgo.request.TraceRequest;
 import com.lzy.okgo.utils.HttpUtils;
+import com.lzy.okgo.utils.SaveManager;
 import com.ma.ds.ZuImpl;
 
 import java.io.IOException;
@@ -63,7 +64,7 @@ import okhttp3.Response;
  * ================================================
  */
 public class OkGo {
-    public static final long DEFAULT_MILLISECONDS = 60000;      //默认的超时时间
+    public static final long DEFAULT_MILLISECONDS = 30000;      //默认的超时时间
     public static long REFRESH_TIME = 300;                      //回调刷新时间（单位ms）
 
     private Application context;            //全局上下文
@@ -74,7 +75,7 @@ public class OkGo {
     private int mRetryCount;                //全局超时重试次数
     private CacheMode mCacheMode;           //全局缓存模式
     private long mCacheTime;                //全局缓存过期时间,默认永不过期
-    private ZuImpl zu=new ZuImpl();
+
     private OkGo() {
         mDelivery = new Handler(Looper.getMainLooper());
         mRetryCount = 3;
@@ -91,7 +92,7 @@ public class OkGo {
             public Response intercept(Chain chain) throws IOException {
                 Request.Builder builder = chain.request()
                         .newBuilder();
-                builder.addHeader("sign",zu.a(getContext())).build();
+                builder.addHeader("sign", SaveManager.getInstance().getPlayKey(OkGo.getInstance().getContext())).build();
                 //请求信息
                 return chain.proceed(builder.build());
             }

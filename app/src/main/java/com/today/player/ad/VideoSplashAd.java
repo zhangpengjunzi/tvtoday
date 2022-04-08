@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.bt.admanager.AdWeightManager;
+import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.ads.SplashAd;
 import com.bt.jrsdk.config.AdType;
 import com.bt.jrsdk.listener.SplashAdListener;
@@ -16,22 +17,17 @@ import java.util.Random;
 
 public class VideoSplashAd extends BaseVideoAd {
 
-    public VideoSplashAd(Activity activity, String pid, String ad_type) {
-        if (!pid.equals(AdType.AD_SPLASH)) {
-            setAdType();
-            ad = new SplashAd(activity, pid, ad_type);
-            gdtNativeAdPreMovie = new GdtNativeAdPreMovie(activity, pid, this, getGdtPid(), 0);
-        }
-    }
+    private Activity activity;
+    private String pid;
+    private String ad_type;
+    private SplashAdListener splashAdListener;
 
-    public void setListener(SplashAdListener splashAdListener) {
-        if (ad != null) {
-            ((SplashAd) ad).setSplashListener(splashAdListener);
-        }
-        if (gdtNativeAdPreMovie != null) {
-//            ad.setVideoListener(adListener);
-            gdtNativeAdPreMovie.setSplashListener(splashAdListener);
-        }
+    public VideoSplashAd(Activity activity, String pid, String ad_type, SplashAdListener splashAdListener) {
+        this.activity = activity;
+        this.pid = pid;
+        this.ad_type = ad_type;
+        this.splashAdListener = splashAdListener;
+        setAdType();
     }
 
 
@@ -56,4 +52,17 @@ public class VideoSplashAd extends BaseVideoAd {
         return gdtPid;
     }
 
+    @Override
+    public GdtNativeAdPreMovie getGdtNativeAdPreMovie() {
+        gdtNativeAdPreMovie = new GdtNativeAdPreMovie(activity, pid, this, getGdtPid(), 0);
+        gdtNativeAdPreMovie.setSplashListener(splashAdListener);
+        return gdtNativeAdPreMovie;
+    }
+
+    @Override
+    public BaseAd getMyAd() {
+        ad = new SplashAd(activity, pid, ad_type);
+        ((SplashAd) ad).setSplashListener(splashAdListener);
+        return ad;
+    }
 }

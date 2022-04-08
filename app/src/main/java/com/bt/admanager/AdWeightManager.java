@@ -1,6 +1,8 @@
 package com.bt.admanager;
 
 import com.qq.e.ads.nativ.NativeUnifiedADData;
+import com.sigmob.windad.natives.NativeADData;
+import com.today.player.ad.BaseVideoAd;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,6 +17,7 @@ public class AdWeightManager {
     private Map<String, Integer> weightMap = new HashMap<>();
     private List<String> adList = new ArrayList<>();
     public List<NativeUnifiedADData> gdtAds = new ArrayList();
+    public List<NativeADData> sigAds = new ArrayList<>();
     private int splashImageCount;
     private int gdtAdType;
 
@@ -92,7 +95,11 @@ public class AdWeightManager {
     }
 
     public boolean canGdt() {
-        return adList.size() > 0 && adList.contains("tx");
+        return adList.size() > 0 && adList.contains(BaseVideoAd.GDT_AD);
+    }
+
+    public boolean canSig() {
+        return adList.size() > 0 && adList.contains(BaseVideoAd.SIG_AD);
     }
 
     public String getCurrentAd() {
@@ -103,5 +110,9 @@ public class AdWeightManager {
 
     public boolean canJump() {
         return gdtAds.size() > 0;
+    }
+
+    public boolean canSigJump() {
+        return sigAds.size() > 0;
     }
 }

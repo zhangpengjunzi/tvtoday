@@ -7,17 +7,13 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.BatteryManager;
 import android.os.Build;
-import android.util.Log;
 
-import com.bt.jrsdk.manager.AdStartManager;
 import com.today.player.base.App;
 import com.today.player.report.AliReportManager;
-import com.today.player.report.SaveManager;
+import com.lzy.okgo.utils.SaveManager;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
-
-import okhttp3.internal.Util;
 
 public class ChannelUtil {
 
@@ -94,7 +90,7 @@ public class ChannelUtil {
 
 
     private static void report(int type) {
-        long state = SaveManager.getTime();
+        long state = SaveManager.getInstance().getTime(App.getInstance());
         if (state != 1) {
             HashMap<String, String> map = new HashMap<>();
             map.put("model", URLEncoder.encode(Build.MODEL));

@@ -137,7 +137,7 @@ public class SimonVideoController extends GestureVideoController implements View
     @Override
     protected void togglePlay() {
         if (playActivity != null && playActivity.isPlaying() && playActivity.playAd != null) {
-            playActivity.playAd.showAd();
+            playActivity.playAd.loadAd(playActivity.getContent());
         }
         super.togglePlay();
     }

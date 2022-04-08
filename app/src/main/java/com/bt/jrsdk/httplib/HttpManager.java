@@ -1,9 +1,12 @@
 package com.bt.jrsdk.httplib;
 
+import android.os.Build;
+
 import com.bt.jrsdk.httplib.config.HttpConfig;
 import com.bt.jrsdk.httplib.iml.IAdapter;
 import com.bt.jrsdk.httplib.iml.ResponseCallback;
 import com.bt.jrsdk.util.LogUtil;
+import com.upa.http.SSLSocketFactoryCompat;
 
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -82,6 +85,26 @@ public class HttpManager {
             }
             if (data != null && data.length > 0) {
                 connection.getOutputStream().write(data);
+            }
+            if (connection instanceof HttpsURLConnection) {
+                X509TrustManager r3 = new X509TrustManager() {
+                    public void checkClientTrusted(X509Certificate[] x509CertificateArr, String str) throws CertificateException {
+                    }
+
+                    public void checkServerTrusted(X509Certificate[] x509CertificateArr, String str) throws CertificateException {
+                    }
+
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                };
+                if (Build.VERSION.SDK_INT < 21) {
+                    ((HttpsURLConnection) connection).setSSLSocketFactory(new SSLSocketFactoryCompat(r3));
+                } else {
+                    SSLContext instance = SSLContext.getInstance("SSL");
+                    instance.init((KeyManager[]) null, new TrustManager[]{r3}, new SecureRandom());
+                    ((HttpsURLConnection) connection).setSSLSocketFactory(instance.getSocketFactory());
+                }
             }
             final int responseCode = connection.getResponseCode();
             if (responseCode != 200) {

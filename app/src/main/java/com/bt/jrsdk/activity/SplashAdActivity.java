@@ -69,6 +69,14 @@ public class SplashAdActivity extends BaseActivity {
     private void initView() {
         tvCountDown = findViewById(R.id.tv_jump);
         imgAd = findViewById(R.id.img_splash);
+        if (adInfo == null) {
+            if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
+                AdListenerManager.getInstance().getSplashListener(pid).onError(Config.AD_INFO_NULL, Config.CODE_AD_INFO_NULL);
+                AdListenerManager.getInstance().getSplashListener(pid).onFinish();
+            }
+            finish();
+            return;
+        }
         tvCountDown.setText(adInfo.getCountDown() + " 秒跳过");
         imgAd.setImageBitmap(pic);
         imgClose = findViewById(R.id.img_video_close);

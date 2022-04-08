@@ -34,6 +34,7 @@ import com.today.player.api.ApiConfig;
 import com.today.player.base.App;
 import com.today.player.base.BaseActivity;
 import com.today.player.base.BaseLazyFragment;
+import com.today.player.base.MyApplicationLike;
 import com.today.player.bean.AbsSortXml;
 import com.today.player.bean.MovieSort;
 import com.today.player.event.ServerEvent;
@@ -332,15 +333,14 @@ public class HomeActivity extends BaseActivity {
             if (!NetUtils.isWifiProxy(App.getInstance())) {
                 loadSource();
             }
-
         } else if (event.type == TopStateEvent.REFRESH_UPDATE) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Beta.appChannel = ChannelUtil.getChannel();
                     Beta.initDelay = 0;
-                    //  Bugly.init(App.getInstance(), "9d1bea1cca", false);
-                    Bugly.init(App.getInstance(), "661aeaabe3", false);
+                    Bugly.init(App.getInstance(), "9d1bea1cca", false);
+                    //Bugly.init(App.getInstance(), "661aeaabe3", false);
                 }
             });
         }

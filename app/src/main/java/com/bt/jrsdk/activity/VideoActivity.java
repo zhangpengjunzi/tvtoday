@@ -109,7 +109,6 @@ public class VideoActivity extends BaseActivity {
                         VideoActivity.this.finish();
                         break;
                 }
-                Log.i("_playState", playState + "");
             }
         });
     }

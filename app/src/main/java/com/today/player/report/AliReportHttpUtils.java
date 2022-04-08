@@ -1,7 +1,6 @@
 package com.today.player.report;
 
-import android.content.Context;
-
+import com.lzy.okgo.utils.SaveManager;
 import com.today.player.base.App;
 
 import java.io.BufferedReader;
@@ -43,7 +42,7 @@ public class AliReportHttpUtils {
 
             int code = conn.getResponseCode();
             if (code == 200) {
-                SaveManager.sdkMdStVVTime(App.getInstance());
+                SaveManager.getInstance().sdkMdStVVTime(App.getInstance());
                 //对outputStream的写操作，又必须要在inputStream的读操作之前
                 InputStream inputStream = conn.getInputStream();
                 //读取响应

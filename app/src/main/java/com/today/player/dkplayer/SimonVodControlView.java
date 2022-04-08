@@ -205,7 +205,7 @@ public class SimonVodControlView extends FrameLayout implements IControlComponen
         int id = view.getId();
         if (id == R.id.iv_play) {
             if (this.a.isPlaying() && playActivity != null && playActivity.playAd != null) {
-                playActivity.playAd.showAd();
+                playActivity.playAd.loadAd(playActivity.getContent());
             }
             this.a.togglePlay();
         } else if (id == R.id.play_next) {
