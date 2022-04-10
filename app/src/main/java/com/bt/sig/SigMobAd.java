@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.activity.NativeADUnifiedPreMovieActivity;
+import com.bt.jrsdk.activity.NativeAdUnifiedActivity;
 import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
@@ -18,9 +19,12 @@ import com.sigmob.windad.natives.NativeADData;
 import com.sigmob.windad.natives.WindNativeAdRequest;
 import com.sigmob.windad.natives.WindNativeUnifiedAd;
 import com.today.player.ad.GdtAdListener;
+import com.today.player.api.ApiConfig;
+import com.today.player.bean.PlayerModel;
 import com.today.player.util.GetDevicesId;
 
 import java.util.List;
+import java.util.Random;
 
 public class SigMobAd extends BaseAd implements WindNativeUnifiedAd.NativeAdLoadListener {
 
@@ -32,17 +36,16 @@ public class SigMobAd extends BaseAd implements WindNativeUnifiedAd.NativeAdLoad
     private VideoAdListener videoAdListener;
     private GdtAdListener mListener;
     private int adType;
-    private String sigPid;
 
-    public SigMobAd(Activity activity, String pid, GdtAdListener listener, String sigPid, int type) {
+    public SigMobAd(Activity activity, String pid, GdtAdListener listener, int type) {
         super(activity, pid);
         mListener = listener;
+        String sigPid = getSigPid();
         if (!TextUtils.isEmpty(sigPid)) {
             windNativeAdRequest = new WindNativeAdRequest(sigPid, GetDevicesId.getInstance().getDeviceId(), 1, null);
             windNativeUnifiedAd = new WindNativeUnifiedAd(activity, windNativeAdRequest);
         }
         adType = type;
-        this.sigPid = sigPid;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class SigMobAd extends BaseAd implements WindNativeUnifiedAd.NativeAdLoad
     public void showAd() {
         if (windNativeUnifiedAd != null && AdWeightManager.getInstance().canSigJump()) {
             AdWeightManager.getInstance().setGdtAdType(adType);
-            go2AdActivity(NativeADUnifiedPreMovieActivity.class);
+            go2AdActivity(NativeAdUnifiedActivity.class);
         }
     }
 
@@ -74,6 +77,9 @@ public class SigMobAd extends BaseAd implements WindNativeUnifiedAd.NativeAdLoad
 
     @Override
     protected void recycleAdAndListener() {
+        if (windNativeUnifiedAd != null) {
+            windNativeUnifiedAd.destroy();
+        }
         AdListenerManager.getInstance().recycleSplashListener(pid);
         AdListenerManager.getInstance().recycleVideoListener(pid);
         AdObserver.getInstance().recycleVideo(pid);
@@ -100,5 +106,19 @@ public class SigMobAd extends BaseAd implements WindNativeUnifiedAd.NativeAdLoad
                 videoAdListener.onLoaded();
             }
         }
+    }
+
+
+    private String getSigPid() {
+        String gdtPid = "";
+        PlayerModel.SigadDTO txadDTO = ApiConfig.get().getSigad();
+        if (txadDTO != null) {
+            Random random = new Random();
+            List<String> pauseList = txadDTO.getTiepian_video();
+            if (pauseList != null && pauseList.size() > 0) {
+                gdtPid = pauseList.get(random.nextInt(pauseList.size()));
+            }
+        }
+        return gdtPid;
     }
 }

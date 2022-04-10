@@ -59,6 +59,7 @@ public class ApiConfig {
     private List<String> adsList;
     private List<String> parseFlag;
     private PlayerModel.TxadDTO txadDTO;
+    private PlayerModel.SigadDTO sigadDTO;
     private String json;
 
     private ApiConfig() {
@@ -141,6 +142,8 @@ public class ApiConfig {
         parseFlag = model.getParseFlag();
 
         txadDTO = model.getTxad();
+
+        sigadDTO = model.getSigadDTO();
     }
 
     private void loadIjkConfigSource(PlayerModel model) {
@@ -297,6 +300,10 @@ public class ApiConfig {
 
     public PlayerModel.TxadDTO getTxad() {
         return txadDTO;
+    }
+
+    public PlayerModel.SigadDTO getSigad() {
+        return sigadDTO;
     }
 
     public void setDefault(PlayerModel.ParseUrlDTO tgVar) {

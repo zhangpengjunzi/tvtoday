@@ -56,11 +56,9 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void init() {
         imageView = findViewById(R.id.splash_img);
-
-        WindAds.requestPermission(this);
+        WindAds.requestPermission(SplashActivity.this);
         fade();
     }
-
 
 
     private void fade() {
@@ -101,6 +99,8 @@ public class SplashActivity extends BaseActivity {
     public void start() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                    PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.READ_PHONE_STATE) !=
+                    PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                     PackageManager.PERMISSION_GRANTED) {
                 requestPermission();
             } else {
@@ -165,7 +165,7 @@ public class SplashActivity extends BaseActivity {
     private void requestPermission() {
         //申请 权限
         ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION},
                 0);
     }
 
@@ -175,7 +175,7 @@ public class SplashActivity extends BaseActivity {
     //检测权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-       /* switch (requestCode) {
+        switch (requestCode) {
             case 0: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -208,7 +208,7 @@ public class SplashActivity extends BaseActivity {
                     }
                 }
             }
-        }*/
+        }
     }
 
     @Override

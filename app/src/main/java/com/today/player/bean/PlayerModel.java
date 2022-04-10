@@ -25,6 +25,15 @@ public class PlayerModel {
     private IjkDTO ijk;
     private List<String> ads;
     private TxadDTO txad;
+    private SigadDTO sigad;
+
+    public SigadDTO getSigadDTO() {
+        return sigad;
+    }
+
+    public void setSigadDTO(SigadDTO sigadDTO) {
+        this.sigad = sigadDTO;
+    }
 
     public TxadDTO getTxad() {
         return txad;
@@ -117,6 +126,28 @@ public class PlayerModel {
 
         public void setPause_image(List<String> pause_image) {
             this.pause_image = pause_image;
+        }
+    }
+
+
+    public static class SigadDTO {
+        private List<String> tiepian_image;
+        private List<String> tiepian_video;
+
+        public List<String> getTiepian_image() {
+            return tiepian_image;
+        }
+
+        public void setTiepian_image(List<String> tiepian_image) {
+            this.tiepian_image = tiepian_image;
+        }
+
+        public List<String> getTiepian_video() {
+            return tiepian_video;
+        }
+
+        public void setTiepian_video(List<String> tiepian_video) {
+            this.tiepian_video = tiepian_video;
         }
     }
 

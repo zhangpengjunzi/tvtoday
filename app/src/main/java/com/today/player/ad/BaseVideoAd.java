@@ -5,10 +5,12 @@ import android.text.TextUtils;
 
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.ads.BaseAd;
+import com.bt.sig.SigMobAd;
 import com.bt.txad.GdtNativeAdPreMovie;
 
 public abstract class BaseVideoAd implements GdtAdListener {
     protected GdtNativeAdPreMovie gdtNativeAdPreMovie;
+    protected SigMobAd sigMobAd;
     protected String adType;
     public static final String GDT_AD = "tx";
     public static final String MD_AD = "md";
@@ -21,6 +23,8 @@ public abstract class BaseVideoAd implements GdtAdListener {
     public abstract GdtNativeAdPreMovie getGdtNativeAdPreMovie();
 
     public abstract BaseAd getMyAd();
+
+    public abstract SigMobAd getSigMobAd();
 
     protected void setAdType() {
         if (AdWeightManager.getInstance().canGetAd()) {
@@ -52,6 +56,13 @@ public abstract class BaseVideoAd implements GdtAdListener {
                         ad.loadAd(content);
                     }
                     break;
+                case SIG_AD:
+                    sigMobAd = getSigMobAd();
+                    if (sigMobAd != null) {
+                        this.content = content;
+                        sigMobAd.loadAd(content);
+                    }
+                    break;
             }
         } else {
             ad = getMyAd();
@@ -75,6 +86,11 @@ public abstract class BaseVideoAd implements GdtAdListener {
                         ad.showAd();
                     }
                     break;
+                case SIG_AD:
+                    if (sigMobAd != null) {
+                        sigMobAd.showAd();
+                    }
+                    break;
             }
         } else {
             if (ad != null) {
@@ -92,11 +108,15 @@ public abstract class BaseVideoAd implements GdtAdListener {
     public void recycler() {
         if (ad != null) {
             ad.recycle();
-            ad=null;
+            ad = null;
         }
         if (gdtNativeAdPreMovie != null) {
             gdtNativeAdPreMovie.recycle();
-            ad=null;
+            ad = null;
+        }
+        if (sigMobAd != null) {
+            sigMobAd.recycle();
+            sigMobAd = null;
         }
     }
 

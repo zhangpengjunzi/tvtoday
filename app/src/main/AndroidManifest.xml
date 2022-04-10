@@ -185,6 +185,12 @@
             android:theme="@style/Theme.MyTransparent"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
 
+        <activity
+            android:name="com.bt.jrsdk.activity.NativeAdUnifiedActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.MyTransparent"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+
         <provider
             android:name="com.qq.e.comm.GDTFileProvider"
             android:authorities="${applicationId}.gdt.fileprovider"
