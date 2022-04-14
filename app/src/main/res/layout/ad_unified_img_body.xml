@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.gms.ads.formats.UnifiedNativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/native_ad_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.gms.ads.formats.MediaView
+            android:id="@+id/ad_media"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" />
+
+        <FrameLayout
+            android:id="@+id/ad_icon"
+            android:layout_width="@dimen/ad_logo_width"
+            android:layout_height="@dimen/ad_logo_height"
+            android:layout_gravity="bottom|right"
+            android:layout_marginTop="5pt"
+            android:layout_marginEnd="5pt"
+            android:visibility="gone" />
+
+
+        <ImageView
+            android:id="@+id/img_video_close"
+            android:layout_width="@dimen/ad_image_close"
+            android:layout_height="@dimen/ad_image_close"
+            android:layout_gravity="top|right"
+            android:layout_marginTop="10pt"
+            android:layout_marginEnd="10pt"
+            android:alpha="0.6"
+            android:scaleType="fitCenter"
+            android:src="@drawable/close"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/tv_jump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginTop="10pt"
+            android:layout_marginRight="10pt"
+            android:background="@drawable/shape_jump"
+            android:gravity="center"
+            android:minWidth="120pt"
+            android:minHeight="50pt"
+            android:textSize="18pt"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</com.google.android.gms.ads.formats.UnifiedNativeAdView>

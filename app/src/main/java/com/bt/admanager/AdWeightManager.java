@@ -14,7 +14,7 @@ import java.util.Random;
 public class AdWeightManager {
     private Map<String, Integer> weightMap = new HashMap<>();
     private List<String> adList = new ArrayList<>();
-    public List<TTFeedAd> gdtAds = new ArrayList();
+    public List<TTFeedAd> ttAds = new ArrayList();
     private int splashImageCount;
     private int gdtAdType;
 
@@ -102,6 +102,6 @@ public class AdWeightManager {
     }
 
     public boolean canJump() {
-        return gdtAds.size() > 0;
+        return ttAds.size() > 0;
     }
 }

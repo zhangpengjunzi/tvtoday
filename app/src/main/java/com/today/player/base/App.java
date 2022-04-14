@@ -13,6 +13,7 @@ import androidx.multidex.MultiDexApplication;
 import com.bt.jrsdk.util.PangleSpUtils;
 import com.bytedance.sdk.openadsdk.TTAdConfig;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
+import com.google.android.gms.ads.MobileAds;
 import com.kingja.loadsir.core.LoadSir;
 import com.orhanobut.hawk.Hawk;
 
@@ -75,6 +76,8 @@ public class App extends MultiDexApplication {
 
         UMConfigure.init(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(), 1, "");
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+
+        MobileAds.initialize(this);
     }
 
     private void initPangle() {
@@ -82,12 +85,10 @@ public class App extends MultiDexApplication {
             @Override
             public void success() {
                 //load pangle ads after this method is triggered.
-                String ggfg = "2";
             }
 
             @Override
             public void fail(int code, String msg) {
-                String sss = "1";
             }
         });
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,13 @@ import com.lzy.okgo.OkGo;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.today.player.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
+
 import com.today.player.bean.AbsXml;
 import com.today.player.bean.Movie;
 import com.today.player.bean.PlayerModel;
@@ -124,7 +128,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 FastClickCheckUtil.check(v);
-                if (vodInfo != null && seriesAdapter.getData() != null) {
+                if (vodInfo != null && seriesAdapter.getData() != null && seriesAdapter.getData().size() > 0) {
                     Bundle bundle = new Bundle();
                     seriesAdapter.getData().get(vodInfo.playIndex).selected = true;
                     seriesAdapter.notifyItemChanged(vodInfo.playIndex);
@@ -218,61 +222,68 @@ public class DetailActivity extends BaseActivity {
         sourceViewModel.detailResult.observe(this, new Observer<AbsXml>() {
             @Override
             public void onChanged(AbsXml absXml) {
-                if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
-                    showSuccess();
-                    sourceUrl=absXml.api;
-                    mVideo = absXml.movie.videoList.get(0);
-                    vodInfo = new VodInfo();
-                    VodInfo localVod = RoomDataManger.getVodInfo(sourceUrl, id);
-                    if (localVod != null) {
-                        vodInfo.playIndex = localVod.playIndex;
-                        vodInfo.playFlag = localVod.playFlag;
-                    }
-                    vodInfo.setVideo(mVideo);
-                    if (vodInfo.fromList != null && vodInfo.fromList.size() > 0) {
-                        retrySetLoadSir(mGridView);
-                        if (vodInfo.playFlag == vodInfo.fromList.size()) {
-                            vodInfo.playFlag = vodInfo.fromList.size() - 1;
+                try {
+                    if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
+                        showSuccess();
+                        sourceUrl = absXml.api;
+                        mVideo = absXml.movie.videoList.get(0);
+                        vodInfo = new VodInfo();
+                        VodInfo localVod = RoomDataManger.getVodInfo(sourceUrl, id);
+                        if (localVod != null) {
+                            vodInfo.playIndex = localVod.playIndex;
+                            vodInfo.playFlag = localVod.playFlag;
                         }
-                        vodInfo.fromList.get(vodInfo.playFlag).selected = true;
-                        sourceFromAdapter.setNewData(vodInfo.fromList);
-                        List<VodInfo.VodSeries> seriesList = vodInfo.seriesMap.get(vodInfo.fromList.get(vodInfo.playFlag).name);
-                        if (seriesList != null && seriesList.size() > 0) {
-                            showSuccess();
-                            if (vodInfo.playIndex >= seriesList.size()) {
-                                vodInfo.playIndex = seriesList.size() - 1;
+                        vodInfo.setVideo(mVideo);
+                        if (vodInfo.fromList != null && vodInfo.fromList.size() > 0) {
+                            retrySetLoadSir(mGridView);
+                            if (vodInfo.playFlag == vodInfo.fromList.size()) {
+                                vodInfo.playFlag = vodInfo.fromList.size() - 1;
                             }
-                            seriesList.get(vodInfo.playIndex).selected = true;
-                            seriesAdapter.setNewData(seriesList);
-                            mGridView.scrollToPosition(vodInfo.playIndex);
-                        } else {
-                            showEmpty();
+                            vodInfo.fromList.get(vodInfo.playFlag).selected = true;
+                            sourceFromAdapter.setNewData(vodInfo.fromList);
+                            List<VodInfo.VodSeries> seriesList = vodInfo.seriesMap.get(vodInfo.fromList.get(vodInfo.playFlag).name);
+                            if (seriesList != null && seriesList.size() > 0) {
+                                showSuccess();
+                                if (vodInfo.playIndex >= seriesList.size()) {
+                                    vodInfo.playIndex = seriesList.size() - 1;
+                                }
+                                seriesList.get(vodInfo.playIndex).selected = true;
+                                seriesAdapter.setNewData(seriesList);
+                                mGridView.scrollToPosition(vodInfo.playIndex);
+                            } else {
+                                showEmpty();
+                            }
                         }
-                    }
-                    tvName.setText(mVideo.name);
-                    tvSite.setText(mVideo.sourceKey);
-                    tvYear.setText(Html.fromHtml(getHtml("年份：", String.valueOf(mVideo.year))));
-                    tvArea.setText(Html.fromHtml(getHtml("地区：", mVideo.area)));
-                    tvLang.setText(Html.fromHtml(getHtml("语言：", mVideo.lang)));
-                    tvType.setText(Html.fromHtml(getHtml("类型：", mVideo.type)));
-                    tvActor.setText(Html.fromHtml(getHtml("演员：", mVideo.actor)));
-                    tvDirector.setText(Html.fromHtml(getHtml("导演：", mVideo.director)));
-                    tvDes.setText(Html.fromHtml(getHtml("内容简介：", mVideo.des)));
-                    if (!TextUtils.isEmpty(mVideo.pic)) {
-                        Picasso.get()
-                                .load(mVideo.pic)
-                                .transform(new RoundTransformation(mVideo.pic)
-                                        .centerCorp(true)
-                                        .override(AutoSizeUtils.pt2px(mContext, 224), AutoSizeUtils.pt2px(mContext, 315))
-                                        .roundRadius(AutoSizeUtils.pt2px(mContext, 5), RoundTransformation.RoundType.ALL))
-                                .placeholder(R.drawable.error_all_loading)
-                                .error(R.drawable.error_all_loading)
-                                .into(ivThumb);
+                        tvName.setText(mVideo.name);
+                        sourceKey = mVideo.sourceKey;
+                        tvSite.setText(mVideo.sourceKey);
+                        tvYear.setText(Html.fromHtml(getHtml("年份：", String.valueOf(mVideo.year))));
+                        tvArea.setText(Html.fromHtml(getHtml("地区：", mVideo.area)));
+                        tvLang.setText(Html.fromHtml(getHtml("语言：", mVideo.lang)));
+                        tvType.setText(Html.fromHtml(getHtml("类型：", mVideo.type)));
+                        tvActor.setText(Html.fromHtml(getHtml("演员：", mVideo.actor)));
+                        tvDirector.setText(Html.fromHtml(getHtml("导演：", mVideo.director)));
+                        tvDes.setText(Html.fromHtml(getHtml("内容简介：", mVideo.des)));
+                        if (!TextUtils.isEmpty(mVideo.pic)) {
+                            Picasso.get()
+                                    .load(mVideo.pic)
+                                    .transform(new RoundTransformation(mVideo.pic)
+                                            .centerCorp(true)
+                                            .override(AutoSizeUtils.pt2px(mContext, 224), AutoSizeUtils.pt2px(mContext, 315))
+                                            .roundRadius(AutoSizeUtils.pt2px(mContext, 5), RoundTransformation.RoundType.ALL))
+                                    .placeholder(R.drawable.error_all_loading)
+                                    .error(R.drawable.error_all_loading)
+                                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                                    .into(ivThumb);
+                        } else {
+                            ivThumb.setImageResource(R.drawable.error_all_loading);
+                        }
                     } else {
-                        ivThumb.setImageResource(R.drawable.error_all_loading);
+                        showEmpty();
                     }
-                } else {
-                    showEmpty();
+                } catch (Exception e) {
+                    finish();
                 }
             }
         });
@@ -417,7 +428,15 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void searchResult() {
-        if (sourceIndex < searchRequestList.size()) {
+        for (int i = 0; i < searchRequestList.size(); i++) {
+            boolean isActive = searchRequestList.get(i).isActive();
+            if (isActive) {
+                String api = searchRequestList.get(i).getApi();
+                String sourceName = searchRequestList.get(i).getName();
+                sourceViewModel.getSearch(api, title, sourceName);
+            }
+        }
+       /* if (sourceIndex < searchRequestList.size()) {
             boolean isActive = searchRequestList.get(sourceIndex).isActive();
             if (isActive) {
                 String api = searchRequestList.get(sourceIndex).getApi();
@@ -427,24 +446,28 @@ public class DetailActivity extends BaseActivity {
                 sourceIndex++;
                 searchResult();
             }
-        }
+        }*/
     }
 
     private void searchData(AbsXml absXml) {
         if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
             List<Movie.Video> data = new ArrayList<>();
             for (Movie.Video video : absXml.movie.videoList) {
-                if (!DefaultConfig.isContains(video.type)) {
+                if (!ApiConfig.get().getFilterResult().contains(video.type)) {
                     data.add(video);
                 }
             }
             EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_SEARCH_LIST, data));
+        } else {
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_SEARCH_LIST, null));
         }
 
         if (++sourceIndex == searchRequestList.size()) {
             OkGo.getInstance().cancelAll();
-        } else {
+        }/* else {
             searchResult();
-        }
+        }*/
     }
+
+
 }

@@ -22,7 +22,6 @@ android {
         versionName rootProject.ext.versions.versionName
         multiDexEnabled true
         ndk {
-            ldLibs "log" //实现__android_log_print
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi-v7a', 'arm64-v8a'
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a'
@@ -31,11 +30,6 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
-        }
-        externalNativeBuild {
-            cmake {
-                cppFlags ''
             }
         }
     }
@@ -87,12 +81,6 @@ android {
         abortOnError false
     }
 
-    externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version '3.10.2'
-        }
-    }
     dexOptions {
         javaMaxHeapSize "4g"
         additionalParameters += '--multi-dex'
@@ -125,4 +113,5 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["room-compiler"]
     implementation  'com.umeng.umsdk:common:9.4.4'// 必选
     implementation  'com.umeng.umsdk:asms:1.4.1'// 必选
+    implementation 'com.google.android.gms:play-services-ads:19.6.0'
 }

@@ -13,4 +13,5 @@
     <dimen name="ad_image_close">80pt</dimen>
     <dimen name="ad_logo_width">50pt</dimen>
     <dimen name="ad_logo_height">30pt</dimen>
+    <dimen name="dp_73">73dp</dimen>
 </resources>

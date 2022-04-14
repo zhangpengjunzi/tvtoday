@@ -7,45 +7,30 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.bt.jrsdk.activity.TTAdFullActivity;
-import com.bt.jrsdk.listener.SplashAdListener;
+import com.bt.jrsdk.activity.MobAdActivity;
 import com.bt.jrsdk.manager.AdStartManager;
-
-import com.bytedance.sdk.openadsdk.AdSlot;
-import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTAdSdk;
-import com.bytedance.sdk.openadsdk.TTFeedAd;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.VideoOptions;
+import com.google.android.gms.ads.formats.NativeAdOptions;
+import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.today.player.R;
 import com.today.player.ad.VideoSplashAd;
 import com.today.player.base.App;
 import com.today.player.base.BaseActivity;
 import com.today.player.util.GetDevicesId;
-import com.today.player.util.SoSignUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author pj567
@@ -57,6 +42,7 @@ public class SplashActivity extends BaseActivity {
     private ImageView imageView;
     private VideoSplashAd splashAd;
     private boolean isSettingBack = false;
+    public static UnifiedNativeAd unifiedNativeAd;
 
     @Override
     protected int getLayoutResID() {
@@ -66,15 +52,53 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void init() {
         imageView = findViewById(R.id.splash_img);
-        fade();
+        //fade();
+        loadAd(this,"ca-app-pub-1919587953327793/8883718807");
     }
 
-    static {
-        System.loadLibrary("csign");
+
+    /**
+     * 加载广告
+     *
+     * @param context cont
+     * @param id      广告id
+     */
+    public void loadAd(Context context, String id) {
+        AdLoader.Builder builder = new AdLoader.Builder(context, id);
+        builder.forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
+            @Override
+            public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
+                //广告数据加载成功
+                SplashActivity.unifiedNativeAd = unifiedNativeAd;
+                Intent intent = new Intent(SplashActivity.this, MobAdActivity.class);
+                SplashActivity.this.startActivity(intent);
+            }
+        });
+        builder.withAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                String error =
+                        String.format("domain: %s, code: %d, message: %s, cause: %s", loadAdError.getDomain(),
+                                loadAdError.getCode(), loadAdError.getMessage(), loadAdError.getCause());
+            }
+
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+            }
+        });
+
+        //设置广告的属性
+        VideoOptions videoOptions = new VideoOptions.Builder().setStartMuted(true).build();
+        NativeAdOptions adOptions = new NativeAdOptions.Builder().setVideoOptions(videoOptions)
+                //.setAdChoicesPlacement(ADCHOICES_BOTTOM_RIGHT)//设置广告中自带的广告标识view的位置，不设置默认显示在右上角
+                .build();
+        builder.withNativeAdOptions(adOptions);
+
+        AdLoader adLoader = builder.build();
+        adLoader.loadAd(new AdRequest.Builder().build());
     }
 
-    public  native String encodeInC(Context ctx, String time);
-    public  native String decodeInC(String str);
 
     private void fade() {
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.5f, 1.0f);
@@ -126,51 +150,10 @@ public class SplashActivity extends BaseActivity {
 
     private void loadAd() {
 
-        Log.i("_sign", encodeInC(this, "123456"));
-        Log.i("_sign_d", decodeInC("43EGD42789G369:438DG5F6D3F85GFFG345678"));
-        //获取ID
+
         GetDevicesId.getInstance().writeId();
         AdStartManager.start(App.getInstance(), GetDevicesId.getInstance().getDeviceId());
         showLoading();
-        splashAd = new VideoSplashAd(this, "splash", "1");
-        splashAd.loadAd("splash");
-        splashAd.setListener(new SplashAdListener() {
-            @Override
-            public void onLoaded() {
-                splashAd.setReady(true);
-                splashAd.showAd();
-            }
-
-            @Override
-            public void onShow() {
-                showSuccess();
-                splashAd.setReady(false);
-            }
-
-            @Override
-            public void onClick() {
-
-            }
-
-            @Override
-            public void onFinish() {
-                jumpActivity();
-            }
-
-            @Override
-            public void onError(String s, int i) {
-
-            }
-
-            @Override
-            public void onNoAd() {
-            }
-
-            @Override
-            public void onClose() {
-
-            }
-        });
     }
 
     /**

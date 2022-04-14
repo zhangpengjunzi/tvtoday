@@ -2,7 +2,6 @@ package com.bt.jrsdk.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -22,13 +21,9 @@ import com.bytedance.sdk.openadsdk.TTImage;
 import com.bytedance.sdk.openadsdk.TTNativeAd;
 import com.squareup.picasso.Picasso;
 import com.today.player.R;
-import com.today.player.picasso.RoundTransformation;
-import com.today.player.ui.activity.SplashActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import me.jessyan.autosize.utils.AutoSizeUtils;
 
 public class TTAdFullActivity extends BaseActivity {
 
@@ -87,7 +82,7 @@ public class TTAdFullActivity extends BaseActivity {
                 finish();
             }
         });
-        ad = AdWeightManager.getInstance().gdtAds.get(0);
+        ad = AdWeightManager.getInstance().ttAds.get(0);
         //check ad form, set video view
         if (ad.getImageMode() == TTAdConstant.IMAGE_MODE_VIDEO || ad.getImageMode() == TTAdConstant.IMAGE_MODE_VIDEO_SQUARE) {
             if (frameVideo != null) {

@@ -173,7 +173,15 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void searchResult() {
-        if (sourceIndex < searchRequestList.size()) {
+        for(int i=0;i<searchRequestList.size();i++){
+            boolean isActive = searchRequestList.get(i).isActive();
+            if (isActive) {
+                String api = searchRequestList.get(i).getApi();
+                String sourceName = searchRequestList.get(i).getName();
+                sourceViewModel.getSearch(api, searchTitle, sourceName);
+            }
+        }
+      /*  if (sourceIndex < searchRequestList.size()) {
             boolean isActive = searchRequestList.get(sourceIndex).isActive();
             if (isActive) {
                 String api = searchRequestList.get(sourceIndex).getApi();
@@ -183,7 +191,7 @@ public class SearchActivity extends BaseActivity {
                 sourceIndex++;
                 searchResult();
             }
-        }
+        }*/
     }
 
 
@@ -191,7 +199,7 @@ public class SearchActivity extends BaseActivity {
         if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
             List<Movie.Video> data = new ArrayList<>();
             for (Movie.Video video : absXml.movie.videoList) {
-                if (!DefaultConfig.isContains(video.type)) {
+                if (!ApiConfig.get().getFilterResult().contains(video.type)) {
                     data.add(video);
                 }
             }
@@ -203,15 +211,14 @@ public class SearchActivity extends BaseActivity {
                 searchAdapter.setNewData(data);
             }
         }
-
         if (++sourceIndex == searchRequestList.size()) {
             if (searchAdapter.getData().size() <= 0) {
                 showEmpty();
             }
             cancel();
-        } else {
+        } /*else {
             searchResult();
-        }
+        }*/
     }
 
     private void cancel() {

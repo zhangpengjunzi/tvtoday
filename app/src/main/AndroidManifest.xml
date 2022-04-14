@@ -26,6 +26,10 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1919587953327793~8641527294"/>
+
         <service
             android:name=".service.DownLoadService"
             android:enabled="true"
@@ -161,6 +165,15 @@
 
         <activity
             android:name="com.bt.jrsdk.activity.TTAdFullActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.MyTransparent" />
+
+
+        <activity
+            android:name="com.bt.jrsdk.activity.MobAdActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:exported="false"
             android:hardwareAccelerated="true"

@@ -3,6 +3,7 @@ package com.today.player.ad;
 import android.app.Activity;
 
 import com.bt.admanager.AdWeightManager;
+import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.ads.SplashAd;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.txad.TTFeedAd;
@@ -12,26 +13,32 @@ import com.today.player.bean.PlayerModel;
 import java.util.List;
 import java.util.Random;
 
-public class VideoSplashAd extends BasePangleAd {
+public class VideoSplashAd extends BaseVideoAd {
 
-    public VideoSplashAd(Activity activity, String pid, String ad_type) {
-        ad = new SplashAd(activity, pid, ad_type);
-        ttFeedAd = new TTFeedAd(activity, pid, 0,this);
+    private Activity activity;
+    private String pid;
+    private String ad_type;
+    private SplashAdListener splashAdListener;
+
+    public VideoSplashAd(Activity activity, String pid, String ad_type, SplashAdListener splashAdListener) {
+        this.activity = activity;
+        this.pid = pid;
+        this.ad_type = ad_type;
+        this.splashAdListener = splashAdListener;
         setAdType();
     }
 
-
-    public void setListener(SplashAdListener splashAdListener) {
-        if (ad != null) {
-            ((SplashAd) ad).setSplashListener(splashAdListener);
-        }
-        if (ttFeedAd != null) {
-//            ad.setVideoListener(adListener);
-            ttFeedAd.setSplashListener(splashAdListener);
-        }
-
+    @Override
+    public BaseAd getMyAd() {
+        ad = new SplashAd(activity, pid, ad_type);
+        ((SplashAd) ad).setSplashListener(splashAdListener);
+        return ad;
     }
 
-
-
+    @Override
+    public TTFeedAd getTTAd() {
+        ttAd = new TTFeedAd(activity, pid, 0, this);
+        ttAd.setSplashListener(splashAdListener);
+        return ttAd;
+    }
 }

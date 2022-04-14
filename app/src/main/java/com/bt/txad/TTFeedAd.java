@@ -1,13 +1,11 @@
 package com.bt.txad;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.text.TextUtils;
 
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.activity.TTAdFullActivity;
 import com.bt.jrsdk.ads.BaseAd;
-import com.bt.jrsdk.config.AdType;
 import com.bt.jrsdk.config.Config;
 import com.bt.jrsdk.httplib.config.HttpMethod;
 import com.bt.jrsdk.listener.SplashAdListener;
@@ -23,7 +21,6 @@ import com.today.player.ad.GdtAdListener;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.App;
 import com.today.player.bean.PlayerModel;
-import com.today.player.ui.activity.SplashActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,10 +35,14 @@ public class TTFeedAd extends BaseAd {
     private SplashAdListener listener;
     private VideoAdListener videoAdListener;
     private GdtAdListener mGdtListener;
+    private String ttPid;
 
     public TTFeedAd(Activity activity, String pid, int adType, GdtAdListener gdtAdListener) {
         super(activity, pid);
-        ttAdNative = TTAdSdk.getAdManager().createAdNative(App.getInstance());
+        ttPid = getGdtPid();
+        if (!TextUtils.isEmpty(ttPid)) {
+            ttAdNative = TTAdSdk.getAdManager().createAdNative(App.getInstance());
+        }
         mAdType = adType;
         mGdtListener = gdtAdListener;
     }
@@ -50,6 +51,8 @@ public class TTFeedAd extends BaseAd {
     protected void loadCurrentAd() {
         if (ttAdNative != null) {
             loadTT();
+        } else {
+            mGdtListener.noAd();
         }
     }
 
@@ -77,6 +80,10 @@ public class TTFeedAd extends BaseAd {
         AdListenerManager.getInstance().recycleSplashListener(pid);
         AdListenerManager.getInstance().recycleVideoListener(pid);
         AdObserver.getInstance().recycleVideo(pid);
+        AdWeightManager.getInstance().ttAds.clear();
+        if (ttAdNative != null) {
+            ttAdNative = null;
+        }
     }
 
 
@@ -108,7 +115,7 @@ public class TTFeedAd extends BaseAd {
             public void onFeedAdLoad(List<com.bytedance.sdk.openadsdk.TTFeedAd> ttFeedAd) {
                 if (ttFeedAd != null && ttFeedAd.size() > 0) {
                     //跳转
-                    AdWeightManager.getInstance().gdtAds = ttFeedAd;
+                    AdWeightManager.getInstance().ttAds = ttFeedAd;
                     if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
                         AdListenerManager.getInstance().getSplashListener(pid).onLoaded();
                     }
