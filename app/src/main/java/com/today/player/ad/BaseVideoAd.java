@@ -1,20 +1,21 @@
 package com.today.player.ad;
 
-import android.app.Activity;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.bt.admanager.AdWeightManager;
+import com.bt.admanager.TTAdManagerHolder;
 import com.bt.jrsdk.ads.BaseAd;
-import com.bt.sig.SigMobAd;
+import com.bt.ttad.TTAd;
 import com.bt.txad.GdtNativeAdPreMovie;
 
 public abstract class BaseVideoAd implements GdtAdListener {
     protected GdtNativeAdPreMovie gdtNativeAdPreMovie;
-    protected SigMobAd sigMobAd;
+    protected TTAd ttAd;
     protected String adType;
     public static final String GDT_AD = "tx";
     public static final String MD_AD = "md";
-    public static final String SIG_AD = "sig";
+    public static final String TT_AD = "tt";
     protected BaseAd ad;
     protected boolean isReady;
     protected String content;
@@ -24,7 +25,7 @@ public abstract class BaseVideoAd implements GdtAdListener {
 
     public abstract BaseAd getMyAd();
 
-    public abstract SigMobAd getSigMobAd();
+    public abstract TTAd getTTAd();
 
     protected void setAdType() {
         if (AdWeightManager.getInstance().canGetAd()) {
@@ -34,6 +35,9 @@ public abstract class BaseVideoAd implements GdtAdListener {
                 adType = AdWeightManager.getInstance().getCurrentAd();
             }
         } else {
+            adType = MD_AD;
+        }
+        if ((adType.equals(TT_AD) && !TTAdManagerHolder.isSuccess) || Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             adType = MD_AD;
         }
     }
@@ -56,11 +60,11 @@ public abstract class BaseVideoAd implements GdtAdListener {
                         ad.loadAd(content);
                     }
                     break;
-                case SIG_AD:
-                    sigMobAd = getSigMobAd();
-                    if (sigMobAd != null) {
+                case TT_AD:
+                    ttAd = getTTAd();
+                    if (ttAd != null) {
                         this.content = content;
-                        sigMobAd.loadAd(content);
+                        ttAd.loadAd(content);
                     }
                     break;
             }
@@ -86,9 +90,9 @@ public abstract class BaseVideoAd implements GdtAdListener {
                         ad.showAd();
                     }
                     break;
-                case SIG_AD:
-                    if (sigMobAd != null) {
-                        sigMobAd.showAd();
+                case TT_AD:
+                    if (ttAd != null) {
+                        ttAd.showAd();
                     }
                     break;
             }
@@ -114,9 +118,9 @@ public abstract class BaseVideoAd implements GdtAdListener {
             gdtNativeAdPreMovie.recycle();
             ad = null;
         }
-        if (sigMobAd != null) {
-            sigMobAd.recycle();
-            sigMobAd = null;
+        if (ttAd != null) {
+            ttAd.recycle();
+            ttAd = null;
         }
     }
 

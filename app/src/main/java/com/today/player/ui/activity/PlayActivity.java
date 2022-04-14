@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
@@ -41,7 +40,6 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -310,6 +308,11 @@ public class PlayActivity extends BaseActivity {
             dialog.show();
         }
         String srcName = DownloadManager.getInstance().getSrcName();
+        if (ApiConfig.get().getSource(sourceKey) == null) {
+            Toast.makeText(this, "播放错误", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         String playerUrl = ApiConfig.get().getSource(sourceKey).getPlayerUrl();
         if ((!TextUtils.isEmpty(playUrl) && !TextUtils.isEmpty(srcName) && mVodInfo.sourceKey.equals(srcName)) || (!TextUtils.isEmpty(playerUrl) && playerUrl.contains(basePlb))) {
             DownloadManager.getInstance().setCurrentPlayerUrl(playUrl);

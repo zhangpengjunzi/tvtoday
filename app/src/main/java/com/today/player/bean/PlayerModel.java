@@ -25,14 +25,14 @@ public class PlayerModel {
     private IjkDTO ijk;
     private List<String> ads;
     private TxadDTO txad;
-    private SigadDTO sigad;
+    private TTadDTO ttad;
 
-    public SigadDTO getSigadDTO() {
-        return sigad;
+    public TTadDTO getTtad() {
+        return ttad;
     }
 
-    public void setSigadDTO(SigadDTO sigadDTO) {
-        this.sigad = sigadDTO;
+    public void setTtad(TTadDTO ttad) {
+        this.ttad = ttad;
     }
 
     public TxadDTO getTxad() {
@@ -130,7 +130,7 @@ public class PlayerModel {
     }
 
 
-    public static class SigadDTO {
+    public static class TTadDTO {
         private List<String> tiepian_image;
         private List<String> tiepian_video;
 

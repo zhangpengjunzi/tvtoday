@@ -8,7 +8,7 @@ import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.ads.SplashAd;
 import com.bt.jrsdk.config.AdType;
 import com.bt.jrsdk.listener.SplashAdListener;
-import com.bt.sig.SigMobAd;
+import com.bt.ttad.TTAd;
 import com.bt.txad.GdtNativeAdPreMovie;
 import com.today.player.api.ApiConfig;
 import com.today.player.bean.PlayerModel;
@@ -68,9 +68,9 @@ public class VideoSplashAd extends BaseVideoAd {
     }
 
     @Override
-    public SigMobAd getSigMobAd() {
-        sigMobAd = new SigMobAd(activity, pid, this, 0);
-        sigMobAd.setSplashListener(splashAdListener);
-        return sigMobAd;
+    public TTAd getTTAd() {
+        ttAd = new TTAd(activity, pid, this, 0);
+        ttAd.setSplashListener(splashAdListener);
+        return ttAd;
     }
 }

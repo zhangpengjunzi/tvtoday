@@ -8,9 +8,9 @@ import android.content.res.Configuration;
 import android.os.BatteryManager;
 import android.os.Build;
 
+import com.lzy.okgo.utils.SaveManager;
 import com.today.player.base.App;
 import com.today.player.report.AliReportManager;
-import com.lzy.okgo.utils.SaveManager;
 
 import java.net.URLEncoder;
 import java.util.HashMap;

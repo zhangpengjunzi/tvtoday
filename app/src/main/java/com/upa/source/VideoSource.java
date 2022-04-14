@@ -1,17 +1,12 @@
 package com.upa.source;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
-
 
 import com.today.player.base.App;
-import com.upa.http.HttpRequest;
 import com.upa.http.SSLSocketFactoryCompat;
-import com.upa.tool.ApkUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -33,7 +28,7 @@ import javax.net.ssl.X509TrustManager;
 
 
 public class VideoSource {
-    public static final String url = "https://lfqdy.oss-cn-hongkong.aliyuncs.com/lfqdyapp/cn/tvb";
+    public static final String url = "https://lfqdy.oss-cn-hongkong.aliyuncs.com/lfqdyapp/cn/tvs";
 
     public static final String NET_MD5_FILE_NAME = "tv_source_file_name";
     public static final String NET_MD5 = "tv_source_net_md5";

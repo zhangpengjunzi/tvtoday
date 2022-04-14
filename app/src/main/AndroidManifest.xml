@@ -186,10 +186,16 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
 
         <activity
-            android:name="com.bt.jrsdk.activity.NativeAdUnifiedActivity"
+            android:name="com.bt.jrsdk.activity.TTAdPreMovieActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.MyTransparent"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+
+<!--        <activity
+            android:name="com.bt.jrsdk.activity.NativeAdUnifiedActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.MyTransparent"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />-->
 
         <provider
             android:name="com.qq.e.comm.GDTFileProvider"
@@ -201,24 +207,29 @@
                 android:resource="@xml/gdt_file_path" />
         </provider>
 
-
-
-        <!--广告展示Activity -->
-        <activity
-            android:name="com.sigmob.sdk.base.common.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@style/sig_transparent_style" />
-
+        <!--   <provider
+               android:name="com.sigmob.sdk.SigmobXFileProvider"
+               android:authorities="${applicationId}.sigprovider"
+               android:exported="false"
+               android:grantUriPermissions="true">
+               <meta-data
+                   android:name="android.support.FILE_PROVIDER_PATHS"
+                   android:resource="@xml/sigmob_provider_paths"/>
+           </provider>-->
         <provider
-            android:name="com.sigmob.sdk.SigmobXFileProvider"
-            android:authorities="${applicationId}.sigprovider"
+            android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
+            android:authorities="${applicationId}.TTFileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/sigmob_provider_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
+            android:authorities="${applicationId}.TTMultiProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

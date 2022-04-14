@@ -10,31 +10,17 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.manager.AdStartManager;
-
-import com.sigmob.windad.WindAdError;
-import com.sigmob.windad.WindAds;
-import com.sigmob.windad.natives.NativeADData;
-import com.sigmob.windad.natives.WindNativeAdRequest;
-import com.sigmob.windad.natives.WindNativeUnifiedAd;
 import com.today.player.R;
-import com.today.player.ad.VideoSplashAd;
 import com.today.player.base.App;
 import com.today.player.base.BaseActivity;
-import com.today.player.base.MyApplicationLike;
 import com.today.player.util.GetDevicesId;
-
-import java.util.List;
 
 /**
  * @author pj567
@@ -56,7 +42,6 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void init() {
         imageView = findViewById(R.id.splash_img);
-        WindAds.requestPermission(SplashActivity.this);
         fade();
     }
 
@@ -98,17 +83,19 @@ public class SplashActivity extends BaseActivity {
 
     public void start() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                    PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.READ_PHONE_STATE) !=
-                    PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                    PackageManager.PERMISSION_GRANTED) {
-                requestPermission();
+            if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) /*|| checkPermission(Manifest.permission.READ_PHONE_STATE) || checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)*/) {
+                requestPermission(0);
             } else {
                 loadAd();
             }
         } else {
             loadAd();
         }
+    }
+
+    private boolean checkPermission(String permission) {
+        return ContextCompat.checkSelfPermission(SplashActivity.this, permission) !=
+                PackageManager.PERMISSION_GRANTED;
     }
 
 
@@ -162,10 +149,16 @@ public class SplashActivity extends BaseActivity {
     /**
      * 动态申请权限
      */
-    private void requestPermission() {
+    private void requestPermission(int type) {
+        String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+       /* if (type == 0) {
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION};
+        } else {
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }*/
         //申请 权限
         ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION},
+                permissions,
                 0);
     }
 
@@ -177,21 +170,19 @@ public class SplashActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case 0: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (!checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     loadAd();
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (shouldShowRequestPermissionRationale(permissions[0])) {
+                        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                             pemissionRejectCount++;
                             if (pemissionRejectCount > 2) {
                                 finish();
                                 return;
                             }
-                            Toast.makeText(this, "此权限为下载新版必须依赖权限，请允许该权限", Toast.LENGTH_LONG).show();
-                            requestPermission();
+                            requestPermission(1);
                         } else {
-                            if (grantResults[0] != 0) {
+                            if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                 Toast.makeText(this, "权限被禁止,请在设置页打开存储权限或者重新安装应用", Toast.LENGTH_LONG).show();
                                 if (!isSettingBack) {
                                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);

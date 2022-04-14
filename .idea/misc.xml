@@ -76,6 +76,10 @@
         <entry key="..\:/tv_today_source/app/src/main/res/layout/activity_interaction_ad.xml" value="0.24166666666666667" />
         <entry key="..\:/tv_today_source/app/src/main/res/layout/activity_native_unified_ad_premovie.xml" value="0.2833333333333333" />
         <entry key="..\:/tv_today_source/app/src/main/res/layout/activity_native_unified_ad_premovie_pause.xml" value="0.24166666666666667" />
+        <entry key="..\:/tv_today_source/app/src/main/res/layout/activity_native_unified_sigmob_ad_pause.xml" value="0.2557291666666667" />
+        <entry key="..\:/tv_today_source/app/src/main/res/layout/activity_native_unified_sigmob_ad_premovie.xml" value="0.21770833333333334" />
+        <entry key="..\:/tv_today_source/app/src/main/res/layout/activity_ttad_pause.xml" value="0.22447916666666667" />
+        <entry key="..\:/tv_today_source/app/src/main/res/layout/activity_ttad_premovie.xml" value="0.27760416666666665" />
         <entry key="..\:/tv_today_source/app/src/main/res/layout/activity_video.xml" value="0.278125" />
         <entry key="app/src/main/res/drawable-hdpi/shape_recommend_no_focus.xml" value="0.124" />
         <entry key="app/src/main/res/drawable-xhdpi/dkplayer_layer_progress_bar.xml" value="0.124" />
