@@ -68,6 +68,7 @@ public class TTAd extends BaseAd implements TTAdNative.SplashAdListener {
             }
             AdSlot adSlot = new AdSlot.Builder()
                     .setCodeId(sigPid)
+                    .setSupportDeepLink(true)
                     .setExpressViewAcceptedSize(splashWidthDp, splashHeightDp) // 单位是dp
                     .build();
             mTTAdNative.loadSplashAd(adSlot, this);

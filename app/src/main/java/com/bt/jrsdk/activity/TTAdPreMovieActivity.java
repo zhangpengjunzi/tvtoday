@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.util.Utils;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
+import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.today.player.R;
 
@@ -90,12 +92,10 @@ public class TTAdPreMovieActivity extends Activity {
             mSplashAd.setSplashInteractionListener(new TTSplashAd.AdInteractionListener() {
                 @Override
                 public void onAdClicked(View view, int i) {
-                    Log.i("_tt","click");
                 }
 
                 @Override
                 public void onAdShow(View view, int i) {
-                    Log.i("_tt","show");
                     if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
                         AdListenerManager.getInstance().getSplashListener(pid).onShow();
                     }
@@ -114,6 +114,41 @@ public class TTAdPreMovieActivity extends Activity {
 
                 }
             });
+
+            if (mSplashAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+                mSplashAd.setDownloadListener(new TTAppDownloadListener() {
+                    boolean hasShow = false;
+
+                    @Override
+                    public void onIdle() {
+                    }
+
+                    @Override
+                    public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+
+                    }
+
+                    @Override
+                    public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+
+                    }
+
+                    @Override
+                    public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+
+                    }
+
+                    @Override
+                    public void onDownloadFinished(long totalBytes, String fileName, String appName) {
+
+                    }
+
+                    @Override
+                    public void onInstalled(String fileName, String appName) {
+
+                    }
+                });
+            }
         }
     }
 
