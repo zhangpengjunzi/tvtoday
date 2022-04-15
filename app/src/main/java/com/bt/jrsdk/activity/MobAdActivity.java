@@ -2,7 +2,9 @@ package com.bt.jrsdk.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -31,23 +33,28 @@ public class MobAdActivity extends Activity {
     public static void populateUnifiedNativeAdViewForImgAndBody(UnifiedNativeAd nativeAd,
                                                                 UnifiedNativeAdView adView) {
         // Set the media view.
-        //  adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
+        adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
         adView.setMediaView(adView.findViewById(R.id.ad_media));
-        // adView.setBodyView(adView.findViewById(R.id.ad_body));
-
+        adView.setBodyView(adView.findViewById(R.id.ad_body));
+        adView.setIconView(adView.findViewById(R.id.ad_icon));
         // The mediaContent are guaranteed to be in every UnifiedNativeAd.
         adView.getMediaView().setMediaContent(nativeAd.getMediaContent());
         adView.getMediaView().setImageScaleType(ImageView.ScaleType.FIT_XY);
-        //  ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
+        ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
+        ((ImageView) adView.getIconView()).setImageDrawable(nativeAd.getIcon().getDrawable());
+        String headline=nativeAd.getHeadline();
+        String body=nativeAd.getBody();
+
 
         // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
         // check before trying to display them.
-       /* if (nativeAd.getBody() == null) {
+        if (nativeAd.getBody() == null) {
             adView.getBodyView().setVisibility(View.INVISIBLE);
+            ((TextView) adView.getHeadlineView()).setGravity(View.TEXT_ALIGNMENT_CENTER);
         } else {
             adView.getBodyView().setVisibility(View.VISIBLE);
             ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
-        }*/
+        }
 
         // This method tells the Google Mobile Ads SDK that you have finished populating your
         // native ad view with this native ad.
@@ -65,7 +72,6 @@ public class MobAdActivity extends Activity {
                 public void onVideoEnd() {
                     // Publishers should allow native ads to complete video playback before
                     // refreshing or replacing them with another ad in the same UI location.
-
                     super.onVideoEnd();
                 }
             });

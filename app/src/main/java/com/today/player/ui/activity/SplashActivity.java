@@ -53,7 +53,7 @@ public class SplashActivity extends BaseActivity {
     protected void init() {
         imageView = findViewById(R.id.splash_img);
         //fade();
-        loadAd(this,"ca-app-pub-1919587953327793/8883718807");
+        loadAd(this,"ca-app-pub-3940256099942544/1044960115");
     }
 
 
