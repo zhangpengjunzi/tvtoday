@@ -5,21 +5,31 @@ import android.text.TextUtils;
 
 import com.bt.admanager.AdWeightManager;
 import com.bt.admanager.TTAdManagerHolder;
+import com.bt.bdad.BdAd;
 import com.bt.jrsdk.ads.BaseAd;
+import com.bt.jrsdk.util.Utils;
 import com.bt.ttad.TTAd;
 import com.bt.txad.GdtNativeAdPreMovie;
 
 public abstract class BaseVideoAd implements GdtAdListener {
     protected GdtNativeAdPreMovie gdtNativeAdPreMovie;
     protected TTAd ttAd;
+    protected BdAd bdAd;
     protected String adType;
+    protected String adKinds;
+
     public static final String GDT_AD = "tx";
     public static final String MD_AD = "md";
     public static final String TT_AD = "tt";
+    public static final String BD_AD = "bd";
+
+    public static final String AD_FULLVIDEO = "fullvideo";
+    public static final String AD_PAUSEVIDEO = "pausevideo";
+    public static final String AD_REWARDVIDEO = "rewardvideo";
+
     protected BaseAd ad;
     protected boolean isReady;
     protected String content;
-
 
     public abstract GdtNativeAdPreMovie getGdtNativeAdPreMovie();
 
@@ -27,18 +37,30 @@ public abstract class BaseVideoAd implements GdtAdListener {
 
     public abstract TTAd getTTAd();
 
+    public abstract BdAd getBdAd();
+
     protected void setAdType() {
-        if (AdWeightManager.getInstance().canGetAd()) {
-            if (AdWeightManager.getInstance().canGdt() && AdWeightManager.getInstance().getSplashImageCount() != 0 && AdWeightManager.getInstance().getSplashImageCount() % 3 == 0) {
-                adType = GDT_AD;
-            } else {
-                adType = AdWeightManager.getInstance().getCurrentAd();
-            }
-        } else {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O
+                || Utils.getDeviceType().equals("1")
+                || !AdWeightManager.getInstance().canGetAd()) {
+            adType = MD_AD;
+            return;
+        }
+        adType = AdWeightManager.getInstance().getCurrentAd();
+        if ((adType.equals(TT_AD) && !TTAdManagerHolder.isSuccess)) {
             adType = MD_AD;
         }
-        if ((adType.equals(TT_AD) && !TTAdManagerHolder.isSuccess) || Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            adType = MD_AD;
+    }
+
+    protected void setAdKinds(int type) {
+        if (type == 0) {
+            if (AdWeightManager.getInstance().getSplashImageCount() % 4 == 0) {
+                adKinds = AD_REWARDVIDEO;
+            } else {
+                adKinds = AD_FULLVIDEO;
+            }
+        } else {
+            adKinds = AD_PAUSEVIDEO;
         }
     }
 
@@ -67,6 +89,13 @@ public abstract class BaseVideoAd implements GdtAdListener {
                         ttAd.loadAd(content);
                     }
                     break;
+                case BD_AD:
+                    bdAd = getBdAd();
+                    if (bdAd != null) {
+                        this.content = content;
+                        bdAd.loadAd(content);
+                    }
+                    break;
             }
         } else {
             ad = getMyAd();
@@ -93,6 +122,11 @@ public abstract class BaseVideoAd implements GdtAdListener {
                 case TT_AD:
                     if (ttAd != null) {
                         ttAd.showAd();
+                    }
+                    break;
+                case BD_AD:
+                    if (bdAd != null) {
+                        bdAd.showAd();
                     }
                     break;
             }

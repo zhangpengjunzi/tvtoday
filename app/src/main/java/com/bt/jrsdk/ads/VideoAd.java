@@ -24,6 +24,7 @@ import com.bt.jrsdk.manager.AdStartManager;
 import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.NetUtil;
 import com.bt.jrsdk.util.Utils;
+import com.today.player.base.App;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class VideoAd extends BaseAd {
         params.put("ad_type", AdType.AD_INTERACTION);
         params.put("uid", AdStartManager.uid);
         params.put("device_type", Utils.getDeviceType());
-        params.put("package", getActivity().getPackageName());
+        params.put("package", App.getInstance().getPackageName());
         params.put("pid", pid);
         RequestClient request = new RequestClient.Builder()
                 .setHost(Config.AD_HOST)

@@ -26,6 +26,15 @@ public class PlayerModel {
     private List<String> ads;
     private TxadDTO txad;
     private TTadDTO ttad;
+    private BdadDTO bdad;
+
+    public BdadDTO getBdad() {
+        return bdad;
+    }
+
+    public void setBdad(BdadDTO bdad) {
+        this.bdad = bdad;
+    }
 
     public TTadDTO getTtad() {
         return ttad;
@@ -133,6 +142,46 @@ public class PlayerModel {
     public static class TTadDTO {
         private List<String> tiepian_image;
         private List<String> tiepian_video;
+        private List<String> pause_image;
+
+        public List<String> getPause_image() {
+            return pause_image;
+        }
+
+        public void setPause_image(List<String> pause_image) {
+            this.pause_image = pause_image;
+        }
+
+        public List<String> getTiepian_image() {
+            return tiepian_image;
+        }
+
+        public void setTiepian_image(List<String> tiepian_image) {
+            this.tiepian_image = tiepian_image;
+        }
+
+        public List<String> getTiepian_video() {
+            return tiepian_video;
+        }
+
+        public void setTiepian_video(List<String> tiepian_video) {
+            this.tiepian_video = tiepian_video;
+        }
+    }
+
+
+    public static class BdadDTO {
+        private List<String> tiepian_image;
+        private List<String> tiepian_video;
+        private List<String> pause_image;
+
+        public List<String> getPause_image() {
+            return pause_image;
+        }
+
+        public void setPause_image(List<String> pause_image) {
+            this.pause_image = pause_image;
+        }
 
         public List<String> getTiepian_image() {
             return tiepian_image;

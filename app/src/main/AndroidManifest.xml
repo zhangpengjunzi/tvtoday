@@ -191,6 +191,12 @@
             android:theme="@style/Theme.MyTransparent"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
 
+        <activity
+            android:name="com.bt.jrsdk.activity.BdPauseVideoActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.MyTransparent"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+
 <!--        <activity
             android:name="com.bt.jrsdk.activity.NativeAdUnifiedActivity"
             android:screenOrientation="landscape"
@@ -230,6 +236,27 @@
             android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
             android:authorities="${applicationId}.TTMultiProvider"
             android:exported="false" />
+
+        <activity
+            android:name="com.baidu.mobads.sdk.api.AppActivity"
+            android:configChanges="screenSize|keyboard|keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+
+        <activity
+            android:name="com.baidu.mobads.sdk.api.MobRewardVideoActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <provider
+            android:name="com.baidu.mobads.sdk.api.BdFileProvider"
+            android:authorities="${applicationId}.bd.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/bd_file_paths" />
+        </provider>
     </application>
 
 </manifest>

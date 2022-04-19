@@ -1,84 +1,88 @@
 package com.bt.txad;
 
 import android.app.Activity;
-import android.content.res.Configuration;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.bt.admanager.AdWeightManager;
-import com.bt.jrsdk.activity.NativeADUnifiedPreMovieActivity;
-import com.bt.jrsdk.activity.SplashAdActivity;
 import com.bt.jrsdk.ads.BaseAd;
-import com.bt.jrsdk.config.AdType;
-import com.bt.jrsdk.config.Config;
-import com.bt.jrsdk.httplib.config.HttpMethod;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
 import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.manager.AdObserver;
-import com.bt.jrsdk.manager.AdStartManager;
-import com.bt.jrsdk.util.NetUtil;
 import com.qq.e.ads.cfg.VideoOption;
-import com.qq.e.ads.nativ.NativeADEventListener;
-import com.qq.e.ads.nativ.NativeADMediaListener;
-import com.qq.e.ads.nativ.NativeADUnifiedListener;
-import com.qq.e.ads.nativ.NativeUnifiedAD;
-import com.qq.e.ads.nativ.NativeUnifiedADData;
-import com.qq.e.comm.constants.AdPatternType;
+import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
+import com.qq.e.ads.interstitial2.UnifiedInterstitialADListener;
+import com.qq.e.ads.rewardvideo.RewardVideoAD;
+import com.qq.e.ads.rewardvideo.RewardVideoADListener;
 import com.qq.e.comm.util.AdError;
 import com.today.player.ad.BaseVideoAd;
 import com.today.player.ad.GdtAdListener;
 import com.today.player.api.ApiConfig;
 import com.today.player.bean.PlayerModel;
-import com.today.player.util.LogUtil;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class GdtNativeAdPreMovie extends BaseAd implements NativeADUnifiedListener {
-    private NativeUnifiedAD nativeUnifiedAD;
+public class GdtNativeAdPreMovie extends BaseAd {
+    private RewardVideoAD rewardVideoAD;
+    private UnifiedInterstitialAD fullInterstitial;
+
     private SplashAdListener listener;
     private VideoAdListener videoAdListener;
-    private NativeUnifiedADData adData;
     private GdtAdListener mListener;
     private int adType;
     private String gdtPid;
+    private Activity activity;
+    private String adKinds;
 
-    public GdtNativeAdPreMovie(Activity activity, String pid, GdtAdListener listener, String gdtPid, int type) {
+    public GdtNativeAdPreMovie(Activity activity, String pid, GdtAdListener listener, int type, String adKind) {
         super(activity, pid);
         //nativeUnifiedAD = new NativeUnifiedAD(activity, "4093818571292527", this);
         mListener = listener;
-        if (!TextUtils.isEmpty(gdtPid)) {
-            nativeUnifiedAD = new NativeUnifiedAD(activity, gdtPid, this);
-            nativeUnifiedAD.setMinVideoDuration(5000);
-            nativeUnifiedAD.setMaxVideoDuration(10000);
-        }
+        this.activity = activity;
+        this.adKinds = adKind;
         adType = type;
-        this.gdtPid = gdtPid;
+        this.gdtPid = getSigPid();
     }
 
 
 
     @Override
     protected void loadCurrentAd() {
-        if (nativeUnifiedAD != null) {
-            nativeUnifiedAD.loadData(1);
-        } else {
-            if (mListener != null) {
-                mListener.noAd();
-            }
+        switch (adKinds) {
+            case BaseVideoAd.AD_FULLVIDEO:
+            case BaseVideoAd.AD_PAUSEVIDEO:
+                loadFullVideo();
+                break;
+            case BaseVideoAd.AD_REWARDVIDEO:
+                loadReward();
+                break;
         }
     }
 
     @Override
     public void showAd() {
-        if (adData != null && AdWeightManager.getInstance().canJump()) {
-            AdWeightManager.getInstance().setGdtAdType(adType);
-            go2AdActivity(NativeADUnifiedPreMovieActivity.class);
-            reportGdtShow();
+        switch (adKinds) {
+            case BaseVideoAd.AD_FULLVIDEO:
+            case BaseVideoAd.AD_PAUSEVIDEO:
+                if (fullInterstitial != null) {
+                    if (listener != null) {
+                        listener.onShow();
+                    }
+                    if (videoAdListener != null) {
+                        videoAdListener.onShow();
+                    }
+                    if (adType == 0) {
+                        fullInterstitial.showFullScreenAD(activity);
+                    } else {
+                        fullInterstitial.show(activity);
+                    }
+                }
+                break;
+            case BaseVideoAd.AD_REWARDVIDEO:
+                if (rewardVideoAD != null) {
+                    rewardVideoAD.showAD(activity);
+                }
+                break;
         }
     }
 
@@ -97,100 +101,190 @@ public class GdtNativeAdPreMovie extends BaseAd implements NativeADUnifiedListen
         AdListenerManager.getInstance().recycleSplashListener(pid);
         AdListenerManager.getInstance().recycleVideoListener(pid);
         AdObserver.getInstance().recycleVideo(pid);
-    }
-
-    @Override
-    public void onADLoaded(List<NativeUnifiedADData> list) {
-        LogUtil.d("onADLoaded");
-        if (list != null && list.size() > 0) {
-            adData = list.get(0);
-            AdWeightManager.getInstance().gdtAds = list;
-            setAdData(adData);
-            if (listener != null) {
-                listener.onLoaded();
-            }
-            if (videoAdListener != null) {
-                videoAdListener.onLoaded();
-            }
-            reportGdtLoad();
+        if (rewardVideoAD != null) {
+            rewardVideoAD = null;
+        }
+        if (fullInterstitial != null) {
+            fullInterstitial = null;
         }
     }
 
-    private void setAdData(NativeUnifiedADData adData) {
-        adData.setNativeAdEventListener(new NativeADEventListener() {
+
+    private void loadReward() {
+        rewardVideoAD = new RewardVideoAD(activity, gdtPid, new RewardVideoADListener() {
             @Override
-            public void onADExposed() {
-                LogUtil.d("onADExposed");
+            public void onADLoad() {
+                if (listener != null) {
+                    listener.onLoaded();
+                }
+                if (videoAdListener != null) {
+                    videoAdListener.onLoaded();
+                }
+            }
+
+            @Override
+            public void onVideoCached() {
+
+            }
+
+            @Override
+            public void onADShow() {
+                if (listener != null) {
+                    listener.onShow();
+                }
+                if (videoAdListener != null) {
+                    videoAdListener.onShow();
+                }
+            }
+
+            @Override
+            public void onADExpose() {
+
+            }
+
+            @Override
+            public void onReward(Map<String, Object> map) {
+
+            }
+
+            @Override
+            public void onADClick() {
+
+            }
+
+            @Override
+            public void onVideoComplete() {
+
+            }
+
+            @Override
+            public void onADClose() {
+                if (listener != null) {
+                    listener.onClose();
+                    listener.onFinish();
+                }
+                if (videoAdListener != null) {
+                    videoAdListener.onClose();
+                    videoAdListener.onFinish();
+                }
+            }
+
+            @Override
+            public void onError(AdError adError) {
+                if (mListener != null) {
+                    mListener.noAd();
+                }
+            }
+        });
+        rewardVideoAD.loadAD();
+    }
+
+
+    private String getSigPid() {
+        String gdtPid = "";
+        PlayerModel.TxadDTO txadDTO = ApiConfig.get().getTxad();
+        if (txadDTO != null) {
+            Random random = new Random();
+            List<String> pauseList = null;
+            switch (adKinds) {
+                case BaseVideoAd.AD_FULLVIDEO:
+                    pauseList = txadDTO.getTiepian_image();
+                    break;
+                case BaseVideoAd.AD_PAUSEVIDEO:
+                    pauseList = txadDTO.getPause_image();
+                    break;
+                case BaseVideoAd.AD_REWARDVIDEO:
+                    pauseList = txadDTO.getTiepian_video();
+                    break;
+            }
+            if (pauseList != null && pauseList.size() > 0) {
+                gdtPid = pauseList.get(random.nextInt(pauseList.size()));
+            }
+        }
+        return gdtPid;
+    }
+
+
+    private void loadFullVideo() {
+        fullInterstitial = new UnifiedInterstitialAD(activity, gdtPid, new UnifiedInterstitialADListener() {
+            @Override
+            public void onADReceive() {
+                if (listener != null) {
+                    listener.onLoaded();
+                }
+                if (videoAdListener != null) {
+                    videoAdListener.onLoaded();
+                }
+            }
+
+            @Override
+            public void onVideoCached() {
+
+            }
+
+            @Override
+            public void onNoAD(AdError adError) {
+                if (mListener != null) {
+                    mListener.noAd();
+                }
+            }
+
+            @Override
+            public void onADOpened() {
+
+            }
+
+            @Override
+            public void onADExposure() {
+
             }
 
             @Override
             public void onADClicked() {
-                LogUtil.d("onADClicked");
+
+            }
+
+            @Override
+            public void onADLeftApplication() {
+
+            }
+
+            @Override
+            public void onADClosed() {
                 if (listener != null) {
-                    listener.onClick();
+                    listener.onClose();
+                    listener.onFinish();
                 }
                 if (videoAdListener != null) {
-                    videoAdListener.onClick();
+                    videoAdListener.onClose();
+                    videoAdListener.onFinish();
                 }
-                reportGdtClick();
             }
 
             @Override
-            public void onADError(AdError adError) {
-                LogUtil.d("onADError");
+            public void onRenderSuccess() {
+
             }
 
             @Override
-            public void onADStatusChanged() {
-                LogUtil.d("onADStatusChanged");
+            public void onRenderFail() {
+
             }
         });
-    }
-
-    @Override
-    public void onNoAD(AdError adError) {
-        if (mListener != null) {
-            mListener.noAd();
+        setVideoOption();
+        if (adType == 0) {
+            fullInterstitial.loadFullScreenAD();
+        } else {
+            fullInterstitial.loadAD();
         }
     }
 
 
-    private void reportGdtLoad() {
-        Map<String, Object> reportParams = new HashMap<>();
-        reportParams.put("reqId", requestId);
-        reportParams.put("uid", AdStartManager.uid);
-        reportParams.put("adType", AdType.AD_PASTER);
-        reportParams.put("pid", pid);
-        reportParams.put("adContent", content);
-        reportParams.put("ts", System.currentTimeMillis());
-        reportParams.put("state", "req");
-        reportParams.put("ad_model", "gdt");
-        reportParams.put("gdt_pid", gdtPid);
-
-        NetUtil.getInstance().report(reportParams, HttpMethod.GET);
-    }
-
-
-    private void reportGdtShow() {
-        Map<String, Object> reportParams = new HashMap<>();
-        reportParams.put("reqId", requestId);
-        reportParams.put("uid", AdStartManager.uid);
-        reportParams.put("ts", System.currentTimeMillis());
-        reportParams.put("state", "show");
-        reportParams.put("ad_model", "gdt");
-        reportParams.put("gdt_pid", gdtPid);
-        NetUtil.getInstance().report(reportParams, HttpMethod.GET);
-    }
-
-
-    private void reportGdtClick() {
-        Map<String, Object> reportParams = new HashMap<>();
-        reportParams.put("reqId", requestId);
-        reportParams.put("uid", AdStartManager.uid);
-        reportParams.put("ts", System.currentTimeMillis());
-        reportParams.put("state", "click");
-        reportParams.put("ad_model", "gdt");
-        reportParams.put("gdt_pid", gdtPid);
-        NetUtil.getInstance().report(reportParams, HttpMethod.GET);
+    private void setVideoOption() {
+        VideoOption.Builder builder = new VideoOption.Builder();
+        VideoOption option = builder.build();
+        option = builder.setAutoPlayMuted(false)
+                .build();
+        fullInterstitial.setVideoOption(option);
     }
 }

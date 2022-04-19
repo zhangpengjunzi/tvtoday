@@ -55,7 +55,6 @@ public class SplashAdActivity extends BaseActivity {
             finish();
         }
         initView();
-        countDown();
     }
 
     private void countDown() {
@@ -75,35 +74,36 @@ public class SplashAdActivity extends BaseActivity {
                 AdListenerManager.getInstance().getSplashListener(pid).onFinish();
             }
             finish();
-            return;
-        }
-        tvCountDown.setText(adInfo.getCountDown() + " 秒跳过");
-        imgAd.setImageBitmap(pic);
-        imgClose = findViewById(R.id.img_video_close);
-        if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
-            AdListenerManager.getInstance().getSplashListener(pid).onShow();
-        }
+        } else {
+            tvCountDown.setText(adInfo.getCountDown() + " 秒跳过");
+            imgAd.setImageBitmap(pic);
+            imgClose = findViewById(R.id.img_video_close);
+            if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
+                AdListenerManager.getInstance().getSplashListener(pid).onShow();
+            }
 
-        if (!Utils.getDeviceType().equals("1")) {
-            imgClose.setImageResource(R.drawable.close);
-            imgClose.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    closeBtnClick();
-                }
-            });
-
-            imgAd.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        LogUtil.d("Image Ad OnTouch");
-                        reportClick(event.getRawX(), event.getRawY(), event.getPressure());
-                        imageAdClick();
+            if (!Utils.getDeviceType().equals("1")) {
+                imgClose.setImageResource(R.drawable.close);
+                imgClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        closeBtnClick();
                     }
-                    return false;
-                }
-            });
+                });
+
+                imgAd.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            LogUtil.d("Image Ad OnTouch");
+                            reportClick(event.getRawX(), event.getRawY(), event.getPressure());
+                            imageAdClick();
+                        }
+                        return false;
+                    }
+                });
+            }
+            countDown();
         }
     }
 

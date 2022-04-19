@@ -5,23 +5,20 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.DisplayMetrics;
-import android.util.Log;
 
 import androidx.multidex.MultiDex;
 
+import com.baidu.mobads.sdk.api.BDAdConfig;
+import com.baidu.mobads.sdk.api.BDDialogParams;
+import com.baidu.mobads.sdk.api.MobadsPermissionSettings;
 import com.bt.admanager.TTAdManagerHolder;
 import com.kingja.loadsir.core.LoadSir;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.HttpHeaders;
-import com.ma.ds.ZuImpl;
 import com.orhanobut.hawk.Hawk;
-
-import com.squareup.picasso.Picasso;
-import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.interfaces.BetaPatchListener;
 import com.tencent.tinker.entry.DefaultApplicationLike;
+import com.today.player.R;
 import com.today.player.callback.EmptyCallback;
 import com.today.player.callback.LoadingCallback;
 import com.today.player.data.AppDataManager;
@@ -33,16 +30,11 @@ import com.today.player.util.LogUtil;
 import com.today.player.util.ProgressManagerImpl;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
-import com.upa.DownloadManager;
 
 import java.util.Locale;
 
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
-import xyz.doikki.videoplayer.exo.ExoMediaPlayer;
-import xyz.doikki.videoplayer.ijk.IjkPlayer;
-import xyz.doikki.videoplayer.player.PlayerFactory;
-import xyz.doikki.videoplayer.player.VideoView;
 import xyz.doikki.videoplayer.player.VideoViewConfig;
 import xyz.doikki.videoplayer.player.VideoViewManager;
 
@@ -81,6 +73,8 @@ public class MyApplicationLike extends DefaultApplicationLike {
         jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(getApplication(), ChannelUtil.BASE_CHANNEL);
 
         TTAdManagerHolder.init(getApplication());
+        initBdAd();
+
     }
 
 
@@ -171,6 +165,26 @@ public class MyApplicationLike extends DefaultApplicationLike {
                 LogUtil.d("补丁回滚");
             }
         };
+    }
+
+
+    private void initBdAd() {
+        BDAdConfig bdAdConfig = new BDAdConfig.Builder()
+                // 1、设置app名称，可选
+                .setAppName(getApplication().getResources().getString(R.string.app_name))
+                // 2、应用在mssp平台申请到的appsid，和包名一一对应，此处设置等同于在AndroidManifest.xml里面设置
+                .setAppsid("efd99010")
+                // 3、设置下载弹窗的类型和按钮动效样式，可选
+                .setDialogParams(new BDDialogParams.Builder()
+                        .setDlDialogType(BDDialogParams.TYPE_BOTTOM_POPUP)
+                        .setDlDialogAnimStyle(BDDialogParams.ANIM_STYLE_NONE)
+                        .build())
+                .build(getApplication());
+        bdAdConfig.init();
+        MobadsPermissionSettings.setPermissionReadDeviceID(true);
+        MobadsPermissionSettings.setPermissionLocation(true);
+        MobadsPermissionSettings.setPermissionStorage(true);
+        MobadsPermissionSettings.setPermissionAppList(true);
     }
 
 }

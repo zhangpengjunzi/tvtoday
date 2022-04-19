@@ -53,7 +53,7 @@ public class SplashAd extends BaseAd {
         params.put("ad_type", ad_type);
         params.put("device_type", Utils.getDeviceType());
         params.put("uid", AdStartManager.uid);
-        params.put("package", getActivity().getPackageName());
+        params.put("package", App.getInstance().getPackageName());
         params.put("pid", pid);
         RequestClient request = new RequestClient.Builder()
                 .setHost(Config.AD_HOST)

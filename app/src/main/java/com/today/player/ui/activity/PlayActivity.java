@@ -113,7 +113,9 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                playAd.recycler();
+                if (playAd != null) {
+                    playAd.recycler();
+                }
             }
 
             @Override

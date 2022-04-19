@@ -52,6 +52,7 @@ public class ApiConfig {
     private List<String> parseFlag;
     private PlayerModel.TxadDTO txadDTO;
     private PlayerModel.TTadDTO ttadDTO;
+    private PlayerModel.BdadDTO bdadDTO;
     private String json;
 
     private ApiConfig() {
@@ -77,7 +78,7 @@ public class ApiConfig {
     public void loadSource(String json) {
         this.json = json;
         Gson gson = new Gson();
-        PlayerModel model = gson.fromJson(json, PlayerModel.class);
+        PlayerModel model = gson.fromJson(this.json, PlayerModel.class);
         sourceBeanList = model.getSources();
         //添加本地数据
         List<Local> localList = RoomDataManger.getAllLocalSource();
@@ -136,6 +137,8 @@ public class ApiConfig {
         txadDTO = model.getTxad();
 
         ttadDTO = model.getTtad();
+
+        bdadDTO = model.getBdad();
     }
 
     private void loadIjkConfigSource(PlayerModel model) {
@@ -296,6 +299,10 @@ public class ApiConfig {
 
     public PlayerModel.TTadDTO getTtadDTO() {
         return ttadDTO;
+    }
+
+    public PlayerModel.BdadDTO getBdadDTO() {
+        return bdadDTO;
     }
 
     public void setDefault(PlayerModel.ParseUrlDTO tgVar) {

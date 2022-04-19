@@ -16,6 +16,7 @@ import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.NetUtil;
 import com.bt.jrsdk.util.RandomUtil;
 import com.bt.jrsdk.util.Utils;
+import com.today.player.base.App;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -51,7 +52,6 @@ public abstract class BaseAd {
         loadCurrentAd();
     }
 
-    ;
 
     protected abstract void loadCurrentAd();
 

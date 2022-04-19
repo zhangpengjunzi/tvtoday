@@ -8,7 +8,8 @@
     <dimen name="dkplayer_controller_seekbar_size_n">14dp</dimen>
     <dimen name="interaction_width">800pt</dimen>
 
-    <dimen name="interaction_height">400pt</dimen>
+    <dimen name="interaction_height">450pt</dimen>
+    <dimen name="bd_interaction_height">450pt</dimen>
 
     <dimen name="interaction_close">50pt</dimen>
 

@@ -1,5 +1,6 @@
 package com.bt.admanager;
 
+import com.baidu.mobads.sdk.api.NativeResponse;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.qq.e.ads.nativ.NativeUnifiedADData;
 import com.today.player.ad.BaseVideoAd;
@@ -18,6 +19,7 @@ public class AdWeightManager {
     private List<String> adList = new ArrayList<>();
     public List<NativeUnifiedADData> gdtAds = new ArrayList();
     public List<TTSplashAd> ttAds = new ArrayList<>();
+    public List<NativeResponse> bdAds=new ArrayList<>();
     private int splashImageCount;
     private int gdtAdType;
 
@@ -108,9 +110,13 @@ public class AdWeightManager {
     }
 
     public String getCurrentAd() {
-        Random random = new Random();
-        int index = random.nextInt(adList.size());
-        return adList.get(index);
+        if (adList.size() > 0) {
+            Random random = new Random();
+            int index = random.nextInt(adList.size());
+            return adList.get(index);
+        } else {
+            return BaseVideoAd.MD_AD;
+        }
     }
 
     public boolean canJump() {

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="@dimen/interaction_width"
+        android:layout_height="@dimen/bd_interaction_height">
+
+        <com.baidu.mobads.sdk.api.XNativeView
+            android:id="@+id/videoview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/native_adlogo"
+            android:layout_width="50pt"
+            android:layout_height="25pt"
+            android:layout_gravity="left|bottom" />
+
+        <ImageView
+            android:id="@+id/img_video_close"
+            android:layout_width="@dimen/ad_image_close"
+            android:layout_height="@dimen/ad_image_close"
+            android:layout_gravity="top|right"
+            android:layout_marginTop="10pt"
+            android:layout_marginEnd="10pt"
+            android:alpha="0.6"
+            android:scaleType="fitCenter"
+            android:src="@drawable/close"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_jump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginTop="10pt"
+            android:layout_marginRight="10pt"
+            android:background="@drawable/shape_jump"
+            android:gravity="center"
+            android:minWidth="120pt"
+            android:minHeight="50pt"
+            android:textSize="18pt"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,12 +1,11 @@
 package com.today.player.ad;
 
 import android.app.Activity;
-import android.text.TextUtils;
 
 import com.bt.admanager.AdWeightManager;
+import com.bt.bdad.BdAd;
 import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.ads.SplashAd;
-import com.bt.jrsdk.config.AdType;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.ttad.TTAd;
 import com.bt.txad.GdtNativeAdPreMovie;
@@ -22,6 +21,7 @@ public class VideoSplashAd extends BaseVideoAd {
     private String pid;
     private String ad_type;
     private SplashAdListener splashAdListener;
+    private final int pageType = 0;
 
     public VideoSplashAd(Activity activity, String pid, String ad_type, SplashAdListener splashAdListener) {
         this.activity = activity;
@@ -29,33 +29,13 @@ public class VideoSplashAd extends BaseVideoAd {
         this.ad_type = ad_type;
         this.splashAdListener = splashAdListener;
         setAdType();
+        setAdKinds(pageType);
     }
 
-
-    private String getGdtPid() {
-        String gdtPid = "";
-        PlayerModel.TxadDTO txadDTO = ApiConfig.get().getTxad();
-        if (txadDTO != null) {
-            Random random = new Random();
-            int count = AdWeightManager.getInstance().getSplashImageCount();
-            if (count == 0 || count % 3 != 0) {
-                List<String> imageList = txadDTO.getTiepian_image();
-                if (imageList != null && imageList.size() > 0) {
-                    gdtPid = imageList.get(random.nextInt(imageList.size()));
-                }
-            } else {
-                List<String> videoList = txadDTO.getTiepian_video();
-                if (videoList != null && videoList.size() > 0) {
-                    gdtPid = videoList.get(random.nextInt(videoList.size()));
-                }
-            }
-        }
-        return gdtPid;
-    }
 
     @Override
     public GdtNativeAdPreMovie getGdtNativeAdPreMovie() {
-        gdtNativeAdPreMovie = new GdtNativeAdPreMovie(activity, pid, this, getGdtPid(), 0);
+        gdtNativeAdPreMovie = new GdtNativeAdPreMovie(activity, pid, this, 0, adKinds);
         gdtNativeAdPreMovie.setSplashListener(splashAdListener);
         return gdtNativeAdPreMovie;
     }
@@ -69,8 +49,15 @@ public class VideoSplashAd extends BaseVideoAd {
 
     @Override
     public TTAd getTTAd() {
-        ttAd = new TTAd(activity, pid, this, 0);
+        ttAd = new TTAd(activity, pid, this, pageType, adKinds);
         ttAd.setSplashListener(splashAdListener);
         return ttAd;
+    }
+
+    @Override
+    public BdAd getBdAd() {
+        bdAd = new BdAd(activity, pid, this, pageType, adKinds);
+        bdAd.setSplashListener(splashAdListener);
+        return bdAd;
     }
 }
