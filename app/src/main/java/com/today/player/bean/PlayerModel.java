@@ -24,14 +24,23 @@ public class PlayerModel {
     private FilterDTO filter;
     private IjkDTO ijk;
     private List<String> ads;
-    private TxadDTO txad;
+    private TTadDTO ttad;
+    private MobadDTO mobad;
 
-    public TxadDTO getTxad() {
-        return txad;
+    public MobadDTO getMobad() {
+        return mobad;
     }
 
-    public void setTxad(TxadDTO txad) {
-        this.txad = txad;
+    public void setMobad(MobadDTO mobad) {
+        this.mobad = mobad;
+    }
+
+    public TTadDTO getTxad() {
+        return ttad;
+    }
+
+    public void setTxad(TTadDTO txad) {
+        this.ttad = txad;
     }
 
     public List<SourcesDTO> getSources() {
@@ -90,18 +99,30 @@ public class PlayerModel {
         this.ads = ads;
     }
 
-    public static class TxadDTO {
-        private List<String> tiepian_image;
+    public static class TTadDTO {
         private List<String> tiepian_video;
         private List<String> pause_image;
 
-        public List<String> getTiepian_image() {
-            return tiepian_image;
+        public List<String> getTiepian_video() {
+            return tiepian_video;
         }
 
-        public void setTiepian_image(List<String> tiepian_image) {
-            this.tiepian_image = tiepian_image;
+        public void setTiepian_video(List<String> tiepian_video) {
+            this.tiepian_video = tiepian_video;
         }
+
+        public List<String> getPause_image() {
+            return pause_image;
+        }
+
+        public void setPause_image(List<String> pause_image) {
+            this.pause_image = pause_image;
+        }
+    }
+
+    public static class MobadDTO {
+        private List<String> tiepian_video;
+        private List<String> pause_image;
 
         public List<String> getTiepian_video() {
             return tiepian_video;

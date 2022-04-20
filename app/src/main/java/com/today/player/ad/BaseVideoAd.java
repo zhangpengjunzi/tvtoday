@@ -5,14 +5,22 @@ import android.text.TextUtils;
 
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.ads.BaseAd;
+import com.bt.jrsdk.util.Utils;
 import com.bt.txad.TTFeedAd;
 
-abstract class BaseVideoAd implements GdtAdListener {
+public abstract class BaseVideoAd implements GdtAdListener {
     protected TTFeedAd ttAd;
     protected String adType;
-    public static final String GDT_AD = "tx";
+    protected String adKinds;
+
+
     public static final String MD_AD = "md";
     public static final String TT_AD = "tt";
+    public static final String Mob_AD = "mob";
+
+    public static final String AD_PAUSEVIDEO = "pausevideo";
+    public static final String AD_REWARDVIDEO = "rewardvideo";
+
     protected BaseAd ad;
     protected boolean isReady;
     protected String content;
@@ -22,18 +30,22 @@ abstract class BaseVideoAd implements GdtAdListener {
 
     public abstract TTFeedAd getTTAd();
 
+
     protected void setAdType() {
-        if (AdWeightManager.getInstance().canGetAd()) {
-            if (AdWeightManager.getInstance().canGdt() && AdWeightManager.getInstance().getSplashImageCount() != 0 && AdWeightManager.getInstance().getSplashImageCount() % 3 == 0) {
-                adType = GDT_AD;
-            } else {
-                adType = AdWeightManager.getInstance().getCurrentAd();
-            }
-        } else {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O
+                || Utils.getDeviceType().equals("1")
+                || !AdWeightManager.getInstance().canGetAd()) {
             adType = MD_AD;
+            return;
         }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            adType = MD_AD;
+        adType = AdWeightManager.getInstance().getCurrentAd();
+    }
+
+    protected void setAdKinds(int type) {
+        if (type == 0) {
+            adKinds = AD_REWARDVIDEO;
+        } else {
+            adKinds = AD_PAUSEVIDEO;
         }
     }
 

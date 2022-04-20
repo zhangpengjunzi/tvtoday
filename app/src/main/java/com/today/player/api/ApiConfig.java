@@ -1,18 +1,13 @@
 package com.today.player.api;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.orhanobut.hawk.Hawk;
-import com.today.player.bean.LiveChannel;
 import com.today.player.bean.PlayerModel;
-import com.today.player.bean.PraseBean;
 import com.today.player.bean.SearchRequest;
-import com.today.player.bean.SourceBean;
 import com.today.player.cache.Local;
 import com.today.player.cache.LocalLive;
 import com.today.player.cache.LocalParse;
@@ -21,7 +16,6 @@ import com.today.player.cache.SourceState;
 import com.today.player.event.TopStateEvent;
 import com.today.player.ui.dialog.MediaCodeDialog;
 import com.today.player.util.HawkConfig;
-import com.today.player.util.L;
 import com.upa.source.HintSource;
 import com.upa.view.ConfirmSourceDialog;
 
@@ -54,7 +48,8 @@ public class ApiConfig {
     private List<MediaCodeDialog.pg> ijkConfigList;
     private List<String> adsList;
     private List<String> parseFlag;
-    private PlayerModel.TxadDTO txadDTO;
+    private PlayerModel.TTadDTO txadDTO;
+    private PlayerModel.MobadDTO mobadDTO;
 
     private ApiConfig() {
         sourceBeanList = new ArrayList<>();
@@ -107,7 +102,6 @@ public class ApiConfig {
                 if (sourceBean.isHome()) {
                     setSourceBean(sourceBean);
                     cc(sourceBeanList.get(0));
-                    break;
                 }
             }
             if (mSourceBean == null) {
@@ -136,6 +130,8 @@ public class ApiConfig {
         parseFlag = model.getParseFlag();
 
         txadDTO = model.getTxad();
+
+        mobadDTO = model.getMobad();
     }
 
     private void loadIjkConfigSource(PlayerModel model) {
@@ -285,10 +281,13 @@ public class ApiConfig {
         return mSourceBean.getApi();
     }
 
-    public PlayerModel.TxadDTO getTxad(){
+    public PlayerModel.TTadDTO getTxad() {
         return txadDTO;
     }
 
+    public PlayerModel.MobadDTO getMobadDTO() {
+        return mobadDTO;
+    }
 
     public List<String> getFilterResult() {
         return filterResult;

@@ -2,16 +2,13 @@ package com.today.player.ad;
 
 import android.app.Activity;
 
-import com.bt.admanager.AdWeightManager;
+import com.bt.bdad.BdAd;
 import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.ads.SplashAd;
 import com.bt.jrsdk.listener.SplashAdListener;
+import com.bt.ttad.TTAd;
+import com.bt.txad.GdtNativeAdPreMovie;
 import com.bt.txad.TTFeedAd;
-import com.today.player.api.ApiConfig;
-import com.today.player.bean.PlayerModel;
-
-import java.util.List;
-import java.util.Random;
 
 public class VideoSplashAd extends BaseVideoAd {
 
@@ -19,6 +16,7 @@ public class VideoSplashAd extends BaseVideoAd {
     private String pid;
     private String ad_type;
     private SplashAdListener splashAdListener;
+    private final int pageType = 0;
 
     public VideoSplashAd(Activity activity, String pid, String ad_type, SplashAdListener splashAdListener) {
         this.activity = activity;
@@ -26,7 +24,9 @@ public class VideoSplashAd extends BaseVideoAd {
         this.ad_type = ad_type;
         this.splashAdListener = splashAdListener;
         setAdType();
+        setAdKinds(pageType);
     }
+
 
     @Override
     public BaseAd getMyAd() {
@@ -37,8 +37,10 @@ public class VideoSplashAd extends BaseVideoAd {
 
     @Override
     public TTFeedAd getTTAd() {
-        ttAd = new TTFeedAd(activity, pid, 0, this);
+        ttAd = new TTFeedAd(activity, pid, pageType,this,  adKinds);
         ttAd.setSplashListener(splashAdListener);
         return ttAd;
     }
+
+
 }

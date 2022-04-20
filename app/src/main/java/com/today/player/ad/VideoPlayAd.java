@@ -6,23 +6,20 @@ import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.ads.VideoAd;
 import com.bt.jrsdk.listener.VideoAdListener;
 import com.bt.txad.TTFeedAd;
-import com.today.player.api.ApiConfig;
-import com.today.player.bean.PlayerModel;
-
-import java.util.List;
-import java.util.Random;
 
 public class VideoPlayAd extends BaseVideoAd {
 
     private Activity activity;
     private String pid;
     private VideoAdListener adListener;
+    private final int pageType = 1;
 
     public VideoPlayAd(Activity activity, String pid, VideoAdListener adListener) {
         this.activity = activity;
         this.pid = pid;
         this.adListener = adListener;
         setAdType();
+        setAdKinds(pageType);
     }
 
     @Override
@@ -34,9 +31,8 @@ public class VideoPlayAd extends BaseVideoAd {
 
     @Override
     public TTFeedAd getTTAd() {
-        ttAd = new TTFeedAd(activity, pid, 1, this);
+        ttAd = new TTFeedAd(activity, pid, pageType, this, adKinds);
         ttAd.setVideoListener(adListener);
         return ttAd;
     }
-
 }
