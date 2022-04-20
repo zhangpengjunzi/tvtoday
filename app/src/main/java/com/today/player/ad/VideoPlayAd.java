@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.ads.VideoAd;
 import com.bt.jrsdk.listener.VideoAdListener;
+import com.bt.mobad.MobAd;
 import com.bt.txad.TTFeedAd;
 
 public class VideoPlayAd extends BaseVideoAd {
@@ -34,5 +35,12 @@ public class VideoPlayAd extends BaseVideoAd {
         ttAd = new TTFeedAd(activity, pid, pageType, this, adKinds);
         ttAd.setVideoListener(adListener);
         return ttAd;
+    }
+
+    @Override
+    public MobAd getMobAd() {
+        mobAd = new MobAd(activity, pid, pageType, this, adKinds);
+        mobAd.setVideoListener(adListener);
+        return mobAd;
     }
 }

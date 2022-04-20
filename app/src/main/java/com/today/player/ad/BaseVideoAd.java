@@ -6,17 +6,19 @@ import android.text.TextUtils;
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.util.Utils;
+import com.bt.mobad.MobAd;
 import com.bt.txad.TTFeedAd;
 
 public abstract class BaseVideoAd implements GdtAdListener {
     protected TTFeedAd ttAd;
+    protected MobAd mobAd;
     protected String adType;
     protected String adKinds;
 
 
     public static final String MD_AD = "md";
     public static final String TT_AD = "tt";
-    public static final String Mob_AD = "mob";
+    public static final String MOB_AD = "mob";
 
     public static final String AD_PAUSEVIDEO = "pausevideo";
     public static final String AD_REWARDVIDEO = "rewardvideo";
@@ -29,6 +31,8 @@ public abstract class BaseVideoAd implements GdtAdListener {
     public abstract BaseAd getMyAd();
 
     public abstract TTFeedAd getTTAd();
+
+    public abstract MobAd getMobAd();
 
 
     protected void setAdType() {
@@ -67,6 +71,14 @@ public abstract class BaseVideoAd implements GdtAdListener {
                         ttAd.loadAd(content);
                     }
                     break;
+                case MOB_AD:
+                    mobAd = getMobAd();
+                    if (mobAd != null) {
+                        this.content = content;
+                        mobAd.loadAd(content);
+                    }
+                    break;
+
             }
         } else {
             ad = getMyAd();
@@ -88,6 +100,11 @@ public abstract class BaseVideoAd implements GdtAdListener {
                 case TT_AD:
                     if (ttAd != null) {
                         ttAd.showAd();
+                    }
+                    break;
+                case MOB_AD:
+                    if (mobAd != null) {
+                        mobAd.showAd();
                     }
                     break;
             }

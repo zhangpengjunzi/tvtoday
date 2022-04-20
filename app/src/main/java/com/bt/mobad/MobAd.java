@@ -1,8 +1,11 @@
-package com.bt.txad;
+package com.bt.mobad;
+
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.ads.BaseAd;
@@ -15,6 +18,16 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdCallback;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.today.player.ad.BaseVideoAd;
 import com.today.player.ad.GdtAdListener;
 import com.today.player.api.ApiConfig;
@@ -23,34 +36,31 @@ import com.today.player.bean.PlayerModel;
 import java.util.List;
 import java.util.Random;
 
-public class TTFeedAd extends BaseAd {
+public class MobAd extends BaseAd {
 
-    private TTAdNative ttAdNative;
     private int mAdType;
     private SplashAdListener listener;
     private VideoAdListener videoAdListener;
     private GdtAdListener mGdtListener;
-    private String ttPid;
+    private String mobPid;
     private String adKinds;
-    private TTRewardVideoAd rewardVideoAd;
-    private TTFullScreenVideoAd fullScreenVideoAd;
+    private RewardedAd rewardedAd;
+    private InterstitialAd mInterstitialAd;
     private Activity activity;
 
-    public TTFeedAd(Activity activity, String pid, int adType, GdtAdListener gdtAdListener, String adKinds) {
+    public MobAd(Activity activity, String pid, int adType, GdtAdListener gdtAdListener, String adKinds) {
         super(activity, pid);
         this.adKinds = adKinds;
-        ttPid = getSigPid();
-        if (!TextUtils.isEmpty(ttPid)) {
-            ttAdNative = TTAdSdk.getAdManager().createAdNative(activity);
-        }
+        mobPid = getSigPid();
         this.activity = activity;
         mAdType = adType;
         mGdtListener = gdtAdListener;
     }
 
+
     @Override
     protected void loadCurrentAd() {
-        if (ttAdNative != null) {
+        if (!TextUtils.isEmpty(mobPid)) {
             switch (adKinds) {
                 case BaseVideoAd.AD_PAUSEVIDEO:
                     loadFullVideo();
@@ -68,20 +78,38 @@ public class TTFeedAd extends BaseAd {
     public void showAd() {
         switch (adKinds) {
             case BaseVideoAd.AD_PAUSEVIDEO:
-                if (fullScreenVideoAd != null) {
-                    fullScreenVideoAd.showFullScreenVideoAd(activity);
+                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
                 }
                 break;
             case BaseVideoAd.AD_REWARDVIDEO:
-                if (rewardVideoAd != null) {
-                    rewardVideoAd.showRewardVideoAd(activity);
+                if (rewardedAd != null && rewardedAd.isLoaded()) {
+                    rewardedAd.show(activity, new RewardedAdCallback() {
+                        @Override
+                        public void onRewardedAdOpened() {
+                            // Ad opened.
+                            showListener();
+                        }
+
+                        @Override
+                        public void onRewardedAdClosed() {
+                            // Ad closed.
+                            closeListener();
+                        }
+
+                        @Override
+                        public void onUserEarnedReward(@NonNull RewardItem reward) {
+                            // User earned reward.
+                        }
+
+                        @Override
+                        public void onRewardedAdFailedToShow(AdError adError) {
+                            // Ad failed to display.
+                        }
+                    });
                 }
                 break;
         }
-        /*if (ttAdNative != null && AdWeightManager.getInstance().canJump()) {
-            AdWeightManager.getInstance().setGdtAdType(mAdType);
-            go2AdActivity(TTAdFullActivity.class);
-        }*/
     }
 
     public void setSplashListener(SplashAdListener listener) {
@@ -100,134 +128,77 @@ public class TTFeedAd extends BaseAd {
         AdListenerManager.getInstance().recycleVideoListener(pid);
         AdObserver.getInstance().recycleVideo(pid);
         AdWeightManager.getInstance().ttAds.clear();
-        if (rewardVideoAd != null) {
-            rewardVideoAd = null;
+        if (rewardedAd != null) {
+            rewardedAd = null;
         }
-        if (fullScreenVideoAd != null) {
-            fullScreenVideoAd = null;
-        }
-        if (ttAdNative != null) {
-            ttAdNative = null;
+        if (mInterstitialAd != null) {
+            mInterstitialAd = null;
         }
     }
 
 
     private void loadReWard() {
-        AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(ttPid)
-                .build();
-        ttAdNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
+        rewardedAd = new RewardedAd(activity,
+                mobPid);
+
+        RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
             @Override
-            public void onError(int code, String message) {
-                failListener();
-            }
-
-            @Override
-            public void onRewardVideoCached() {
-
-            }
-
-
-            @Override
-            public void onRewardVideoAdLoad(TTRewardVideoAd ttRewardVideoAd) {
-                rewardVideoAd = ttRewardVideoAd;
-                ttRewardVideoAd.setRewardAdInteractionListener(new TTRewardVideoAd.RewardAdInteractionListener() {
-                    @Override
-                    public void onAdVideoBarClick() {
-
-                    }
-
-                    @Override
-                    public void onAdClose() {
-                        closeListener();
-                    }
-
-                    @Override
-                    public void onVideoComplete() {
-
-                    }
-
-                    @Override
-                    public void onVideoError() {
-                        failListener();
-                    }
-
-                    @Override
-                    public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName, int errorCode, String errorMsg) {
-
-                    }
-
-
-                    @Override
-                    public void onSkippedVideo() {
-
-                    }
-
-                    @Override
-                    public void onAdShow() {
-                        showListener();
-                    }
-                });
+            public void onRewardedAdLoaded() {
+                // Ad successfully loaded.
                 loadListener();
             }
-        });
+
+            @Override
+            public void onRewardedAdFailedToLoad(LoadAdError adError) {
+                // Ad failed to load.
+                failListener();
+            }
+        };
+        rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
     }
 
 
     private void loadFullVideo() {
-        AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(ttPid)
-                .build();
-        ttAdNative.loadFullScreenVideoAd(adSlot, new TTAdNative.FullScreenVideoAdListener() {
+        mInterstitialAd = new InterstitialAd(activity);
+        mInterstitialAd.setAdUnitId(mobPid);
+        mInterstitialAd.setAdListener(new AdListener() {
             @Override
-            public void onError(int code, String message) {
-                failListener();
+            public void onAdClosed() {
+                super.onAdClosed();
+                closeListener();
             }
 
             @Override
-            public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ttFullScreenVideoAd) {
-                fullScreenVideoAd = ttFullScreenVideoAd;
-                ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(new TTFullScreenVideoAd.FullScreenVideoAdInteractionListener() {
-                    @Override
-                    public void onAdShow() {
-                        showListener();
-                    }
+            public void onAdImpression() {
+                super.onAdImpression();
+            }
 
-                    @Override
-                    public void onAdVideoBarClick() {
-
-                    }
-
-                    @Override
-                    public void onAdClose() {
-                        closeListener();
-                    }
-
-                    @Override
-                    public void onVideoComplete() {
-
-                    }
-
-                    @Override
-                    public void onSkippedVideo() {
-
-                    }
-                });
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
                 loadListener();
             }
 
             @Override
-            public void onFullScreenVideoCached() {
-
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                failListener();
             }
 
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                showListener();
+            }
         });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mInterstitialAd.loadAd(adRequest);
     }
 
 
     private String getSigPid() {
         String gdtPid = "";
-        PlayerModel.TTadDTO txadDTO = ApiConfig.get().getTxad();
+        PlayerModel.MobadDTO txadDTO = ApiConfig.get().getMobadDTO();
         if (txadDTO != null) {
             Random random = new Random();
             List<String> pauseList = null;

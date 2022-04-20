@@ -52,8 +52,8 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void init() {
         imageView = findViewById(R.id.splash_img);
-        //fade();
-        loadAd(this,"ca-app-pub-3940256099942544/1044960115");
+        fade();
+       // loadAd(this,"ca-app-pub-3940256099942544/1044960115");
     }
 
 
@@ -149,11 +149,10 @@ public class SplashActivity extends BaseActivity {
 
 
     private void loadAd() {
-
-
         GetDevicesId.getInstance().writeId();
         AdStartManager.start(App.getInstance(), GetDevicesId.getInstance().getDeviceId());
-        showLoading();
+        //showLoading();
+        jumpActivity();
     }
 
     /**

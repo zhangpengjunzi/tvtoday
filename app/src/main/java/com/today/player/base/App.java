@@ -95,7 +95,7 @@ public class App extends MultiDexApplication {
 
     private TTAdConfig buildConfig() {
         return new TTAdConfig.Builder()
-                .appId("8014748")
+                .appId("8032441")
                 .useTextureView(true)// Use TextureView to play the video. The default setting is SurfaceView, when the context is in conflict with SurfaceView, you can use TextureView.You will need to save the changed Gdpr locally and retrieve it from the local store the next time the process starts
                 .setGDPR(PangleSpUtils.getInstance().getGdpr())
                 .setCCPA(PangleSpUtils.getInstance().getCcpa())

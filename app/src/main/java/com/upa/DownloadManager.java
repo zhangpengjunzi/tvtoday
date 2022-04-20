@@ -15,7 +15,6 @@ import com.upa.im.IDownloadListener;
 import com.upa.im.YsRequestListener;
 import com.upa.receive.AppInstallReceiver;
 import com.upa.source.HintSource;
-import com.upa.view.YsUpdateView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,7 +23,6 @@ import java.util.List;
 
 public class DownloadManager {
 
-    private YsUpdateView view;
 
     private static AppInstallReceiver receive;
 
@@ -81,12 +79,6 @@ public class DownloadManager {
             public void success(UpdateModel model) {
                 //弹出Dialog
                 if (model != null && context != null) {
-                    if (view == null) {
-                        view = new YsUpdateView(context, model);
-                    }
-                    if (!view.isShowing()) {
-                        view.show();
-                    }
                 }
             }
 

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:focusable="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <ImageView android:id="@id/img_splash" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" />
-    <TextView android:textSize="18.0pt" android:gravity="center" android:id="@id/tv_jump" android:background="@drawable/shape_jump" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0pt" android:layout_marginRight="10.0pt" android:minWidth="120.0pt" android:minHeight="50.0pt" android:layout_alignParentTop="true" android:layout_alignParentRight="true" />
-    <ImageView android:id="@id/img_video_close" android:visibility="gone" android:layout_width="@dimen/ad_image_close" android:layout_height="@dimen/ad_image_close" android:layout_marginTop="10.0pt" android:scaleType="fitCenter" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:alpha="0.6" android:layout_marginEnd="10.0pt" />
-</RelativeLayout>
