@@ -26,7 +26,6 @@ import com.today.player.bean.PlayerModel;
 import com.today.player.event.ServerEvent;
 import com.today.player.server.RemoteServer;
 import com.today.player.ui.adapter.SearchAdapter;
-import com.today.player.util.DefaultConfig;
 import com.today.player.util.FastClickCheckUtil;
 import com.today.player.viewmodel.SourceViewModel;
 import com.tv.QRCodeGen;
@@ -203,7 +202,7 @@ public class SearchActivity extends BaseActivity {
                     data.add(video);
                 }
             }
-            if (searchAdapter.getData().size() > 0) {
+            if (searchAdapter.getData() != null && searchAdapter.getData().size() > 0) {
                 searchAdapter.addData(data);
             } else {
                 showSuccess();
