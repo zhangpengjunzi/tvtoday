@@ -17,6 +17,7 @@ public abstract class BaseVideoAd implements GdtAdListener {
     protected BdAd bdAd;
     protected String adType;
     protected String adKinds;
+    public boolean isEnd = false;
 
     public static final String GDT_AD = "tx";
     public static final String MD_AD = "md";
@@ -42,11 +43,12 @@ public abstract class BaseVideoAd implements GdtAdListener {
     protected void setAdType() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O
                 || Utils.getDeviceType().equals("1")
-                || !AdWeightManager.getInstance().canGetAd()) {
+                || !AdWeightManager.getInstance().canGetAd()
+                || isEnd) {
             adType = MD_AD;
             return;
         }
-        adType = AdWeightManager.getInstance().getCurrentAd();
+        adType = AdWeightManager.getInstance().getCurrentAd(adKinds);
         if ((adType.equals(TT_AD) && !TTAdManagerHolder.isSuccess)) {
             adType = MD_AD;
         }
@@ -54,11 +56,12 @@ public abstract class BaseVideoAd implements GdtAdListener {
 
     protected void setAdKinds(int type) {
         if (type == 0) {
-            if (AdWeightManager.getInstance().getSplashImageCount() % 4 == 0) {
+           /* if (AdWeightManager.getInstance().getSplashImageCount() % 4 == 0) {
                 adKinds = AD_REWARDVIDEO;
             } else {
                 adKinds = AD_FULLVIDEO;
-            }
+            }*/
+            adKinds = AD_REWARDVIDEO;
         } else {
             adKinds = AD_PAUSEVIDEO;
         }
@@ -66,6 +69,7 @@ public abstract class BaseVideoAd implements GdtAdListener {
 
 
     public void loadAd(String content) {
+        setAdType();
         if (!TextUtils.isEmpty(adType)) {
             switch (adType) {
                 case GDT_AD:
@@ -135,7 +139,6 @@ public abstract class BaseVideoAd implements GdtAdListener {
                 ad.showAd();
             }
         }
-        setAdType();
     }
 
     public void setReady(boolean ready) {
@@ -161,7 +164,11 @@ public abstract class BaseVideoAd implements GdtAdListener {
     @Override
     public void noAd() {
         if (!TextUtils.isEmpty(adType) && !adType.equals(MD_AD)) {
-            adType = MD_AD;
+            if (adKinds.equals(AD_REWARDVIDEO)) {
+                isEnd = AdWeightManager.getInstance().addRewardSize();
+            } else {
+                isEnd = AdWeightManager.getInstance().addPauseSize();
+            }
             loadAd(content);
         }
     }

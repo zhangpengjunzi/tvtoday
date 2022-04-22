@@ -5,16 +5,13 @@ import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.BounceInterpolator;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.ma.ds.ZuImpl;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.tencent.bugly.Bugly;
@@ -34,7 +30,6 @@ import com.today.player.api.ApiConfig;
 import com.today.player.base.App;
 import com.today.player.base.BaseActivity;
 import com.today.player.base.BaseLazyFragment;
-import com.today.player.base.MyApplicationLike;
 import com.today.player.bean.AbsSortXml;
 import com.today.player.bean.MovieSort;
 import com.today.player.event.ServerEvent;
@@ -48,9 +43,6 @@ import com.today.player.ui.fragment.UserFragment;
 import com.today.player.util.AppManager;
 import com.today.player.util.ChannelUtil;
 import com.today.player.util.DefaultConfig;
-import com.today.player.util.HookUtils;
-import com.today.player.util.LogUtil;
-import com.today.player.util.NetUtils;
 import com.today.player.viewmodel.SourceViewModel;
 import com.tv.widget.DefaultTransformer;
 import com.tv.widget.FixedSpeedScroller;
@@ -61,13 +53,11 @@ import com.upa.source.Encrypts;
 import com.upa.source.ISourceListener;
 import com.upa.source.VideoSource;
 import com.upa.tool.ApkUtils;
-import com.upa.tool.Tools;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -330,9 +320,7 @@ public class HomeActivity extends BaseActivity {
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
             //loadSource();
-            if (!NetUtils.isWifiProxy(App.getInstance())) {
-                loadSource();
-            }
+            loadSource();
         } else if (event.type == TopStateEvent.REFRESH_UPDATE) {
             runOnUiThread(new Runnable() {
                 @Override

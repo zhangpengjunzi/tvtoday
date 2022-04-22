@@ -101,6 +101,10 @@ public class PlayActivity extends BaseActivity {
             @Override
             public void onShow() {
                 if (playAd != null) {
+                    if (!playAd.isEnd) {
+                        AdWeightManager.getInstance().addPauseSize();
+                        playAd.isEnd = false;
+                    }
                     playAd.setReady(false);
                     isShow = true;
                 }
@@ -144,8 +148,13 @@ public class PlayActivity extends BaseActivity {
             @Override
             public void onShow() {
                 if (pauseAd != null) {
-                    AdWeightManager.getInstance().splashImageCountAdd();
                     showSuccess();
+                    if (!pauseAd.isEnd) {
+                        AdWeightManager.getInstance().addRewardSize();
+                        pauseAd.isEnd = false;
+                    }
+                    //AdWeightManager.getInstance().splashImageCountAdd();
+                    AdWeightManager.getInstance().setPlayAd(false);
                     pauseAd.setReady(false);
                 }
             }
@@ -220,6 +229,10 @@ public class PlayActivity extends BaseActivity {
                     case VideoView.STATE_PLAYBACK_COMPLETED:
                         next();
                         break;
+                    case VideoView.STATE_PLAYING:
+                        //播放视频
+                        AdWeightManager.getInstance().setPlayAd(true);
+                        break;
                 }
             }
         });
@@ -280,8 +293,13 @@ public class PlayActivity extends BaseActivity {
             sourceKey = bundle.getString("sourceKey");
             DownloadManager.getInstance().setPlay(sourceKey);
             if (mVodInfo != null && mVodInfo.seriesMap != null) {
-                showLoading();
-                loadVideoAd();
+                if (AdWeightManager.getInstance().isPlayAd()) {
+                    showLoading();
+                    loadVideoAd();
+                } else {
+                    showSuccess();
+                    playSet();
+                }
             }
         }
     }

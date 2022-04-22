@@ -28,7 +28,6 @@ public class VideoSplashAd extends BaseVideoAd {
         this.pid = pid;
         this.ad_type = ad_type;
         this.splashAdListener = splashAdListener;
-        setAdType();
         setAdKinds(pageType);
     }
 

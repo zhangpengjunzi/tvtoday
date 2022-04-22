@@ -20,7 +20,6 @@ public class VideoPlayAd extends BaseVideoAd {
         this.activity = activity;
         this.pid = pid;
         this.adListener = adListener;
-        setAdType();
         setAdKinds(pageType);
     }
 
@@ -51,4 +50,5 @@ public class VideoPlayAd extends BaseVideoAd {
         gdtNativeAdPreMovie.setVideoListener(adListener);
         return gdtNativeAdPreMovie;
     }
+
 }
