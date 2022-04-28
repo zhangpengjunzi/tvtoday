@@ -324,10 +324,7 @@ public class HomeActivity extends BaseActivity {
             //杀掉以前进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } else if (event.type == TopStateEvent.REFRESH_LOAD_SOURCE) {
-            //loadSource();
-            if (!NetUtils.isWifiProxy(App.getInstance())) {
-                loadSource();
-            }
+            loadSource();
         }
     }
 

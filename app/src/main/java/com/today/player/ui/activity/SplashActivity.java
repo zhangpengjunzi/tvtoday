@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.bt.jrsdk.activity.MobAdActivity;
 import com.bt.jrsdk.manager.AdStartManager;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
@@ -53,51 +52,9 @@ public class SplashActivity extends BaseActivity {
     protected void init() {
         imageView = findViewById(R.id.splash_img);
         fade();
-       // loadAd(this,"ca-app-pub-3940256099942544/1044960115");
     }
 
 
-    /**
-     * 加载广告
-     *
-     * @param context cont
-     * @param id      广告id
-     */
-    public void loadAd(Context context, String id) {
-        AdLoader.Builder builder = new AdLoader.Builder(context, id);
-        builder.forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
-            @Override
-            public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
-                //广告数据加载成功
-                SplashActivity.unifiedNativeAd = unifiedNativeAd;
-                Intent intent = new Intent(SplashActivity.this, MobAdActivity.class);
-                SplashActivity.this.startActivity(intent);
-            }
-        });
-        builder.withAdListener(new AdListener() {
-            @Override
-            public void onAdFailedToLoad(LoadAdError loadAdError) {
-                String error =
-                        String.format("domain: %s, code: %d, message: %s, cause: %s", loadAdError.getDomain(),
-                                loadAdError.getCode(), loadAdError.getMessage(), loadAdError.getCause());
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-            }
-        });
-
-        //设置广告的属性
-        VideoOptions videoOptions = new VideoOptions.Builder().setStartMuted(true).build();
-        NativeAdOptions adOptions = new NativeAdOptions.Builder().setVideoOptions(videoOptions)
-                //.setAdChoicesPlacement(ADCHOICES_BOTTOM_RIGHT)//设置广告中自带的广告标识view的位置，不设置默认显示在右上角
-                .build();
-        builder.withNativeAdOptions(adOptions);
-
-        AdLoader adLoader = builder.build();
-        adLoader.loadAd(new AdRequest.Builder().build());
-    }
 
 
     private void fade() {

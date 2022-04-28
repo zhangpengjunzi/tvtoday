@@ -171,15 +171,6 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.MyTransparent" />
 
-
-        <activity
-            android:name="com.bt.jrsdk.activity.MobAdActivity"
-            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
-            android:exported="false"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.MyTransparent" />
-
     </application>
 
 </manifest>

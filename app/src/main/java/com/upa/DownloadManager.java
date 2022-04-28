@@ -90,8 +90,6 @@ public class DownloadManager {
             public void keep() {
                 HintSource.getInstance().setDownLoadState(1);
                 Toast.makeText(context, "已是最新版本", Toast.LENGTH_LONG).show();
-                //弹窗
-                ActivationManager.getInstance().isActivation(context);
                 //加载数据
                 EventBus.getDefault().post(new TopStateEvent(TopStateEvent.REFRESH_LOAD_SOURCE));
             }
