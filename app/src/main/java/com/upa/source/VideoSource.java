@@ -34,7 +34,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class VideoSource {
    // public static final String url = "https://lfqdy.oss-cn-hongkong.aliyuncs.com/lfqdyapp/gp/tvsgp2";
-    public static final String url = "https://lfqdy.oss-cn-hongkong.aliyuncs.com/lfqdyapp/gp/tvsgp3";
+    public static final String url = "https://lfqdy.oss-cn-hongkong.aliyuncs.com/lfqdyapp/gp/tvsgp4";
 
     public static final String NET_MD5_FILE_NAME = "tv_source_file_name";
     public static final String NET_MD5 = "tv_source_net_md5";
