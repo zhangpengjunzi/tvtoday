@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.ad.VideoPlayAd;
 import com.today.player.ui.activity.PlayActivity;
 

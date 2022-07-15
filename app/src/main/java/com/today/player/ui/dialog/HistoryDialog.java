@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.IdRes;
 
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.bean.VodInfo;
 import com.today.player.util.FastClickCheckUtil;
 

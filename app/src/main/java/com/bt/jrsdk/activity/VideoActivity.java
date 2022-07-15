@@ -20,7 +20,7 @@ import com.bt.jrsdk.util.CustomVideoView;
 import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.Utils;
 import com.bt.jrsdk.util.VideoTimeUtil;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.util.PlayUtils;
 
 import xyz.doikki.videoplayer.player.VideoView;

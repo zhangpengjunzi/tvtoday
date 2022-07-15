@@ -1,7 +1,7 @@
 package com.today.player.callback;
 
 import com.kingja.loadsir.callback.Callback;
-import com.today.player.R;
+import com.video.dkplayer.R;
 
 
 /**

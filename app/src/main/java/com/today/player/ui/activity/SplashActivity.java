@@ -25,7 +25,7 @@ import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.VideoOptions;
 import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.UnifiedNativeAd;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.ad.VideoSplashAd;
 import com.today.player.base.App;
 import com.today.player.base.BaseActivity;

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.base.BaseLazyFragment;
 import com.today.player.bean.VodInfo;
 import com.today.player.cache.RoomDataManger;

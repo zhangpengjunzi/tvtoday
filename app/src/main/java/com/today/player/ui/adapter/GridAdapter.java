@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.bean.Movie;
 import com.today.player.picasso.RoundTransformation;
 import com.today.player.util.MD5;
@@ -66,11 +66,11 @@ public class GridAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
                             .centerCorp(true)
                             .override(AutoSizeUtils.pt2px(mContext, 224), AutoSizeUtils.pt2px(mContext, 315))
                             .roundRadius(AutoSizeUtils.pt2px(mContext, 10), RoundTransformation.RoundType.ALL))
-                    .placeholder(R.drawable.error_loading)
-                    .error(R.drawable.error_loading)
+                    .placeholder(R.drawable.error_all_loading_placeholder)
+                    .error(R.drawable.error_all_loading_placeholder)
                     .into(ivThumb);
         } else {
-            ivThumb.setImageResource(R.drawable.error_loading);
+            ivThumb.setImageResource(R.drawable.error_all_loading_placeholder);
         }
     }
 }

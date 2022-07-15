@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.gson.Gson
-import com.today.player.R
 import com.today.player.base.BaseActivity
 import com.today.player.bean.RecommendBean
 import com.today.player.bean.RecommendListBean
@@ -22,6 +21,7 @@ import com.today.player.service.DownLoadService
 import com.today.player.ui.adapter.RecommendListAdapter
 import com.today.player.util.*
 import com.upa.DownloadManager
+import com.video.dkplayer.R
 import java.io.File
 import kotlin.properties.Delegates
 

@@ -20,7 +20,7 @@ import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.bean.AbsSortXml;
 import com.today.player.bean.MovieSort;

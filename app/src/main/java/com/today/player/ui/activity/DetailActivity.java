@@ -26,7 +26,7 @@ import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
 
@@ -271,13 +271,13 @@ public class DetailActivity extends BaseActivity {
                                             .centerCorp(true)
                                             .override(AutoSizeUtils.pt2px(mContext, 224), AutoSizeUtils.pt2px(mContext, 315))
                                             .roundRadius(AutoSizeUtils.pt2px(mContext, 5), RoundTransformation.RoundType.ALL))
-                                    .placeholder(R.drawable.error_all_loading)
-                                    .error(R.drawable.error_all_loading)
+                                    .placeholder(R.drawable.error_all_loading_placeholder)
+                                    .error(R.drawable.error_all_loading_placeholder)
                                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                                     .networkPolicy(NetworkPolicy.NO_CACHE)
                                     .into(ivThumb);
                         } else {
-                            ivThumb.setImageResource(R.drawable.error_all_loading);
+                            ivThumb.setImageResource(R.drawable.error_all_loading_placeholder);
                         }
                     } else {
                         showEmpty();

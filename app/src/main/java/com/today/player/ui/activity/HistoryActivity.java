@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
 import com.today.player.base.BaseLazyFragment;

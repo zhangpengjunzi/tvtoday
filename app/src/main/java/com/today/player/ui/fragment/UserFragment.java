@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.base.BaseLazyFragment;
 import com.today.player.event.ServerEvent;
 import com.today.player.event.TopStateEvent;

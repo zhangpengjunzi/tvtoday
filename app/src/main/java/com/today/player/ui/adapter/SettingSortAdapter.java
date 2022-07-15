@@ -2,7 +2,7 @@ package com.today.player.ui.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.today.player.R;
+import com.video.dkplayer.R;
 
 
 import java.util.ArrayList;

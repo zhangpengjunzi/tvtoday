@@ -20,7 +20,7 @@ import com.bytedance.sdk.openadsdk.TTFeedAd;
 import com.bytedance.sdk.openadsdk.TTImage;
 import com.bytedance.sdk.openadsdk.TTNativeAd;
 import com.squareup.picasso.Picasso;
-import com.today.player.R;
+import com.video.dkplayer.R;
 
 import java.util.ArrayList;
 import java.util.List;

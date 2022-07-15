@@ -12,7 +12,7 @@ import androidx.annotation.IdRes;
 
 import com.orhanobut.hawk.Hawk;
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.util.FastClickCheckUtil;
 import com.today.player.util.HawkConfig;
 

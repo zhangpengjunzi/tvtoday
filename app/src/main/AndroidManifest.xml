@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.today.player">
+    package="com.video.dkplayer">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,7 +13,7 @@
 
 
     <application
-        android:name=".base.App"
+        android:name="com.today.player.base.App"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/app_icon"
@@ -28,19 +28,19 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1919587953327793~8641527294"/>
+            android:value="ca-app-pub-1919587953327793~8273216777" />
 
         <service
-            android:name=".service.DownLoadService"
+            android:name="com.today.player.service.DownLoadService"
             android:enabled="true"
             android:exported="true"></service>
 
         <activity
-            android:name=".ui.activity.RecommendActivity"
+            android:name="com.today.player.ui.activity.RecommendActivity"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".ui.activity.SplashActivity"
+            android:name="com.today.player.ui.activity.SplashActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,60 +50,60 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.HomeActivity"
+            android:name="com.today.player.ui.activity.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape"></activity>
 
         <activity
-            android:name=".ui.activity.LivePlayActivity"
+            android:name="com.today.player.ui.activity.LivePlayActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.DetailActivity"
+            android:name="com.today.player.ui.activity.DetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.PlayActivity"
+            android:name="com.today.player.ui.activity.PlayActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".ui.activity.ProjectionPlayActivity"
+            android:name="com.today.player.ui.activity.ProjectionPlayActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.SearchActivity"
+            android:name="com.today.player.ui.activity.SearchActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.SettingActivity"
+            android:name="com.today.player.ui.activity.SettingActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.RewardActivity"
+            android:name="com.today.player.ui.activity.RewardActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.HistoryNewActivity"
+            android:name="com.today.player.ui.activity.HistoryNewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.HistoryActivity"
+            android:name="com.today.player.ui.activity.HistoryActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
 
 
-        <receiver android:name=".receiver.SearchReceiver">
+        <receiver android:name="com.today.player.receiver.SearchReceiver">
             <intent-filter>
                 <action android:name="android.content.movie.search.Action" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.ProjectionReceiver">
+        <receiver android:name="com.today.player.receiver.ProjectionReceiver">
             <intent-filter>
                 <action android:name="android.content.movie.projection.Action" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.CustomWebReceiver">
+        <receiver android:name="com.today.player.receiver.CustomWebReceiver">
             <intent-filter>
                 <action android:name="android.content.movie.custom.web.Action" />
             </intent-filter>

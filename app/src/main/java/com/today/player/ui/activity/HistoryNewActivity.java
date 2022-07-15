@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.base.BaseActivity;
 import com.today.player.bean.VodInfo;
 import com.today.player.cache.RoomDataManger;

@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.bean.PlayerModel;
 
 import java.util.ArrayList;

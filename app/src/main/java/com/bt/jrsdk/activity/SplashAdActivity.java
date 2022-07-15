@@ -14,7 +14,7 @@ import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.manager.AdObserver;
 import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.Utils;
-import com.today.player.R;
+import com.video.dkplayer.R;
 
 import java.lang.ref.WeakReference;
 

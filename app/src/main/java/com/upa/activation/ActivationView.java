@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.upa.DownloadManager;
 import com.upa.UpdateModel;
 import com.upa.im.ActivationResult;

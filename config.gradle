@@ -6,11 +6,11 @@ ext {
             buildToolsVersion: '30.0.0',
             minSdkVersion    : 19,
             targetSdkVersion : 30,
-            applicationId    : "com.today.player",
+            applicationId    : "com.video.dkplayer",
     ]
     versions = [
-            versionCode: 32,
-            versionName: "4.5.8",
+            versionCode: 1,
+            versionName: "1.0.1",
     ]
     dependencies = [
             "appcompat"                    : "androidx.appcompat:appcompat:1.2.0",

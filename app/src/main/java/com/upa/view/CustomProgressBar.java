@@ -19,7 +19,7 @@ import android.widget.ProgressBar;
 import androidx.core.content.ContextCompat;
 
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.upa.tool.Tools;
 
 import java.text.DecimalFormat;

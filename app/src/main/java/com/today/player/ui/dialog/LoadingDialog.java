@@ -5,7 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 
 
 /**

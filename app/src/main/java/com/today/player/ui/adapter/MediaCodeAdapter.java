@@ -5,7 +5,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.orhanobut.hawk.Hawk;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.bean.PlayerModel;
 import com.today.player.ui.dialog.MediaCodeDialog;
 import com.today.player.util.HawkConfig;

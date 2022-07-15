@@ -10,7 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import com.today.player.R
+import com.video.dkplayer.R
 import com.today.player.bean.RecommendBean
 import com.today.player.picasso.RoundTransformation
 import com.today.player.util.MD5

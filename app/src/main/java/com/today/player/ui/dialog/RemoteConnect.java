@@ -17,7 +17,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.server.RemoteServer;
 import com.tv.QRCodeGen;
 

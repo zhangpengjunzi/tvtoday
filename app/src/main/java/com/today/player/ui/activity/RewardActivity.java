@@ -1,7 +1,7 @@
 package com.today.player.ui.activity;
 
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.base.BaseActivity;
 
 /**

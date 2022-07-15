@@ -7,7 +7,7 @@ import android.view.View;
 
 import androidx.annotation.IdRes;
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 
 
 /**

@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 
 import com.tv.widget.VodSeekBar;
 

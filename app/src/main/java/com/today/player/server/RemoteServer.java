@@ -5,7 +5,7 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.event.ServerEvent;
 
 import org.greenrobot.eventbus.EventBus;

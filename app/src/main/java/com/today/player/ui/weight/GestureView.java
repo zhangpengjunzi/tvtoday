@@ -23,7 +23,7 @@ import xyz.doikki.videoplayer.player.VideoView;
 
 import static xyz.doikki.videoplayer.util.PlayerUtils.stringForTime;
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 
 /**
  * 手势控制

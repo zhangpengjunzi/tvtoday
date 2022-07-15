@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.base.BaseActivity;
 import com.today.player.dkplayer.SimonVideoController;
 import com.today.player.dkplayer.SimonVodControlView;

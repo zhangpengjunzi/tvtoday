@@ -26,7 +26,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.App;
 import com.today.player.base.BaseActivity;

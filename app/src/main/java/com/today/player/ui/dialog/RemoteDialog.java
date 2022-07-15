@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.IdRes;
 
 
-import com.today.player.R;
+import com.video.dkplayer.R;
 import com.today.player.server.RemoteServer;
 import com.tv.QRCodeGen;
 

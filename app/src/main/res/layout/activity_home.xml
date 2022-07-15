@@ -16,13 +16,13 @@
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="140pt"
+            android:layout_width="150pt"
             android:layout_height="44pt"
             android:layout_gravity="left|center_vertical|center_horizontal|center"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="center"
-            android:text="今日影视"
+            android:text="@string/app_name"
             android:textColor="@android:color/white"
             android:textSize="32pt"
             android:textStyle="bold" />
