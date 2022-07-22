@@ -12,14 +12,20 @@
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/error_loading.xml" value="0.1005" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/model_dialog_bg.xml" value="0.1005" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/source_focus.xml" value="0.1005" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_detail.xml" value="0.23125" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_home.xml" value="0.22327898550724637" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_init_pw.xml" value="0.11875" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_native_unified_ad_premovie.xml" value="0.190625" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_native_unified_sigmob_ad_premovie.xml" value="0.190625" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_play.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/dialog_parse.xml" value="0.23125" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/dkplayer_layout_simon_vod_control_view.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/empty_layout.xml" value="0.23125" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/fragment_grid.xml" value="0.23125" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/fragment_user_layout.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/item_live_layout.xml" value="0.17864583333333334" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/item_prase_layout.xml" value="0.23125" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/loading_layout.xml" value="0.23125" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/native_ad_item_small.xml" value="0.1609375" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/simon_standard_controller.xml" value="0.13541666666666666" />
         <entry key="..\:/android_app/TVMovie-main/app/src/main/res/drawable-hdpi/home_sort_no_focus.xml" value="0.136" />
