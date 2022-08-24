@@ -103,13 +103,12 @@ public class Tools {
 
     public static void editShapeSolid(Context context, View v, int pos) {
         GradientDrawable gd = (GradientDrawable) v.getBackground();
-        int roundRadius = 38; //
+        int roundRadius = 10; //
         int strokeColor = Color.parseColor("#FF9800");//内部填充颜色
         if (pos == 1) {
             strokeColor = Color.parseColor("#A39D9D");
             ;//内部填充颜色
         }
-
         gd.setStroke(dip2px(context, 1), strokeColor);
         gd.setColor(Color.WHITE);
         gd.setCornerRadius(dip2px(context, roundRadius));

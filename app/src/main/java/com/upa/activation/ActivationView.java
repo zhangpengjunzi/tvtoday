@@ -36,10 +36,10 @@ public class ActivationView extends Dialog {
 
     private Context mContext;
     private TextView codeButton;
+    private TextView cancel_button;
     private EditText tvCode;
     private View view;
     private boolean isEditFocus, isButtonFocus = false;
-    private ProgressBar progressBar;
     private boolean isActive = false;
 
     public ActivationView(Context context) {
@@ -77,28 +77,27 @@ public class ActivationView extends Dialog {
     private void initView(View view) {
         tvCode = view.findViewById(R.id.activation_text);
         codeButton = view.findViewById(R.id.activation_button);
-        progressBar = view.findViewById(R.id.activation_bar);
-        if (Tools.isTvOrPhone(mContext)) {
-            codeButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (hasFocus) {
-                        codeButton.setTextColor(Color.WHITE);
-                        Tools.shapeSolid(mContext, codeButton, 0);
-                        isButtonFocus = true;
-                    } else {
-                        Tools.shapeSolid(mContext, codeButton, 1);
-                        codeButton.setTextColor(Color.BLACK);
-                        isButtonFocus = false;
-                    }
-                    codeButton.invalidate();
+        cancel_button = view.findViewById(R.id.cancel_button);
+        codeButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    codeButton.setTextColor(Color.WHITE);
+                } else {
+                    codeButton.setTextColor(mContext.getResources().getColor(R.color.color_FF5F00));
                 }
-            });
-        } else {
-            codeButton.setTextColor(Color.WHITE);
-            Tools.shapeSolid(mContext, codeButton, 0);
-            codeButton.setFocusableInTouchMode(false);
-        }
+            }
+        });
+        cancel_button.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    cancel_button.setTextColor(Color.WHITE);
+                } else {
+                    cancel_button.setTextColor(mContext.getResources().getColor(R.color.color_ccc));
+                }
+            }
+        });
         tvCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -125,26 +124,6 @@ public class ActivationView extends Dialog {
             }
         });
 
-
-       /* codeButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction()==MotionEvent.ACTION_UP){
-                    String text = tvCode.getText().toString().trim();
-                    if (text.length() == 0) {
-                        Toast.makeText(mContext, "激活码输入错误", Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                    codeButton.setEnabled(false);
-                    //开始验证激活码
-                    active(text);
-                    codeButton.setText("");
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-                return false;
-            }
-        });*/
-
         codeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,23 +132,25 @@ public class ActivationView extends Dialog {
                     Toast.makeText(mContext, "激活码输入错误", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                codeButton.setEnabled(false);
-                //开始验证激活码
-                active(text);
-                codeButton.setText("");
-                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
             }
         });
     }
 
 
-    @Override
+  /*  @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_DOWN:   //向下键
-                /*    实际开发中有时候会触发两次，所以要判断一下按下时触发 ，松开按键时不触发
+                *//*    实际开发中有时候会触发两次，所以要判断一下按下时触发 ，松开按键时不触发
                  *    exp:KeyEvent.ACTION_UP
-                 */
+                 *//*
                 if (event.getAction() == KeyEvent.ACTION_DOWN && isEditFocus) {
                     tvCode.clearFocus();
                     view.clearFocus();
@@ -190,35 +171,7 @@ public class ActivationView extends Dialog {
         }
 
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 
-
-    private void active(String code) {
-        ActivationManager.getInstance().active(mContext, code, new ActivationResult() {
-            @Override
-            public void activeSuccess() {
-                if (mContext != null) {
-                    Toast.makeText(mContext, "激活成功", Toast.LENGTH_SHORT).show();
-                    if (ActivationView.this != null && ActivationView.this.isShowing()) {
-                        isActive = true;
-                        dismiss();
-                    }
-                }
-            }
-
-            @Override
-            public void activeError(String message) {
-                if (mContext != null) {
-                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-                    if (ActivationView.this != null && ActivationView.this.isShowing()) {
-                        codeButton.setText("激活");
-                        codeButton.setEnabled(true);
-                        codeButton.requestFocus();
-                        progressBar.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
-    }
 
 }

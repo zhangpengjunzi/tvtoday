@@ -26,6 +26,7 @@ import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+import com.upa.activation.ActivationView;
 import com.video.dkplayer.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
@@ -75,6 +76,7 @@ public class DetailActivity extends BaseActivity {
     private TextView tvPlay;
     private TextView tvQuickSearch;
     private TextView tvSite;
+    private TextView submitBtn;
     private TvRecyclerView mGridView;
     private TvRecyclerView mGridViewFlag;
     private SourceViewModel sourceViewModel;
@@ -85,6 +87,7 @@ public class DetailActivity extends BaseActivity {
     private String sourceUrl;
     private String sourceKey;
     private int id;
+    private ActivationView activationView;
 
     @Override
     protected int getLayoutResID() {
@@ -108,6 +111,7 @@ public class DetailActivity extends BaseActivity {
         tvLang = findViewById(R.id.tvLang);
         tvType = findViewById(R.id.tvType);
         tvSite = findViewById(R.id.tvSite);
+        submitBtn = findViewById(R.id.submitBtn);
         tvActor = findViewById(R.id.tvActor);
         tvDirector = findViewById(R.id.tvDirector);
         tvDes = findViewById(R.id.tvDes);
@@ -214,6 +218,17 @@ public class DetailActivity extends BaseActivity {
                 }
             }
         });
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (activationView == null) {
+                    activationView = new ActivationView(DetailActivity.this);
+                }
+                activationView.show();
+            }
+        });
+
         setLoadSir(llLayout);
     }
 

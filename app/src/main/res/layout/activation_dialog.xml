@@ -10,15 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:focusable="false"
         android:focusableInTouchMode="false"
-        android:text="今日影视激活"
+        android:text="意见反馈"
         android:textColor="@color/black"
         android:textSize="25pt" />
 
     <com.upa.activation.LQREditText
         android:id="@+id/activation_text"
         android:layout_width="400pt"
-        android:layout_height="50pt"
+        android:layout_height="150pt"
         android:layout_gravity="center"
         android:layout_marginLeft="10pt"
         android:layout_marginTop="20pt"
@@ -27,38 +28,51 @@
         android:background="@drawable/edit_bg_focus"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:gravity="center"
-        android:hint="请输入激活码"
+        android:gravity="left"
+        android:hint="您的反馈意见..."
         android:inputType="text"
         android:nextFocusDown="@id/activation_button"
+        android:padding="5pt"
         android:textColor="@color/black"
         android:textColorHint="#ff636161"
-        android:textSize="25pt" />
+        android:textSize="22pt" />
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/cancel_button"
+            android:layout_width="150pt"
+            android:layout_height="40pt"
+            android:layout_gravity="left"
+            android:background="@drawable/active_unfocus"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:nextFocusLeft="@id/activation_button"
+            android:nextFocusRight="@id/activation_button"
+            android:nextFocusUp="@id/activation_text"
+            android:nextFocusDown="@id/activation_text"
+            android:text="取消"
+            android:textColor="@color/color_ccc"
+            android:textSize="25pt" />
 
         <TextView
             android:id="@+id/activation_button"
             android:layout_width="150pt"
             android:layout_height="40pt"
-            android:background="@drawable/button_bg"
+            android:layout_gravity="right"
+            android:background="@drawable/active_focus"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
+            android:nextFocusLeft="@id/cancel_button"
+            android:nextFocusRight="@id/cancel_button"
             android:nextFocusUp="@id/activation_text"
+            android:nextFocusDown="@id/activation_text"
             android:text="激活"
-            android:textColor="@color/black"
+            android:textColor="@color/color_FF5F00"
             android:textSize="25pt" />
-
-        <ProgressBar
-            android:id="@+id/activation_bar"
-            style="?android:progressBarStyleInverse"
-            android:layout_width="20pt"
-            android:layout_height="20pt"
-            android:layout_gravity="center"
-            android:focusable="false"
-            android:visibility="gone" />
     </FrameLayout>
 </LinearLayout>

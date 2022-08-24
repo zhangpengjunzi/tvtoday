@@ -4,14 +4,21 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.22314814814814815" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable-hdpi/active_focus.xml" value="0.11" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable-hdpi/active_unfocus.xml" value="0.11" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable-xhdpi/play_bottom_shape.xml" value="0.1005" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable-xhdpi/play_mobile_center_shape.xml" value="0.1005" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable-xhdpi/simon_controller_top_bg.xml" value="0.1005" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/button_bg.xml" value="0.11" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/detail_paly_focus.xml" value="0.11" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/detail_play_focus.xml" value="0.11" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/edit_bg_focus.xml" value="0.11" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/error_all_loading.xml" value="0.1005" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/error_all_loading_placeholder.xml" value="0.1005" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/error_loading.xml" value="0.1005" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/model_dialog_bg.xml" value="0.1005" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/drawable/source_focus.xml" value="0.1005" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activation_dialog.xml" value="0.25" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_detail.xml" value="0.23125" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_home.xml" value="0.22327898550724637" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_init_pw.xml" value="0.11875" />
