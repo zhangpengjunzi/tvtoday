@@ -31,12 +31,12 @@ public class ActivationManager {
             @Override
             public void active(int code) {
                 if (code == 200) {
-                    if (activationView == null && context != null) {
+                  /*  if (activationView == null && context != null) {
                         activationView = new ActivationView(context);
                     }
                     if (activationView != null && !activationView.isShowing()) {
                         activationView.show();
-                    }
+                    }*/
                 }
             }
 

@@ -19,6 +19,7 @@ public class PlayerModel {
 
     private List<SourcesDTO> sources;
     private List<LiveDTO> live;
+    private List<String> vcode;
     private List<String> parseFlag;
     private List<ParseUrlDTO> parseUrl;
     private FilterDTO filter;
@@ -26,6 +27,14 @@ public class PlayerModel {
     private List<String> ads;
     private TTadDTO ttad;
     private MobadDTO mobad;
+
+    public List<String> getVcode() {
+        return vcode;
+    }
+
+    public void setVcode(List<String> vcode) {
+        this.vcode = vcode;
+    }
 
     public MobadDTO getMobad() {
         return mobad;

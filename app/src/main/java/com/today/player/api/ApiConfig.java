@@ -50,6 +50,7 @@ public class ApiConfig {
     private List<String> parseFlag;
     private PlayerModel.TTadDTO txadDTO;
     private PlayerModel.MobadDTO mobadDTO;
+    private List<String> vcode;
 
     private ApiConfig() {
         sourceBeanList = new ArrayList<>();
@@ -132,6 +133,8 @@ public class ApiConfig {
         txadDTO = model.getTxad();
 
         mobadDTO = model.getMobad();
+
+        vcode = model.getVcode();
     }
 
     private void loadIjkConfigSource(PlayerModel model) {
@@ -291,6 +294,14 @@ public class ApiConfig {
 
     public List<String> getFilterResult() {
         return filterResult;
+    }
+
+    public List<String> getVcode() {
+        return vcode;
+    }
+
+    public void setVcode(List<String> vcode) {
+        this.vcode = vcode;
     }
 
     public void setDefault(PlayerModel.ParseUrlDTO tgVar) {

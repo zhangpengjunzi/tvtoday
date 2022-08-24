@@ -26,9 +26,11 @@
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_native_unified_sigmob_ad_premovie.xml" value="0.190625" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/activity_play.xml" value="0.13541666666666666" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/dialog_parse.xml" value="0.23125" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/dialog_quick_search.xml" value="0.23125" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/dkplayer_layout_simon_vod_control_view.xml" value="0.13541666666666666" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/empty_layout.xml" value="0.23125" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/fragment_grid.xml" value="0.23125" />
+        <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/fragment_model.xml" value="0.23125" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/fragment_user_layout.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/item_live_layout.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/86137/Desktop/work/tv_today_source/app/src/main/res/layout/item_prase_layout.xml" value="0.23125" />
@@ -141,5 +143,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.23125" />
+      </ProjectState>
+    </option>
   </component>
 </project>

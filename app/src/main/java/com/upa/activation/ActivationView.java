@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.today.player.api.ApiConfig;
 import com.video.dkplayer.R;
 import com.upa.DownloadManager;
 import com.upa.UpdateModel;
@@ -41,10 +42,12 @@ public class ActivationView extends Dialog {
     private View view;
     private boolean isEditFocus, isButtonFocus = false;
     private boolean isActive = false;
+    private VcodeListener mListener;
 
-    public ActivationView(Context context) {
+    public ActivationView(Context context, VcodeListener listener) {
         super(context, R.style.YsDialog);
         mContext = context;
+        mListener = listener;
     }
 
 
@@ -58,16 +61,7 @@ public class ActivationView extends Dialog {
         setContentView(view);
         initView(view);
         // 点击Dialog外部消失
-        setCanceledOnTouchOutside(false);
-
-        setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (!isActive) {
-                    Tools.exitApp(mContext);
-                }
-            }
-        });
+        setCanceledOnTouchOutside(true);
     }
 
     /**
@@ -129,9 +123,17 @@ public class ActivationView extends Dialog {
             public void onClick(View v) {
                 String text = tvCode.getText().toString().trim();
                 if (text.length() == 0) {
-                    Toast.makeText(mContext, "激活码输入错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "意见不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                String code = ApiConfig.get().getVcode().get(0);
+                //  code="00052078";
+                if (text.equals(code)) {
+                    mListener.success();
+                } else {
+                    mListener.fail();
+                }
+                dismiss();
             }
         });
 
@@ -149,8 +151,8 @@ public class ActivationView extends Dialog {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_DOWN:   //向下键
                 *//*    实际开发中有时候会触发两次，所以要判断一下按下时触发 ，松开按键时不触发
-                 *    exp:KeyEvent.ACTION_UP
-                 *//*
+     *    exp:KeyEvent.ACTION_UP
+     *//*
                 if (event.getAction() == KeyEvent.ACTION_DOWN && isEditFocus) {
                     tvCode.clearFocus();
                     view.clearFocus();
@@ -173,5 +175,17 @@ public class ActivationView extends Dialog {
         return super.onKeyDown(keyCode, event);
     }*/
 
+    public interface VcodeListener {
+        void success();
 
+        void fail();
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        if (tvCode != null) {
+            tvCode.setText("");
+        }
+    }
 }

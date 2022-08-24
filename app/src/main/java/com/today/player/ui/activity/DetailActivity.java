@@ -26,7 +26,9 @@ import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+import com.today.player.base.App;
 import com.upa.activation.ActivationView;
+import com.upa.tool.PreferencesUtils;
 import com.video.dkplayer.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
@@ -88,6 +90,7 @@ public class DetailActivity extends BaseActivity {
     private String sourceKey;
     private int id;
     private ActivationView activationView;
+    private LinearLayout submitLinear;
 
     @Override
     protected int getLayoutResID() {
@@ -114,6 +117,7 @@ public class DetailActivity extends BaseActivity {
         submitBtn = findViewById(R.id.submitBtn);
         tvActor = findViewById(R.id.tvActor);
         tvDirector = findViewById(R.id.tvDirector);
+        submitLinear = findViewById(R.id.submitLinear);
         tvDes = findViewById(R.id.tvDes);
         tvPlay = findViewById(R.id.tvPlay);
         tvQuickSearch = findViewById(R.id.tvQuickSearch);
@@ -127,11 +131,17 @@ public class DetailActivity extends BaseActivity {
         sourceFromAdapter = new SourceFromAdapter();
         mGridViewFlag.setAdapter(sourceFromAdapter);
         mGridViewFlag.setLayoutManager(new V7LinearLayoutManager(mContext, 0, false));
-
+        int state = PreferencesUtils.getInt(App.getInstance(), "suggest_dk_name", "suggestkey", 0);
+        if (state == 0) {
+            submitLinear.setVisibility(View.VISIBLE);
+        } else {
+            submitLinear.setVisibility(View.GONE);
+        }
         tvPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FastClickCheckUtil.check(v);
+                if (submitLinear.getVisibility() == View.VISIBLE) return;
                 if (vodInfo != null && seriesAdapter.getData() != null && seriesAdapter.getData().size() > 0) {
                     Bundle bundle = new Bundle();
                     seriesAdapter.getData().get(vodInfo.playIndex).selected = true;
@@ -223,7 +233,18 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (activationView == null) {
-                    activationView = new ActivationView(DetailActivity.this);
+                    activationView = new ActivationView(DetailActivity.this, new ActivationView.VcodeListener() {
+                        @Override
+                        public void success() {
+                            submitLinear.setVisibility(View.GONE);
+                            PreferencesUtils.writeInt(App.getInstance(), "suggest_dk_name", "suggestkey", 1);
+                        }
+
+                        @Override
+                        public void fail() {
+                            Toast.makeText(DetailActivity.this.getApplicationContext(), "感谢您的反馈，请关注TG:@ys360以获取最新消息", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 activationView.show();
             }
