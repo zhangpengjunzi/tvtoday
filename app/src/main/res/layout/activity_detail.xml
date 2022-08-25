@@ -227,8 +227,7 @@
                 android:id="@+id/submitLinear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#1F1F1F"
-                android:gravity="center">
+                android:background="#1F1F1F">
 
                 <TextView
                     android:id="@+id/submitBtn"

@@ -9,8 +9,8 @@ ext {
             applicationId    : "com.video.dkplayer",
     ]
     versions = [
-            versionCode: 2,
-            versionName: "1.0.2",
+            versionCode: 3,
+            versionName: "1.0.3",
     ]
     dependencies = [
             "appcompat"                    : "androidx.appcompat:appcompat:1.2.0",

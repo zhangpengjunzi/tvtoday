@@ -44,7 +44,7 @@
         <TextView
             android:id="@+id/cancel_button"
             android:layout_width="150pt"
-            android:layout_height="40pt"
+            android:layout_height="60pt"
             android:layout_gravity="left"
             android:background="@drawable/active_unfocus"
             android:focusable="true"
@@ -61,7 +61,7 @@
         <TextView
             android:id="@+id/activation_button"
             android:layout_width="150pt"
-            android:layout_height="40pt"
+            android:layout_height="60pt"
             android:layout_gravity="right"
             android:background="@drawable/active_focus"
             android:focusable="true"
@@ -71,7 +71,7 @@
             android:nextFocusRight="@id/cancel_button"
             android:nextFocusUp="@id/activation_text"
             android:nextFocusDown="@id/activation_text"
-            android:text="激活"
+            android:text="提交"
             android:textColor="@color/color_FF5F00"
             android:textSize="25pt" />
     </FrameLayout>
