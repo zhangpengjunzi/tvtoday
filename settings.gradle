@@ -1,3 +1,6 @@
 include ':tvLibrary'
 include ':app'
 rootProject.name = "TVMovie"
+include ':AliyunVideoCommon'
+include ':AliyunPlayerBase'
+include ':Aliyunplayer:AlivcPlayerTools'

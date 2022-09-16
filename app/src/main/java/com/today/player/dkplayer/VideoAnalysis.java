@@ -130,7 +130,7 @@ public class VideoAnalysis {
     public interface play {
         void a();
 
-        void a(String str, Map<String, String> map);
+        void a(String str);
     }
 
     public final void a(String str, String str2, String str3, VideoAnalysis.play kVar) {
@@ -263,7 +263,7 @@ public class VideoAnalysis {
 
             public void run() {
                 this.a.stopLoading();
-                l.this.a.a(this.b, (Map<String, String>) null);
+                l.this.a.a(this.b);
             }
         }
 

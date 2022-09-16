@@ -90,7 +90,7 @@ public class ProjectionPlayActivity extends BaseActivity {
         public PlayStart() {
         }
 
-        public void a(String str, Map<String, String> map) {
+        public void a(String str) {
             d.a(str);
             if (c != null) {
                 c.release();

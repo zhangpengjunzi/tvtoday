@@ -111,7 +111,7 @@ public class PlayActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if(playAd!=null){
+                if (playAd != null) {
                     playAd.recycler();
                 }
 
@@ -319,7 +319,7 @@ public class PlayActivity extends BaseActivity {
             DownloadManager.getInstance().setCurrentPlayerUrl(playUrl);
             if (playerUrl.contains(basePlb) && playUrl.endsWith("m3u8")) {
                 PlayStart playStart = new PlayStart();
-                playStart.a(playUrl, null);
+                playStart.a(playUrl);
             } else {
                 setUrl(playerUrl);
             }
@@ -359,14 +359,10 @@ public class PlayActivity extends BaseActivity {
         public PlayStart() {
         }
 
-        public void a(String str, Map<String, String> map) {
+        public void a(String str) {
             if (mVideoView != null) {
                 mVideoView.release();
-                if (map != null) {
-                    mVideoView.setUrl(str, map);
-                } else {
-                    mVideoView.setUrl(str);
-                }
+                mVideoView.setUrl(str);
                 mVideoView.start();
             }
             f();
@@ -430,16 +426,19 @@ public class PlayActivity extends BaseActivity {
         }
         int i = 1;
         if (action == 0) {
+            //左右
             if (keyCode == 22 || keyCode == 21) {
                 if (keyCode != 22) {
                     i = -1;
                 }
                 mController.a(i);
+                //确定
             } else if (keyCode == 23 || keyCode == 85 || keyCode == 7 || keyCode == KeyEvent.KEYCODE_ENTER) {
                 if (mVideoView.isPlaying() && playAd != null) {
                     playAd.loadAd(getContent());
                 }
                 mController.d();
+                //上下
             } else if (keyCode == 19) {
                 mController.b();
             } else if (keyCode == 20) {
@@ -523,7 +522,7 @@ public class PlayActivity extends BaseActivity {
                                                 public void run() {
                                                     if (playerUrl.contains(basePlb)) {
                                                         PlayStart playStart = new PlayStart();
-                                                        playStart.a(playUrl, null);
+                                                        playStart.a(playUrl);
                                                     } else {
                                                         if (videoAnalysis != null) {
                                                             videoAnalysis.a(sourceKey, mVodInfo.fromList.get(mVodInfo.playFlag).name, playUrl, new PlayStart());

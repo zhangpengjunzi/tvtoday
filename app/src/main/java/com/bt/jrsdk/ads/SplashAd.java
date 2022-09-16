@@ -3,6 +3,7 @@ package com.bt.jrsdk.ads;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 
 import com.bt.jrsdk.activity.SplashAdActivity;
@@ -52,7 +53,8 @@ public class SplashAd extends BaseAd {
         params.put("ad_type", ad_type);
         params.put("device_type", Utils.getDeviceType());
         params.put("uid", AdStartManager.uid);
-        params.put("package", "com.today.player.gp");
+        params.put("package", getActivity().getPackageName());
+        Log.e("TAG", "loadCurrentAd: "+getActivity().getPackageName());
         //params.put("package", "com.today.player");
         params.put("pid", pid);
         RequestClient request = new RequestClient.Builder()
