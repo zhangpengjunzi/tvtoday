@@ -24,10 +24,6 @@ public class SeekDialog extends BaseGestureDialog {
         updatePosition(mInitPosition, isLeft);
     }
 
-    public void updatePosition(int position) {
-        updatePosition(position, false);
-    }
-
     public void updatePosition(int position, boolean isLeft) {
         //这里更新了网签和往后seek的图片
         if (!isLeft) {
@@ -35,7 +31,6 @@ public class SeekDialog extends BaseGestureDialog {
         } else {
             mImageView.setImageResource(R.drawable.alivc_seek_rewind);
         }
-        Log.e("AliyunVodPlayerView", "updatePosition: " + position);
         mTextView.setText(TimeFormater.formatMs(position));
     }
 
@@ -47,7 +42,7 @@ public class SeekDialog extends BaseGestureDialog {
      * @param deltaPosition   与当前位置相差的时长
      * @return
      */
-    public int getTargetPosition(long duration, long currentPosition, long deltaPosition) {
+    public int getTargetPosition(long duration, long currentPosition, long deltaPosition,boolean isLeft) {
         // seek步长
         long finalDeltaPosition;
         // 根据视频时长，决定seek步长
@@ -56,35 +51,34 @@ public class SeekDialog extends BaseGestureDialog {
         int minutes = (int) (totalMinutes % 60);
 
         // 视频时长为1小时以上，小屏和全屏的手势滑动最长为视频时长的十分之一
-        if (hours >= 1) {
-            finalDeltaPosition = deltaPosition / 10;
-        }// 视频时长为31分钟－60分钟时，小屏和全屏的手势滑动最长为视频时长五分之一
-        else if (minutes > 30) {
-            finalDeltaPosition = deltaPosition / 5;
-        }// 视频时长为11分钟－30分钟时，小屏和全屏的手势滑动最长为视频时长三分之一
-        else if (minutes > 10) {
-            finalDeltaPosition = deltaPosition / 3;
-        }// 视频时长为4-10分钟时，小屏和全屏的手势滑动最长为视频时长二分之一
-        else if (minutes > 3) {
-            finalDeltaPosition = deltaPosition / 2;
-        }// 视频时长为1秒钟至3分钟时，小屏和全屏的手势滑动最长为视频结束
-        else {
+//        if (hours >= 1) {
+//            finalDeltaPosition = deltaPosition / 4;
+//        }// 视频时长为31分钟－60分钟时，小屏和全屏的手势滑动最长为视频时长五分之一
+//        else if (minutes > 30) {
+//            finalDeltaPosition = deltaPosition / 4;
+//        }// 视频时长为11分钟－30分钟时，小屏和全屏的手势滑动最长为视频时长三分之一
+//        else if (minutes > 10) {
+//            finalDeltaPosition = deltaPosition / 3;
+//        }// 视频时长为4-10分钟时，小屏和全屏的手势滑动最长为视频时长二分之一
+//        else if (minutes > 3) {
+//            finalDeltaPosition = deltaPosition / 2;
+//        }// 视频时长为1秒钟至3分钟时，小屏和全屏的手势滑动最长为视频结束
+//        else {
             finalDeltaPosition = deltaPosition;
-        }
+//        }
+
         long targetPosition = 0;
-        if (currentPosition > deltaPosition) {
+        if (isLeft) {
             targetPosition = currentPosition - finalDeltaPosition;
         } else {
             targetPosition = finalDeltaPosition + currentPosition;
         }
-        Log.e("AliyunVodPlayerView", "start getTargetPosition: " + targetPosition);
         if (targetPosition < 0) {
             targetPosition = 0;
         }
         if (targetPosition > duration) {
             targetPosition = duration;
         }
-        Log.e("AliyunVodPlayerView", "end getTargetPosition: " + targetPosition);
 
         mFinalPosition = (int) targetPosition;
         return mFinalPosition;

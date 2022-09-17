@@ -42,7 +42,8 @@
 
         <activity
             android:name="com.today.player.ui.activity.SplashActivity"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,17 +101,20 @@
             android:screenOrientation="landscape" />
 
 
-        <receiver android:name="com.today.player.receiver.SearchReceiver">
+        <receiver android:name="com.today.player.receiver.SearchReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.content.movie.search.Action" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.today.player.receiver.ProjectionReceiver">
+        <receiver android:name="com.today.player.receiver.ProjectionReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.content.movie.projection.Action" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.today.player.receiver.CustomWebReceiver">
+        <receiver android:name="com.today.player.receiver.CustomWebReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.content.movie.custom.web.Action" />
             </intent-filter>

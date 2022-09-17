@@ -111,7 +111,7 @@ import java.util.Map;
  * ControlView} 显示清晰度列表的{@link QualityView} 倍速选择界面{@link SpeedView} 用户使用引导页面{@link GuideView} 用户提示页面{@link TipsView}
  * 以及封面等。 view 的初始化是在{@link #initVideoView}方法中实现的。 然后是对各个view添加监听方法，处理对应的操作，从而实现与播放器的共同操作
  */
-public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
+public class AliyunVodPlayerView extends RelativeLayout implements ITheme, View.OnClickListener {
 
     private static final String VIDEO_ADV_VID = "9fb028c29acb421cb634c77cf4ebe078";
 
@@ -375,8 +375,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         initSeekHandler();
         //初始化播放器
         initAliVcPlayer();
-        //初始化广告播放器
-//        initAdvVideoView();
         //初始化封面
         initCoverView();
         //初始化手势view
@@ -390,7 +388,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         //初始化控制栏
         initControlView();
         //初始化广告播放器
-        initAdvVideoView();
+//        initAdvVideoView();
         //初始化清晰度view
         initQualityView();
         //初始化缩略图
@@ -414,7 +412,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         //先隐藏手势和控制栏，防止在没有prepare的时候做操作。
         hideGestureAndControlViews();
         //初始化弹幕
-        initDanmaku();
+//        initDanmaku();
         //初始化字幕
         initSubtitleView();
         //初始化一个暂停播放的图片
@@ -424,8 +422,9 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
 
     private void initPlayerIcon() {
         playIcon = new ImageView(getContext());
-        playIcon.setImageResource(R.drawable.alivc_ic_action_play_arrow);
+        playIcon.setImageResource(R.drawable.stop);
         playIcon.setVisibility(View.GONE);
+        playIcon.setOnClickListener(this);
         addSubViewByCenter(playIcon);
         ViewGroup.LayoutParams playerParams = playIcon.getLayoutParams();
         playerParams.width = DensityUtil.dip2px(getContext(), 100);
@@ -1332,7 +1331,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
                 if (mIsScreenCosting) {
                     return;
                 }
-                Log.e("debug", "onHorizontalDistance: ");
                 //水平滑动调节seek。
                 // seek需要在手势结束时操作。
                 long duration = mAliyunRenderView.getDuration();
@@ -2357,7 +2355,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         }
 
         if (aliyunLocalSource != null && aliyunLocalSource.getUri().startsWith("artc")) {
-            Log.e(TAG, "artc setPlayerConfig");
             PlayerConfig playerConfig = mAliyunRenderView.getPlayerConfig();
             playerConfig.mMaxDelayTime = 1000;
             playerConfig.mHighBufferDuration = 10;
@@ -3101,6 +3098,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
      * @param position 目标位置
      */
     public void seekTo(int position) {
+        hidePlayIcon();
         mSeekToPosition = position;
         if (mAliyunRenderView == null) {
             return;
@@ -3137,7 +3135,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         needToSeek = false;
         if (mControlView != null) {
             AdvVideoView.IntentPlayVideo intentPlayVideo = mControlView.getIntentPlayVideo(mControlView.getMutiSeekBarCurrentProgress(), position);
-            Log.e(TAG, "checkAdvVideoSeek: intentPlayVideo = " + intentPlayVideo);
             mCurrentIntentPlayVideo = intentPlayVideo;
             switch (intentPlayVideo) {
                 case START_ADV:
@@ -3848,6 +3845,9 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         @Override
         public void onStateChanged(int newState) {
             AliyunVodPlayerView aliyunVodPlayerView = weakReference.get();
+            if (aliyunVodPlayerView.playIcon != null && aliyunVodPlayerView.playIcon.getVisibility() == VISIBLE && newState == IPlayer.started) {
+                aliyunVodPlayerView.playIcon.setVisibility(GONE);
+            }
             if (aliyunVodPlayerView != null) {
                 if (isAdvPlayer) {
                     aliyunVodPlayerView.advVideoPlayerStateChanged(newState);
@@ -4471,7 +4471,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
                             new String[]{bitmapPath},
                             new String[]{"image/png"}, null);
                 }
-                Log.e(TAG, "snapShot has Saved " + bitmapPath);
                 ThreadUtils.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -5149,33 +5148,27 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
             super.handleMessage(msg);
             int what = msg.what;
             if (isInSeek) {
-                seekTime += 300;
-                Log.e(TAG, "handleMessage: 当前位置：" + mCurrentPosition + "  seekTime：" + seekTime);
+                seekTime += 1500;
                 if (what == 22) {
-                    mGestureDialogManager.updateSeekDialog(getDuration(), mCurrentPosition, mCurrentPosition + seekTime);
+                    mGestureDialogManager.updateSeekDialog(getDuration(), mCurrentPosition, seekTime, false);
                 } else {
-                    mGestureDialogManager.updateSeekDialog(getDuration(), mCurrentPosition, mCurrentPosition - seekTime);
+                    mGestureDialogManager.updateSeekDialog(getDuration(), mCurrentPosition, seekTime, true);
                 }
-                seekHandler.sendEmptyMessageDelayed(what, 100);
+                seekHandler.sendEmptyMessageDelayed(what, 50);
             }
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        int action = event.getAction();
-        Log.d(TAG, "keyCode：" + keyCode + "  action：" + action);
         if (keyCode == 21) {
             if (isFirst) {
-                Log.e(TAG, "你按下左方向键");
                 showSeekDialog(keyCode);
                 longLeft = (int) currentTimeMillis();
                 isFirst = false;
             }
         } else if (keyCode == 22) {
             if (isFirst) {
-                Log.e(TAG, "mCurrentPosition：" + mCurrentPosition);
-                Log.e(TAG, "你按下右方向键");
                 showSeekDialog(keyCode);
                 longRight = (int) currentTimeMillis();
                 isFirst = false;
@@ -5192,20 +5185,29 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
                 }
                 start();
             }
+            if (onPlayStateBtnClickListener != null) {
+                onPlayStateBtnClickListener.onPlayBtnClick(getPlayerState());
+            }
             return false;
         }
 
         return super.onKeyDown(keyCode, event);
     }
 
-    private void hidePlayIcon(){
+    public void hidePlayIcon() {
+        hidePlayIcon(false);
+    }
+
+    public void hidePlayIcon(boolean hide) {
         if (playIcon != null && playIcon.getVisibility() == VISIBLE) {
-            playIcon.setVisibility(GONE);
+            if (isPlaying() || hide) {
+                playIcon.setVisibility(GONE);
+            }
         }
     }
 
     private void showSeekDialog(int eventCode) {
-        hidePlayIcon();
+        hidePlayIcon(true);
         mGestureDialogManager.showSeekDialog(this, (int) mCurrentPosition, eventCode == 21);
         isInSeek = true;
         seekHandler.sendEmptyMessage(eventCode);
@@ -5215,7 +5217,9 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         seekHandler.removeCallbacksAndMessages(null);
         seekTime = 0;
         isInSeek = false;
-        return mGestureDialogManager.dismissSeekDialog();
+        int i = mGestureDialogManager.dismissSeekDialog();
+        Log.e(TAG, "最终seekTo: " + i);
+        return i;
 
     }
 
@@ -5225,35 +5229,31 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         int totalSeekTime = (int) seekTime;
         if (keyCode == 21) {
             if (!isFirst) {
-                Log.e(TAG, "你松开了左方向键");
-                int finalPosition = currentPosition - totalSeekTime;
-                Log.e(TAG, "currentPosition: " + currentPosition + "  totalSeekTime：" + totalSeekTime);
-                Log.e(TAG, "seekTo: " + Math.max(finalPosition, 0));
-                int position = dismissSeek();
-                seekTo(position);
-                Log.e(TAG, "onKeyUp: dismissSeek "+position);
+                seekTo(dismissSeek());
                 isFirst = true;
             }
         } else if (keyCode == 22) {
             if (!isFirst) {
-                Log.e(TAG, "你松开了右方向键");
-                Log.e(TAG, "currentPosition：" + currentPosition + " totalSeekTime: " + totalSeekTime);
-                int finalPosition = currentPosition + totalSeekTime;
-                Log.e(TAG, "seekTo: " + Math.min(finalPosition, getDuration()));
-                int position = dismissSeek();
-                seekTo(position);
-                Log.e(TAG, "onKeyUp: dismissSeek "+position);
-//                if ((currentPosition + 15000) <= getDuration()) {
-//                    seekTo(currentPosition + 15000);
-//                } else {
-//                    seekTo(getDuration());
-//                }
-//                start();
+                seekTo(dismissSeek());
                 isFirst = true;
             }
         }
 
         return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (playIcon != null && id == playIcon.getId() && playIcon.getVisibility() == VISIBLE) {
+            if (!isPlaying()) {
+                playIcon.setVisibility(GONE);
+                start();
+            }
+            if (onPlayStateBtnClickListener != null) {
+                onPlayStateBtnClickListener.onPlayBtnClick(getPlayerState());
+            }
+        }
     }
 
 

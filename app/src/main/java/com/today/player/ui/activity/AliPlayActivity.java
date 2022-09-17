@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.aliyun.player.IPlayer;
 import com.aliyun.player.alivcplayerexpand.theme.Theme;
 import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
 import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
@@ -49,7 +50,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class AliPlayActivity extends BaseActivity {
 
-    private static final String TAG = "debug_";
+    private static final String TAG = AliPlayActivity.class.getSimpleName();
     private AliyunVodPlayerView mVideoView;
     private VideoAnalysis videoAnalysis;
     private VodInfo mVodInfo;
@@ -69,7 +70,12 @@ public class AliPlayActivity extends BaseActivity {
     @Override
     protected void init() {
         initView();
+        initListener();
         initData();
+    }
+
+    private void initListener() {
+        mVideoView.setOnPlayStateBtnClickListener(playStateBtnClickListener);
     }
 
     private void initView() {
@@ -100,19 +106,17 @@ public class AliPlayActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        Log.e(TAG, "onBackPressed: ");
-        super.onBackPressed();
-    }
-
     private void loadVideoAd() {
         VideoAdListener adListener = new VideoAdListener() {
             @Override
             public void onLoaded() {
                 if (playAd != null) {
-                    playAd.setReady(true);
-                    playAd.showAd();
+                    if (!mVideoView.isPlaying()) {
+                        playAd.setReady(true);
+                        playAd.showAd();
+                    } else {
+                        playAd.recycler();
+                    }
                 }
             }
 
@@ -134,17 +138,17 @@ public class AliPlayActivity extends BaseActivity {
                 if (playAd != null) {
                     playAd.recycler();
                 }
-
+                if (mVideoView != null) {
+                    mVideoView.hidePlayIcon();
+                }
             }
 
             @Override
             public void onError(String s, int i) {
-
             }
 
             @Override
             public void onNoAd() {
-
             }
 
             @Override
@@ -183,7 +187,6 @@ public class AliPlayActivity extends BaseActivity {
                         public void run() {
                             showSuccess();
                             playSet();
-
                         }
                     });
                 }
@@ -419,6 +422,16 @@ public class AliPlayActivity extends BaseActivity {
         }
     }
 
+    AliyunVodPlayerView.OnPlayStateBtnClickListener playStateBtnClickListener = new AliyunVodPlayerView.OnPlayStateBtnClickListener() {
+        @Override
+        public void onPlayBtnClick(int playerState) {
+            Log.e(TAG, "onPlayBtnClick: " + playerState);
+            if (mVideoView.isPlaying() && playAd != null) {
+                playAd.loadAd(getContent());
+            }
+        }
+    };
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -430,14 +443,12 @@ public class AliPlayActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
-        Log.e(TAG, "onPause: ");
         super.onPause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e(TAG, "onStop: ");
         if (mVideoView != null) {
             mVideoView.onStop();
         }
@@ -446,10 +457,17 @@ public class AliPlayActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy: ");
         if (mVideoView != null) {
             mVideoView.onDestroy();
             mVideoView = null;
+        }
+        if (playAd != null) {
+            playAd.recycler();
+            playAd = null;
+        }
+        if (pauseAd != null) {
+            pauseAd.recycler();
+            pauseAd = null;
         }
     }
 

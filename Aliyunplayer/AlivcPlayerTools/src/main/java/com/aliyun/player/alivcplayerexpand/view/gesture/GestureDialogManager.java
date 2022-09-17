@@ -61,9 +61,9 @@ public class GestureDialogManager {
      * @param currentPosition 当前位置
      * @param deltaPosition   滑动位置
      */
-    public void updateSeekDialog(long duration, long currentPosition, long deltaPosition) {
-        int targetPosition = mSeekDialog.getTargetPosition(duration, currentPosition, deltaPosition);
-        mSeekDialog.updatePosition(targetPosition, currentPosition > deltaPosition);
+    public void updateSeekDialog(long duration, long currentPosition, long deltaPosition, boolean isLeft) {
+        int targetPosition = mSeekDialog.getTargetPosition(duration, currentPosition, deltaPosition, isLeft);
+        mSeekDialog.updatePosition(targetPosition, isLeft);
     }
 
     /**
