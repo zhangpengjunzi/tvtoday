@@ -124,7 +124,6 @@ public class AliPlayActivity extends BaseActivity {
             public void onShow() {
                 if (playAd != null) {
                     playAd.setReady(false);
-                    isShow = true;
                 }
             }
 
@@ -212,7 +211,6 @@ public class AliPlayActivity extends BaseActivity {
     }
 
     private void playSet() {
-        isShow = false;
         EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_REFRESH, mVodInfo.playIndex));
         playUrl = mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).get(mVodInfo.playIndex).url;
         DownloadManager.getInstance().setPlayFlag(mVodInfo.fromList.get(mVodInfo.playFlag).name);
@@ -425,7 +423,6 @@ public class AliPlayActivity extends BaseActivity {
     AliyunVodPlayerView.OnPlayStateBtnClickListener playStateBtnClickListener = new AliyunVodPlayerView.OnPlayStateBtnClickListener() {
         @Override
         public void onPlayBtnClick(int playerState) {
-            Log.e(TAG, "onPlayBtnClick: " + playerState);
             if (mVideoView.isPlaying() && playAd != null) {
                 playAd.loadAd(getContent());
             }
@@ -435,7 +432,6 @@ public class AliPlayActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(TAG, "onResume: ");
         if (mVideoView != null) {
             mVideoView.onResume();
         }

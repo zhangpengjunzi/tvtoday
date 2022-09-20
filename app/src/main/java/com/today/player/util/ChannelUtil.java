@@ -4,6 +4,8 @@ import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.BatteryManager;
 import android.os.Build;
@@ -22,6 +24,16 @@ public class ChannelUtil {
 
     public static String getChannel() {
         return BASE_CHANNEL + getDeviceType();
+    }
+
+    public static String getChannel(Context context) {
+        try {
+            PackageManager pm = context.getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("UMENG_CHANNEL") + getDeviceType();
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return "";
     }
 
 

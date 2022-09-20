@@ -5218,7 +5218,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme, View.
         seekTime = 0;
         isInSeek = false;
         int i = mGestureDialogManager.dismissSeekDialog();
-        Log.e(TAG, "最终seekTo: " + i);
         return i;
 
     }

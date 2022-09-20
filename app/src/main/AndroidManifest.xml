@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
 
     <application
@@ -31,6 +31,11 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-1919587953327793~8273216777" />
 
+        <!-- 多渠道打包 -->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
         <service
             android:name="com.today.player.service.DownLoadService"
             android:enabled="true"
@@ -42,8 +47,8 @@
 
         <activity
             android:name="com.today.player.ui.activity.SplashActivity"
-            android:screenOrientation="landscape"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -101,19 +106,22 @@
             android:screenOrientation="landscape" />
 
 
-        <receiver android:name="com.today.player.receiver.SearchReceiver"
+        <receiver
+            android:name="com.today.player.receiver.SearchReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.content.movie.search.Action" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.today.player.receiver.ProjectionReceiver"
+        <receiver
+            android:name="com.today.player.receiver.ProjectionReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.content.movie.projection.Action" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.today.player.receiver.CustomWebReceiver"
+        <receiver
+            android:name="com.today.player.receiver.CustomWebReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.content.movie.custom.web.Action" />

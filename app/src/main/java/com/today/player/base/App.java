@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.os.Environment;
+import android.util.Log;
 
 
 import androidx.multidex.MultiDexApplication;
@@ -72,8 +73,7 @@ public class App extends MultiDexApplication {
                 .setSupportSubunits(Subunits.PT);
         initParams();
         AdBlocker.init(this);
-
-        UMConfigure.init(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(), 1, "");
+        UMConfigure.init(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(this), 1, "");
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
 
         MobileAds.initialize(this);

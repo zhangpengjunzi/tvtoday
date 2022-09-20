@@ -30,4 +30,6 @@ public class Config {
     public static final String AD_INFO_NULL = "ad_info_null";
     public static final String VIDEO_ERROR = "video_error";
 
+    public static final boolean isGoogleAab = false;
+
 }

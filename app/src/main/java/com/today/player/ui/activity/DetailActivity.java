@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bt.jrsdk.config.Config;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
@@ -132,7 +133,7 @@ public class DetailActivity extends BaseActivity {
         mGridViewFlag.setAdapter(sourceFromAdapter);
         mGridViewFlag.setLayoutManager(new V7LinearLayoutManager(mContext, 0, false));
         int state = PreferencesUtils.getInt(App.getInstance(), "suggest_dk_name", "suggestkey", 0);
-        if (state == 0) {
+        if (state == 0 && Config.isGoogleAab) {
             submitLinear.setVisibility(View.VISIBLE);
         } else {
             submitLinear.setVisibility(View.GONE);
