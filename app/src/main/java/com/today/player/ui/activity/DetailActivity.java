@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ import com.today.player.ui.adapter.SearchAdapter;
 import com.today.player.ui.adapter.SeriesAdapter;
 import com.today.player.ui.adapter.SourceFromAdapter;
 import com.today.player.ui.dialog.QuickSearchDialog;
-import com.today.player.util.DefaultConfig;
 import com.today.player.util.FastClickCheckUtil;
 import com.today.player.viewmodel.SourceViewModel;
 
@@ -133,7 +131,7 @@ public class DetailActivity extends BaseActivity {
         mGridViewFlag.setAdapter(sourceFromAdapter);
         mGridViewFlag.setLayoutManager(new V7LinearLayoutManager(mContext, 0, false));
         int state = PreferencesUtils.getInt(App.getInstance(), "suggest_dk_name", "suggestkey", 0);
-        if (state == 0 && Config.isGoogleAab) {
+        if (state == 0 && Config.IS_GOOGLE_AAB) {
             submitLinear.setVisibility(View.VISIBLE);
         } else {
             submitLinear.setVisibility(View.GONE);

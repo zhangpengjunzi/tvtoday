@@ -30,6 +30,8 @@ import com.today.player.util.ProgressManagerImpl;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.Locale;
 
 import me.jessyan.autosize.AutoSizeConfig;
@@ -51,7 +53,6 @@ public class App extends MultiDexApplication {
         return instance;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -72,11 +73,17 @@ public class App extends MultiDexApplication {
                 .setSupportSP(false)
                 .setSupportSubunits(Subunits.PT);
         initParams();
+        UM();
         AdBlocker.init(this);
+        MobileAds.initialize(this);
+    }
+
+    private void UM() {
+        //友盟预初始化
+        UMConfigure.preInit(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(this));
+        //初始化
         UMConfigure.init(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(this), 1, "");
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
-
-        MobileAds.initialize(this);
     }
 
     private void initPangle() {

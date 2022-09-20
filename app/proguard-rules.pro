@@ -60,13 +60,6 @@
 -keep public class * extends android.support.v4.**
 -keep public class * extends android.support.v7.**
 -keep public class * extends android.support.annotation.**
--keep class com.google.android.material.** {*;}
--keep class androidx.** {*;}
--keep public class * extends androidx.**
--keep interface androidx.** {*;}
--dontwarn com.google.android.material.**
--dontnote com.google.android.material.**
--dontwarn androidx.**
 
 # 保留R下面的资源
 -keep class **.R$* {*;}
@@ -146,6 +139,7 @@
 -keep class okio.**{*;}
 # 实体类
 -keep class com.today.player.bean.** { *; }
+-keep class com.bt.jrsdk.bean.** { *; }
 #CardView
 -keep class com.tv.widget.card.**{*;}
 
@@ -257,3 +251,45 @@
 -dontwarn com.alivc.**
 -dontwarn com.aliyun.**
 -dontwarn com.cicada.**
+
+#穿山甲
+-keep class com.bytedance.sdk.openadsdk.** {*;}
+-keep public interface com.bytedance.sdk.openadsdk.downloadnew.** {*;}
+-keep class com.pgl.sys.ces.* {*;}
+
+#google 广告
+-dontwarn com.google.ads.**
+-keep public class com.google.ads.**{
+	public protected *;
+}
+
+# umeng
+-keep class com.umeng.** {*;}
+-keep class org.repackage.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+
+-dontwarn com.kingja.loadsir.**
+-keep class com.kingja.loadsir.** {*;}
+
+# Picasso混淆配置
+-keep class com.parse.*{ *; }
+-dontwarn com.parse.**
+-dontwarn com.squareup.**
+
+# Gson混淆配置
+-keep class com.google.gson.** {*;}
+-keep class com.google.**{*;}
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
+-keep class com.google.gson.examples.android.model.** { *; }
+
+# eventbus
+-keepattributes *Annotation*
+-keepclassmembers class * {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+#-keepclassmembers class com.chad.library.** {*;}

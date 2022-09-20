@@ -30,7 +30,7 @@ ext {
             "gson"                         : "com.google.code.gson:gson:2.8.6",
             "autosize"                     : "me.jessyan:autosize:1.2.1",
             "xstream"                      : "com.thoughtworks.xstream:xstream:1.4.19",
-            "hotfix"                       : "com.aliyun.ams:alicloud-android-hotfix:3.3.0",
+//            "hotfix"                       : "com.aliyun.ams:alicloud-android-hotfix:3.3.0",
             "eventbus"                     : "org.greenrobot:eventbus:3.2.0",
             "exoplayer-core"               : "com.google.android.exoplayer:exoplayer-core:${exo_player2}",
             "exoplayer-dash"               : "com.google.android.exoplayer:exoplayer-dash:${exo_player2}",

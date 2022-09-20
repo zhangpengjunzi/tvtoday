@@ -1,7 +1,5 @@
 package com.today.player.data;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -41,13 +39,13 @@ public class AppDataManager {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
-                Log.e("AppDataBase", "数据库第一次创建成功");
+//                Log.e("AppDataBase", "数据库第一次创建成功");
             }
 
             @Override
             public void onOpen(@NonNull SupportSQLiteDatabase db) {
                 super.onOpen(db);
-                Log.e("AppDataBase", "数据库打开成功");
+//                Log.e("AppDataBase", "数据库打开成功");
             }
         }).fallbackToDestructiveMigration()
                 .allowMainThreadQueries()//可以在主线程操作

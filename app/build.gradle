@@ -57,7 +57,7 @@ android {
             signingConfig signingConfigs.config
             // zipAlign可以让安装包中的资源按4字节对齐，这样可以减少应用在运行时的内存消耗。
             zipAlignEnabled true
-            minifyEnabled false
+            minifyEnabled true
         }
     }
 
@@ -68,14 +68,12 @@ android {
         yamaxun {}
         sanxing {}
     }
-    //如果需要在不同渠道统一配置，使用productFlavors.all字段
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
-
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "${variant.productFlavors[0].name}.apk"
+            outputFileName = "${variant.productFlavors[0].name}_v${versionName}_${releaseTime()}.apk"
         }
     }
 
@@ -95,16 +93,6 @@ android {
         additionalParameters += '--set-max-idx-number=48000'
         additionalParameters += '--minimal-main-dex'
     }
-//    flavorDimensions "version"
-//    productFlavors {
-//        tv {
-//            dimension "version"
-//        }
-//        mobile {
-//            dimension "version"
-//
-//        }
-//    }
 }
 
 def releaseTime() {

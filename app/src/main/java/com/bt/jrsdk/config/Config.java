@@ -30,6 +30,9 @@ public class Config {
     public static final String AD_INFO_NULL = "ad_info_null";
     public static final String VIDEO_ERROR = "video_error";
 
-    public static final boolean isGoogleAab = false;
+    /**
+     * true是aab 打带验证码的包，
+     */
+    public static final boolean IS_GOOGLE_AAB = false;
 
 }
