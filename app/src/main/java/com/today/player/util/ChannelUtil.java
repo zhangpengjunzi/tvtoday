@@ -33,7 +33,7 @@ public class ChannelUtil {
             return appInfo.metaData.getString("UMENG_CHANNEL") + getDeviceType();
         } catch (PackageManager.NameNotFoundException ignored) {
         }
-        return "";
+        return "unknown";
     }
 
 
