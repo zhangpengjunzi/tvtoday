@@ -50,7 +50,6 @@ dependencies {
     api rootProject.ext.dependencies['exoplayer-smoothstreaming']
     api rootProject.ext.dependencies['extension-rtmp']
     api rootProject.ext.dependencies['hawk']
-    api rootProject.ext.dependencies['hotfix']
     api rootProject.ext.dependencies['tinker']
     api 'androidx.legacy:legacy-support-v4:1.0.0'
 //    api(rootProject.ext.dependencies['xstream']) {

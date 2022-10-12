@@ -9,8 +9,8 @@ ext {
             applicationId    : "com.today.player",
     ]
     versions = [
-            versionCode: 28,
-            versionName: "4.5.4",
+            versionCode: 29,
+            versionName: "4.5.5",
     ]
     dependencies = [
             "appcompat"                    : "androidx.appcompat:appcompat:1.2.0",
@@ -30,7 +30,6 @@ ext {
             "gson"                         : "com.google.code.gson:gson:2.8.6",
             "autosize"                     : "me.jessyan:autosize:1.2.1",
             "xstream"                      : "com.thoughtworks.xstream:xstream:1.4.19",
-            "hotfix"                       : "com.aliyun.ams:alicloud-android-hotfix:3.3.0",
             "eventbus"                     : "org.greenrobot:eventbus:3.2.0",
             "bugly"                        : "com.tencent.bugly:crashreport_upgrade:1.5.23",
             "tinker"                       : "com.tencent.tinker:tinker-android-lib:1.9.14.16",

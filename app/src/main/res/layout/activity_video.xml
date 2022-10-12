@@ -6,7 +6,7 @@
     android:focusable="false"
     tools:context="com.bt.jrsdk.activity.VideoActivity">
 
-    <xyz.doikki.videoplayer.player.VideoView
+    <com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView
         android:id="@+id/video_ad"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

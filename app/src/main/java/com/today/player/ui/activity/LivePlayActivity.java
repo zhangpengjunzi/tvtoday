@@ -15,6 +15,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aliyun.player.alivcplayerexpand.theme.Theme;
+import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
+import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
+import com.aliyun.player.source.UrlSource;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.orhanobut.hawk.Hawk;
@@ -24,22 +28,17 @@ import com.today.player.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseActivity;
 import com.today.player.bean.PlayerModel;
-import com.today.player.dkplayer.SimonVideoController;
 import com.today.player.ui.adapter.LiveChannelAdapter;
-import com.today.player.ui.weight.GestureView;
 import com.today.player.util.FastClickCheckUtil;
 import com.today.player.util.HawkConfig;
-import com.today.player.util.PlayUtils;
 import com.tv.widget.ViewObj;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.doikki.videoplayer.player.ProgressManager;
-import xyz.doikki.videoplayer.player.VideoView;
 
 public class LivePlayActivity extends BaseActivity {
-    public VideoView c;
+    public AliyunVodPlayerView c;
     public TextView d;
     public TextView e;
     public TextView f;
@@ -58,10 +57,6 @@ public class LivePlayActivity extends BaseActivity {
     /* renamed from: p  reason: collision with root package name */
     public String f167p = "";
 
-    public class a implements SimonVideoController.a {
-        public a() {
-        }
-    }
 
     public class b implements Runnable {
 
@@ -186,22 +181,19 @@ public class LivePlayActivity extends BaseActivity {
     @Override
     public void init() {
         this.c = findViewById(R.id.mVideoView);
-        PlayUtils.a(this.c);
+        this.c.setLivePlay(true);
         this.g = findViewById(R.id.mGridView);
         this.f = findViewById(R.id.tvChannel);
         this.d = findViewById(R.id.tvHint);
         this.e = findViewById(R.id.tvUrl);
         this.g.setHasFixedSize(true);
         this.g.setLayoutManager(new V7LinearLayoutManager(mContext, 1, false));
-        SimonVideoController simonVideoController = new SimonVideoController(this);
-        simonVideoController.setScreenTapListener(new a());
-        simonVideoController.addControlComponent(new GestureView(this));
-        simonVideoController.setCanChangePosition(false);
-        simonVideoController.setEnableInNormal(true);
-        simonVideoController.setGestureEnabled(true);
-        this.c.setVideoController(simonVideoController);
+        this.c.requestFocus();
+        this.c.setKeepScreenOn(true);
+        this.c.setTheme(Theme.Blue);
+        this.c.setAutoPlay(false);
+        this.c.changeScreenMode(AliyunScreenMode.Full, false);
         PlayerModel.LiveDTO qgVar = null;
-        this.c.setProgressManager((ProgressManager) null);
         this.h = new LiveChannelAdapter();
         this.g.setAdapter(this.h);
         this.g.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -342,26 +334,23 @@ public class LivePlayActivity extends BaseActivity {
 
     public void onDestroy() {
         super.onDestroy();
-        VideoView videoView = this.c;
-        if (videoView != null) {
-            videoView.release();
+        if (this.c != null) {
+            this.c.onDestroy();
         }
     }
 
     public void onPause() {
         super.onPause();
-        VideoView videoView = this.c;
-        if (videoView != null) {
-            videoView.pause();
+        if (this.c != null) {
+            this.c.pause();
         }
         this.i.removeCallbacksAndMessages((Object) null);
     }
 
     public void onResume() {
         super.onResume();
-        VideoView videoView = this.c;
-        if (videoView != null) {
-            videoView.resume();
+        if (this.c != null) {
+            this.c.onResume();
         }
         if (this.g.getVisibility() == View.VISIBLE) {
             this.i.postDelayed(this.l, DefaultRenderersFactory.DEFAULT_ALLOWED_VIDEO_JOINING_TIME_MS);
@@ -396,8 +385,9 @@ public class LivePlayActivity extends BaseActivity {
         this.f.setVisibility(View.VISIBLE);
         this.i.postDelayed(this.n, 4000);
         Hawk.put(HawkConfig.LAST_LIVE_CHANNEL_NAME, qgVar.getChannelName());
-        this.c.release();
-        this.c.setUrl(qgVar.getCurrentChannelUrl());
+        UrlSource urlSource = new UrlSource();
+        urlSource.setUri(qgVar.getCurrentChannelUrl());
+        this.c.setLocalSource(urlSource);
         this.c.start();
         return true;
     }

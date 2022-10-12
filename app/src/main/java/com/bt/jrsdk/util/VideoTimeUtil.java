@@ -5,17 +5,17 @@ import android.os.Looper;
 import android.util.Log;
 
 
+import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
+
 import java.util.Timer;
 import java.util.TimerTask;
-
-import xyz.doikki.videoplayer.player.VideoView;
 
 
 public class VideoTimeUtil {
     private static Timer timer;
     private static final long DELAY_TIME = 1000;
 
-    public static void countDown(VideoView videoView, CountDownListener listener) {
+    public static void countDown(AliyunVodPlayerView videoView, CountDownListener listener) {
         if (timer == null && videoView != null) {
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -25,7 +25,7 @@ public class VideoTimeUtil {
                         videoView.post(new Runnable() {
                             @Override
                             public void run() {
-                                listener.currentTime(videoView.getCurrentPosition());
+                                listener.currentTime(videoView.getVideoPosition());
                             }
                         });
                     }

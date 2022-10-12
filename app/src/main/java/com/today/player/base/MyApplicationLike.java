@@ -35,8 +35,6 @@ import java.util.Locale;
 
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
-import xyz.doikki.videoplayer.player.VideoViewConfig;
-import xyz.doikki.videoplayer.player.VideoViewManager;
 
 public class MyApplicationLike extends DefaultApplicationLike {
     public MyApplicationLike(Application application, int tinkerFlags, boolean tinkerLoadVerifyFlag, long applicationStartElapsedTime, long applicationStartMillisTime, Intent tinkerResultIntent) {
@@ -71,13 +69,12 @@ public class MyApplicationLike extends DefaultApplicationLike {
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
 
         jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(getApplication(), ChannelUtil.BASE_CHANNEL);
+       // jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(getApplication(), "test");
 
         TTAdManagerHolder.init(getApplication());
         initBdAd();
 
     }
-
-
 
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -115,7 +112,6 @@ public class MyApplicationLike extends DefaultApplicationLike {
         if (!Hawk.contains(HawkConfig.PLAY_TYPE)) {
             Hawk.put(HawkConfig.PLAY_TYPE, 1);
         }
-        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setProgressManager(new ProgressManagerImpl()).build());
     }
 
     private void initHttp() {

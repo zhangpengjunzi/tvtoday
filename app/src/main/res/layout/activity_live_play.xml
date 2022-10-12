@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <xyz.doikki.videoplayer.player.VideoView
+    <com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView
         android:id="@id/mVideoView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />

@@ -13,7 +13,7 @@
         android:layout_height="@dimen/interaction_height"
         android:gravity="center">
 
-        <xyz.doikki.videoplayer.player.VideoView
+        <com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView
             android:id="@+id/video_ad"
             android:layout_width="@dimen/interaction_width"
             android:layout_height="@dimen/interaction_height" />

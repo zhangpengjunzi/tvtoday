@@ -1,14 +1,6 @@
 package com.bt.jrsdk.activity;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,22 +8,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.aliyun.player.IPlayer;
+import com.aliyun.player.alivcplayerexpand.theme.Theme;
+import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
+import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
+import com.aliyun.player.bean.ErrorInfo;
+import com.aliyun.player.nativeclass.MediaInfo;
+import com.aliyun.player.source.UrlSource;
 import com.bt.jrsdk.bean.SplashAdInfo;
-import com.bt.jrsdk.bean.VideoAdInfo;
 import com.bt.jrsdk.config.Config;
 import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.manager.AdObserver;
-import com.bt.jrsdk.util.CustomVideoView;
 import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.Utils;
 import com.bt.jrsdk.util.VideoTimeUtil;
 import com.today.player.R;
-import com.today.player.util.PlayUtils;
 
-import xyz.doikki.videoplayer.player.VideoView;
 
 public class VideoFullActivity extends BaseActivity {
-    private VideoView video;
+    private AliyunVodPlayerView mVideoView;
     private ImageView cover;
     private SplashAdInfo adInfo;
     private TextView tv_jump;
@@ -71,58 +66,56 @@ public class VideoFullActivity extends BaseActivity {
             this.finish();
             return;
         }
-        video.setScreenScaleType(VideoView.SCREEN_SCALE_MATCH_PARENT);
-        video.setUrl(adInfo.getVideoUrl());
-        PlayUtils.a(video);
-        video.release();
-        if (!video.isPlaying()) {
-            video.start();
-        }
-        video.setOnStateChangeListener(new VideoView.OnStateChangeListener() {
+        mVideoView.requestFocus();
+        mVideoView.setLivePlay(true);
+        mVideoView.setKeepScreenOn(true);
+        mVideoView.setTheme(Theme.Blue);
+        mVideoView.setAutoPlay(false);
+        mVideoView.changeScreenMode(AliyunScreenMode.Full, false);
+        mVideoView.setScaleMode(IPlayer.ScaleMode.SCALE_ASPECT_FILL);
+        UrlSource urlSource = new UrlSource();
+        urlSource.setUri(adInfo.getVideoUrl());
+        mVideoView.setLocalSource(urlSource);
+        mVideoView.start();
+        mVideoView.setOnPreparedListener(new IPlayer.OnPreparedListener() {
             @Override
-            public void onPlayerStateChanged(int playerState) {
+            public void onPrepared() {
+                //准备缓冲阶段
+                allTime = mVideoView.getDuration();
+                cover.setVisibility(View.GONE);
+                if (mVideoView.getVisibility() == View.GONE) {
+                    mVideoView.setVisibility(View.VISIBLE);
+                }
+                if (tv_jump.getVisibility() == View.GONE) {
+                    tv_jump.setVisibility(View.VISIBLE);
+                }
+                timerRuning();
+                if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
+                    AdListenerManager.getInstance().getSplashListener(pid).onShow();
+                }
+            }
+        });
+        mVideoView.setOnTrackReadyListener(new IPlayer.OnTrackReadyListener() {
+            @Override
+            public void onTrackReady(MediaInfo mediaInfo) {
 
             }
-
+        });
+        mVideoView.setOnErrorListener(new IPlayer.OnErrorListener() {
             @Override
-            public void onPlayStateChanged(int playState) {
-                switch (playState) {
-                    case 2:
-                        //准备缓冲阶段
-                        allTime = video.getDuration();
-                        break;
-                    case 3:
-                        //正在播放
-                        cover.setVisibility(View.GONE);
-                        if (video.getVisibility() == View.GONE) {
-                            video.setVisibility(View.VISIBLE);
-                        }
-                        if (tv_jump.getVisibility() == View.GONE) {
-                            tv_jump.setVisibility(View.VISIBLE);
-                        }
-                        timerRuning();
-                        if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
-                            AdListenerManager.getInstance().getSplashListener(pid).onShow();
-                        }
-                        break;
-                    case 5:
-                        //播放完成
-                        break;
-                    case -1:
-                        //播放错误
-                        if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
-                            AdListenerManager.getInstance().getSplashListener(pid).onError(Config.VIDEO_ERROR, Config.CODE_VIDEO_ERROR);
-                            AdListenerManager.getInstance().getSplashListener(pid).onFinish();
-                        }
-                        VideoFullActivity.this.finish();
-                        break;
+            public void onError(ErrorInfo errorInfo) {
+                //播放错误
+                if (AdListenerManager.getInstance().getSplashListener(pid) != null) {
+                    AdListenerManager.getInstance().getSplashListener(pid).onError(Config.VIDEO_ERROR, Config.CODE_VIDEO_ERROR);
+                    AdListenerManager.getInstance().getSplashListener(pid).onFinish();
                 }
+                VideoFullActivity.this.finish();
             }
         });
     }
 
     private void initListener() {
-        video.setOnTouchListener(onTouchListener);
+        mVideoView.setOnTouchListener(onTouchListener);
         cover.setOnTouchListener(onTouchListener);
     }
 
@@ -146,7 +139,7 @@ public class VideoFullActivity extends BaseActivity {
     };
 
     private void timerRuning() {
-        VideoTimeUtil.countDown(video, new VideoTimeUtil.CountDownListener() {
+        VideoTimeUtil.countDown(mVideoView, new VideoTimeUtil.CountDownListener() {
             @Override
             public void currentTime(long time) {
                 runOnUiThread(new Runnable() {
@@ -162,7 +155,7 @@ public class VideoFullActivity extends BaseActivity {
                                 close.setVisibility(View.VISIBLE);
                             }
                             cover.setVisibility(View.VISIBLE);
-                            video.setVisibility(View.GONE);
+                            mVideoView.setVisibility(View.GONE);
                         } else {
                             tv_jump.setText(currentTime + "s");
                         }
@@ -181,7 +174,7 @@ public class VideoFullActivity extends BaseActivity {
     }
 
     private void initView() {
-        video = findViewById(R.id.video_ad);
+        mVideoView = findViewById(R.id.video_ad);
         cover = findViewById(R.id.img_video_cover);
         tv_jump = findViewById(R.id.tv_jump);
         cover.setImageBitmap(pic);
@@ -196,7 +189,7 @@ public class VideoFullActivity extends BaseActivity {
                             AdListenerManager.getInstance().getSplashListener(pid).onClose();
                             AdListenerManager.getInstance().getSplashListener(pid).onFinish();
                         }
-                        video.release();
+                        mVideoView.onDestroy();
                         VideoFullActivity.this.finish();
                     }
                 }
@@ -219,20 +212,19 @@ public class VideoFullActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (video != null) {
+        if (mVideoView != null) {
             VideoTimeUtil.recycler();
-            video.pause();
+            mVideoView.pause();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (video != null && !video.isPlaying()) {
+        if (mVideoView != null && !mVideoView.isPlaying()) {
             cover.setVisibility(View.VISIBLE);
-            video.start();
+            mVideoView.start();
         }
-        LogUtil.d("onResume = " + video.getCurrentPosition());
     }
 
     @Override
@@ -242,8 +234,8 @@ public class VideoFullActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if (video != null) {
-            video.release();
+        if (mVideoView != null) {
+            mVideoView.onDestroy();
         }
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         VideoTimeUtil.recycler();

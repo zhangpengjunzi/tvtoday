@@ -7,22 +7,20 @@ import com.today.player.api.ApiConfig;
 import com.today.player.cache.CacheManager;
 import com.upa.DownloadManager;
 
-import xyz.doikki.videoplayer.player.ProgressManager;
+
 
 /**
  * @author pj567
  * @date :2020/12/24
  * @description:
  */
-public class ProgressManagerImpl extends ProgressManager {
+public class ProgressManagerImpl{
 
-    @Override
     public void saveProgress(String url, long progress) {
         url = getUrl(url);
         CacheManager.save(MD5.string2MD5(url), progress);
     }
 
-    @Override
     public long getSavedProgress(String url) {
         url = getUrl(url);
         if (CacheManager.getCache(MD5.string2MD5(url)) == null) {

@@ -1,33 +1,32 @@
 package com.bt.jrsdk.activity;
 
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
+import com.aliyun.player.IPlayer;
+import com.aliyun.player.alivcplayerexpand.theme.Theme;
+import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
+import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
+import com.aliyun.player.bean.ErrorInfo;
+import com.aliyun.player.nativeclass.MediaInfo;
+import com.aliyun.player.source.UrlSource;
 import com.bt.jrsdk.bean.VideoAdInfo;
 import com.bt.jrsdk.config.Config;
 import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.manager.AdObserver;
-import com.bt.jrsdk.util.CustomVideoView;
 import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.Utils;
-import com.bt.jrsdk.util.VideoTimeUtil;
 import com.today.player.R;
-import com.today.player.util.PlayUtils;
 
-import xyz.doikki.videoplayer.player.VideoView;
 
 public class VideoActivity extends BaseActivity {
-    private VideoView video;
+    private AliyunVodPlayerView mVideoView;
     private ImageView cover, imgClose;
     private VideoAdInfo adInfo;
     private boolean isFinish = false;
@@ -59,63 +58,64 @@ public class VideoActivity extends BaseActivity {
     }
 
     private void initVideo() {
-        video.setScreenScaleType(VideoView.SCREEN_SCALE_MATCH_PARENT);
-        video.setUrl(adInfo.getVideoUrl());
-        PlayUtils.a(video);
-        video.release();
-        if (!video.isPlaying()) {
-            video.start();
-        }
-        video.setOnStateChangeListener(new VideoView.OnStateChangeListener() {
+        mVideoView.requestFocus();
+        mVideoView.setLivePlay(true);
+        mVideoView.setKeepScreenOn(true);
+        mVideoView.setTheme(Theme.Blue);
+        mVideoView.setAutoPlay(false);
+        mVideoView.changeScreenMode(AliyunScreenMode.Full, false);
+        mVideoView.setScaleMode(IPlayer.ScaleMode.SCALE_ASPECT_FILL);
+        UrlSource urlSource = new UrlSource();
+        urlSource.setUri(adInfo.getVideoUrl());
+        mVideoView.setLocalSource(urlSource);
+        mVideoView.start();
+        mVideoView.setOnPreparedListener(new IPlayer.OnPreparedListener() {
             @Override
-            public void onPlayerStateChanged(int playerState) {
-
-            }
-
-            @Override
-            public void onPlayStateChanged(int playState) {
-                switch (playState) {
-                    case 2:
-                        //准备缓冲阶段
-                        cover.setVisibility(View.VISIBLE);
-                        video.setVisibility(View.GONE);
-                        break;
-                    case 3:
-                        //正在播放
-                        cover.setVisibility(View.GONE);
-                        if (video.getVisibility() == View.GONE) {
-                            video.setVisibility(View.VISIBLE);
-                        }
-//                    video.setBackgroundColor(Color.TRANSPARENT);
-                        if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
-                            AdListenerManager.getInstance().getVideoListener(pid).onShow();
-                        }
-                        break;
-                    case 5:
-                        //播放完成
-                        if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
-                            AdListenerManager.getInstance().getVideoListener(pid).onFinish();
-                            isFinish = true;
-                        }
-                        video.setVisibility(View.GONE);
-                        cover.setVisibility(View.VISIBLE);
-                        break;
-                    case -1:
-                        //播放错误
-                        if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
-                            AdListenerManager.getInstance().getVideoListener(pid).onError(Config.VIDEO_ERROR, Config.CODE_VIDEO_ERROR);
-                            AdListenerManager.getInstance().getVideoListener(pid).onFinish();
-                        }
-                        VideoActivity.this.finish();
-                        break;
+            public void onPrepared() {
+                cover.setVisibility(View.GONE);
+                if (mVideoView.getVisibility() == View.GONE) {
+                    mVideoView.setVisibility(View.VISIBLE);
                 }
+                if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
+                    AdListenerManager.getInstance().getVideoListener(pid).onShow();
+                }
+            }
+        });
+        mVideoView.setOnTrackReadyListener(new IPlayer.OnTrackReadyListener() {
+            @Override
+            public void onTrackReady(MediaInfo mediaInfo) {
+                cover.setVisibility(View.VISIBLE);
+                mVideoView.setVisibility(View.GONE);
+            }
+        });
+
+        mVideoView.setOnCompletionListener(new IPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion() {
+                if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
+                    AdListenerManager.getInstance().getVideoListener(pid).onFinish();
+                    isFinish = true;
+                }
+                mVideoView.setVisibility(View.GONE);
+                cover.setVisibility(View.VISIBLE);
+            }
+        });
+        mVideoView.setOnErrorListener(new IPlayer.OnErrorListener() {
+            @Override
+            public void onError(ErrorInfo errorInfo) {
+                //播放错误
+                if (AdListenerManager.getInstance().getVideoListener(pid) != null) {
+                    AdListenerManager.getInstance().getVideoListener(pid).onError(Config.VIDEO_ERROR, Config.CODE_VIDEO_ERROR);
+                    AdListenerManager.getInstance().getVideoListener(pid).onFinish();
+                }
+                VideoActivity.this.finish();
             }
         });
     }
 
     private void initListener() {
         cover.setOnTouchListener(onTouchListener);
-        video.setOnTouchListener(onTouchListener);
+        mVideoView.setOnTouchListener(onTouchListener);
     }
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
@@ -145,7 +145,7 @@ public class VideoActivity extends BaseActivity {
     }
 
     private void initView() {
-        video = findViewById(R.id.video_ad);
+        mVideoView = findViewById(R.id.video_ad);
         cover = findViewById(R.id.img_video_cover);
         cover.setImageBitmap(pic);
         if (!Utils.getDeviceType().equals("1")) {
@@ -162,7 +162,7 @@ public class VideoActivity extends BaseActivity {
                                 AdListenerManager.getInstance().getVideoListener(pid).onFinish();
                             }
                         }
-                        video.release();
+                        mVideoView.onDestroy();
                         VideoActivity.this.finish();
                     }
                 }
@@ -188,16 +188,16 @@ public class VideoActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (video != null) {
-            video.pause();
+        if (mVideoView != null) {
+            mVideoView.pause();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (video != null && !video.isPlaying() && !isFinish) {
-            video.start();
+        if (mVideoView != null && !mVideoView.isPlaying() && !isFinish) {
+            mVideoView.start();
         }
     }
 
@@ -208,7 +208,7 @@ public class VideoActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        video.release();
+        mVideoView.onDestroy();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onDestroy();
     }

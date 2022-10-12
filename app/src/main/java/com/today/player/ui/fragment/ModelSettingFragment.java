@@ -2,31 +2,24 @@ package com.today.player.ui.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.exifinterface.media.ExifInterface;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.android.exoplayer2.audio.DtsUtil;
 import com.orhanobut.hawk.Hawk;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 import com.today.player.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.BaseLazyFragment;
-import com.today.player.ui.activity.SettingActivity;
 import com.today.player.ui.adapter.MediaCodeAdapter;
 import com.today.player.ui.dialog.ChanPlayDialog;
 import com.today.player.ui.dialog.ChangeRenderDialog;
 import com.today.player.ui.dialog.MediaCodeDialog;
 import com.today.player.util.FastClickCheckUtil;
 import com.today.player.util.HawkConfig;
-import com.today.player.util.PlayUtils;
 
 import java.util.List;
 
@@ -123,7 +116,6 @@ public class ModelSettingFragment extends BaseLazyFragment {
 
             public void a() {
                 ModelSettingFragment.this.c();
-                PlayUtils.a();
             }
         }
 
@@ -188,7 +180,6 @@ public class ModelSettingFragment extends BaseLazyFragment {
 
             public void a() {
                 ModelSettingFragment.this.d();
-                PlayUtils.a();
             }
         }
 
