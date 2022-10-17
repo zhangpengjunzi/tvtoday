@@ -25,4 +25,5 @@ public class HawkConfig {
     public static final String KAI_PING_ID = "4061164639676843";
     public static final String JI_LI_ID = "6081064669178994";
     public static final String CHA_PING_ID = "7081968720897289";
+    public static final String PARSE_NAME = "parse_name";
 }

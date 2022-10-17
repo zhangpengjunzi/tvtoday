@@ -73,7 +73,6 @@ public class MyApplicationLike extends DefaultApplicationLike {
 
         TTAdManagerHolder.init(getApplication());
         initBdAd();
-
     }
 
 

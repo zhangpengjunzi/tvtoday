@@ -205,8 +205,13 @@ public class ApiConfig {
             }
         }
         if (praseBeanList != null && praseBeanList.size() > 0) {
+            String name = Hawk.get(HawkConfig.PARSE_NAME);
             for (PlayerModel.ParseUrlDTO praseBean : praseBeanList) {
                 if (praseBean.isDefault) {
+                    setDefault(praseBean);
+                    break;
+                }
+                if (!TextUtils.isEmpty(name) && name.equals(praseBean.getParseName())) {
                     setDefault(praseBean);
                     break;
                 }

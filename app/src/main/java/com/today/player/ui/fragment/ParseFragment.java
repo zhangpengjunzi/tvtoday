@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import com.orhanobut.hawk.Hawk;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.today.player.R;
@@ -24,6 +25,7 @@ import com.today.player.ui.adapter.PraseAdapter;
 import com.today.player.ui.dialog.ParseTipDialog;
 import com.today.player.ui.dialog.RemoteConnect;
 import com.today.player.util.FastClickCheckUtil;
+import com.today.player.util.HawkConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +128,7 @@ public class ParseFragment extends BaseLazyFragment {
                         i2 = -16777216;
                     }
                     textView2.setTextColor(i2);
-                    textView2.setText(clVar.e.isInternal() ? "内置解析不可删除" : "删除��解析地址");
+                    textView2.setText(clVar.e.isInternal() ? "内置解析不可删除" : "删除解析地址");
                 }
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -137,6 +139,7 @@ public class ParseFragment extends BaseLazyFragment {
                             praseAdapter.notifyItemChanged(praseAdapter.getData().indexOf(ApiConfig.get().mParseUrl));
                             praseAdapter.notifyItemChanged(aVar.a);
                             ApiConfig.get().setDefault(clVar.e);
+                            Hawk.put(HawkConfig.PARSE_NAME, clVar.e.getParseName());
                             Dialog dialog = clVar.c;
                             if (dialog != null && dialog.isShowing()) {
                                 clVar.c.dismiss();

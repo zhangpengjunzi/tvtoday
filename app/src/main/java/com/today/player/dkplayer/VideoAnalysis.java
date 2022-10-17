@@ -7,6 +7,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,18 +25,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lzy.okgo.utils.SaveManager;
+import com.orhanobut.hawk.Hawk;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.today.player.R;
 import com.today.player.api.ApiConfig;
+import com.today.player.base.App;
 import com.today.player.bean.PlayerModel;
 import com.today.player.ui.adapter.PraseAdapter;
 import com.today.player.util.FastClickCheckUtil;
+import com.today.player.util.HawkConfig;
 import com.upa.DownloadManager;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -161,6 +167,7 @@ public class VideoAnalysis {
             this.g.addAll(list);
             PlayerModel.ParseUrlDTO tgVar = ApiConfig.get().mParseUrl;
             String parseUrl = tgVar.getParseUrl();
+            String parseName = tgVar.getParseName();
             int i2 = this.g.indexOf(tgVar);
             this.f38j = false;
             this.f.setNewData(this.g);
@@ -170,12 +177,12 @@ public class VideoAnalysis {
                 this.i.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        load(str6);
+                        load(str6, parseName);
                     }
                 }, 3000);
                 return;
             } else {
-                load(str6);
+                load(str6, parseName);
                 return;
             }
         }
@@ -226,12 +233,13 @@ public class VideoAnalysis {
             settings.setBuiltInZoomControls(true);
             settings.setSupportZoom(false);
             if (Build.VERSION.SDK_INT >= 21) {
-                settings.setMixedContentMode(0);
+                settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
             }
+
             settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
             settings.setDefaultTextEncodingName("utf-8");
             settings.setUserAgentString(webView.getSettings().getUserAgentString());
-            settings.setUserAgentString(" Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Mobile Safari/537.36");
+            settings.setUserAgentString("Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Mobile Safari/537.36");
             webView.setWebChromeClient(new WebChromeClient() {
                 @Override
                 public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
@@ -307,17 +315,24 @@ public class VideoAnalysis {
             PlayerModel.ParseUrlDTO tgVar = f.getData().get(position);
             f.notifyItemChanged(g.indexOf(ApiConfig.get().mParseUrl));
             ApiConfig.get().setDefault(tgVar);
+            Hawk.put(HawkConfig.PARSE_NAME, tgVar.getParseName());
             f.notifyItemChanged(position);
             f38j = false;
-            load(tgVar.getParseUrl() + this.a);
+            load(tgVar.getParseUrl() + this.a, tgVar.getParseName());
         }
     }
 
-    private void load(String url) {
+    private void load(String url, String name) {
         if (webView != null) {
             webView.stopLoading();
             webView.clearCache(true);
-            webView.loadUrl(url);
+            if (DownloadManager.getInstance().getSrcName().equals(name)) {
+                Map map = new HashMap();
+                map.put("sign", SaveManager.getInstance().getPlayKey(App.getInstance()));
+                webView.loadUrl(url, map);
+            } else {
+                webView.loadUrl(url);
+            }
         }
         i.postDelayed(new Runnable() {
             @Override
