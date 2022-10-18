@@ -65,10 +65,10 @@ android {
 
     //多渠道打包
     productFlavors {
-        jrys_gp{}
-        vivo {}
-        yamaxun {}
-        sanxing {}
+        dk_gp{}
+        dk_vivo {}
+        dk_yamaxun {}
+        dk_sanxing {}
     }
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

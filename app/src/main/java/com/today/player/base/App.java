@@ -80,9 +80,9 @@ public class App extends MultiDexApplication {
 
     private void UM() {
         //友盟预初始化
-        UMConfigure.preInit(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(this));
+        UMConfigure.preInit(this, "634cf12588ccdf4b7e4b5d82", ChannelUtil.getChannel(this));
         //初始化
-        UMConfigure.init(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(this), 1, "");
+        UMConfigure.init(this, "634cf12588ccdf4b7e4b5d82", ChannelUtil.getChannel(this), 1, "");
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
     }
 
