@@ -98,7 +98,7 @@ public class InteractionAd extends BaseAd {
 
     private void getAdInfo(String picUrl, int countDown, String webUrl, String aliYunUrl) {
         NetUtil.getInstance().setAliUrl(aliYunUrl);
-        reportLoad(AdType.AD_INTERACTION);
+        reportLoad(AdConfig.AD_TYPE_FULL);
 
         downLoadPic(picUrl, new PicDownloadListener() {
             @Override

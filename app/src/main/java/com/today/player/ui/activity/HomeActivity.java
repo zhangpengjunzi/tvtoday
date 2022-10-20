@@ -23,8 +23,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
-import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
 import com.today.player.R;
 import com.today.player.api.ApiConfig;
 import com.today.player.base.App;
@@ -322,7 +320,7 @@ public class HomeActivity extends BaseActivity {
             //loadSource();
             loadSource();
         } else if (event.type == TopStateEvent.REFRESH_UPDATE) {
-            runOnUiThread(new Runnable() {
+          /*  runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Beta.appChannel = ChannelUtil.getChannel();
@@ -330,7 +328,7 @@ public class HomeActivity extends BaseActivity {
                     Bugly.init(App.getInstance(), "9d1bea1cca", false);
                     //Bugly.init(App.getInstance(), "661aeaabe3", false);
                 }
-            });
+            });*/
         }
     }
 

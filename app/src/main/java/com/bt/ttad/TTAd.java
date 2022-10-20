@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.bt.admanager.AdWeightManager;
 import com.bt.admanager.TTAdManagerHolder;
+import com.bt.jrsdk.ads.AdConfig;
 import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
@@ -170,6 +171,7 @@ public class TTAd extends BaseAd {
             @Override
             public void onError(int i, String s) {
                 failListener();
+                reportAdLoadFail(sigPid, AdConfig.TT_AD_TYPE, AdConfig.AD_TYPE_VIDEO);
             }
 
             @Override
@@ -179,11 +181,12 @@ public class TTAd extends BaseAd {
                     @Override
                     public void onAdShow() {
                         showListener();
+                        reportAdShow(sigPid, AdConfig.TT_AD_TYPE, AdConfig.AD_TYPE_VIDEO);
                     }
 
                     @Override
                     public void onAdVideoBarClick() {
-
+                        reportAdClick(sigPid, AdConfig.TT_AD_TYPE, AdConfig.AD_TYPE_VIDEO);
                     }
 
                     @Override
@@ -267,6 +270,7 @@ public class TTAd extends BaseAd {
                     }
                 });
                 loadListener();
+                reportAdLoad(sigPid, AdConfig.TT_AD_TYPE, AdConfig.AD_TYPE_VIDEO);
             }
 
             @Override
@@ -309,6 +313,7 @@ public class TTAd extends BaseAd {
             @Override
             public void onError(int code, String message) {
                 failListener();
+                reportAdLoadFail(sigPid, AdConfig.TT_AD_TYPE, AdConfig.AD_TYPE_FULL);
             }
 
             @Override
@@ -321,11 +326,12 @@ public class TTAd extends BaseAd {
                     @Override
                     public void onAdShow() {
                         showListener();
+                        reportAdShow(sigPid, AdConfig.TT_AD_TYPE, AdConfig.AD_TYPE_FULL);
                     }
 
                     @Override
                     public void onAdVideoBarClick() {
-
+                        reportAdClick(sigPid, AdConfig.TT_AD_TYPE, AdConfig.AD_TYPE_FULL);
                     }
 
                     @Override
@@ -343,6 +349,7 @@ public class TTAd extends BaseAd {
                     }
                 });
                 loadListener();
+                reportAdLoad(sigPid, AdConfig.TT_AD_TYPE, AdConfig.AD_TYPE_FULL);
             }
 
             @Override

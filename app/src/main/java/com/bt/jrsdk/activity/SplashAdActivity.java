@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bt.jrsdk.ads.AdConfig;
 import com.bt.jrsdk.bean.SplashAdInfo;
 import com.bt.jrsdk.config.Config;
 import com.bt.jrsdk.manager.AdListenerManager;
@@ -96,7 +97,7 @@ public class SplashAdActivity extends BaseActivity {
                     public boolean onTouch(View v, MotionEvent event) {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             LogUtil.d("Image Ad OnTouch");
-                            reportClick(event.getRawX(), event.getRawY(), event.getPressure());
+                            reportClick(event.getRawX(), event.getRawY(), event.getPressure(), AdConfig.AD_TYPE_VIDEO);
                             imageAdClick();
                         }
                         return false;
@@ -124,7 +125,7 @@ public class SplashAdActivity extends BaseActivity {
                 AdListenerManager.getInstance().getSplashListener(pid).onClick();
             }
             showTime = System.currentTimeMillis();
-            go2WebActivity();
+            go2WebActivity(AdConfig.AD_TYPE_VIDEO);
           /*  if (handler != null && handler.hasMessages(COUNT_DOWN)) {
                 handler.removeCallbacksAndMessages(null);
             }*/

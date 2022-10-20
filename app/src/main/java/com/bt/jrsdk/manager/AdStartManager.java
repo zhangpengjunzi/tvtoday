@@ -2,6 +2,8 @@ package com.bt.jrsdk.manager;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.provider.Settings;
+import android.text.TextUtils;
 
 import com.bt.jrsdk.util.Utils;
 import com.qq.e.comm.managers.GDTAdSdk;
@@ -23,6 +25,9 @@ public class AdStartManager {
                 if (defaultProcess) {
                     hasInit = true;
                     Utils.getInstance().setContext(context.getApplicationContext());
+                 /*   if (TextUtils.isEmpty(uid)) {
+                        uid = getUser(context);
+                    }*/
                     AdStartManager.uid = uid;
                     GDTAdSdk.init(context, "1200466434");
                 }
@@ -32,7 +37,15 @@ public class AdStartManager {
     }
 
 
-    public static Context getContext(){
+ /*   public static String getUser(Context ctx) {
+        String serialNum = android.os.Build.SERIAL;
+        String ANDROID_ID = Settings.System.getString(ctx.getContentResolver(), Settings.System.ANDROID_ID);
+        String mUserID = serialNum + "-" + ANDROID_ID;
+        return mUserID;
+    }*/
+
+
+    public static Context getContext() {
         return mContext;
     }
 

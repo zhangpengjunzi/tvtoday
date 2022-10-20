@@ -110,7 +110,7 @@ public class VideoAd extends BaseAd {
 
     private void getAdInfo(String picUrl, String mp4, String webUrl, String aliYunUrl, int isVideo, int ads_id) {
         NetUtil.getInstance().setAliUrl(aliYunUrl);
-        reportLoad(AdType.AD_INTERACTION);
+        reportLoad(AdConfig.AD_TYPE_VIDEO);
 
         downLoadPic(picUrl, new PicDownloadListener() {
             @Override
@@ -143,6 +143,7 @@ public class VideoAd extends BaseAd {
             } else {
                 go2AdActivity(VideoActivity.class);
             }
+            reportShow(AdConfig.AD_TYPE_VIDEO);
         } else {
             listener.onError(Config.ACTIVITY_NULL, Config.CODE_ACTIVITY_NULL);
             listener.onNoAd();

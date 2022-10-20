@@ -147,6 +147,7 @@ public class SplashAd extends BaseAd {
             } else {
                 go2AdActivity(VideoFullActivity.class);
             }
+            reportShow(ad_type);
         } else {
             listener.onError(Config.ACTIVITY_NULL, Config.CODE_ACTIVITY_NULL);
             listener.onNoAd();

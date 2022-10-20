@@ -12,6 +12,7 @@ import com.baidu.mobads.sdk.api.RequestParameters;
 import com.baidu.mobads.sdk.api.RewardVideoAd;
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.activity.BdPauseVideoActivity;
+import com.bt.jrsdk.ads.AdConfig;
 import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
@@ -149,11 +150,12 @@ public class BdAd extends BaseAd {
             @Override
             public void onAdShow() {
                 showListener();
+                reportAdShow(sigPid, AdConfig.BD_AD_TYPE,AdConfig.AD_TYPE_VIDEO);
             }
 
             @Override
             public void onAdClick() {
-
+                reportAdClick(sigPid, AdConfig.BD_AD_TYPE,AdConfig.AD_TYPE_VIDEO);
             }
 
             @Override
@@ -164,6 +166,7 @@ public class BdAd extends BaseAd {
             @Override
             public void onAdFailed(String s) {
                 failListener();
+                reportAdLoadFail(sigPid, AdConfig.BD_AD_TYPE,AdConfig.AD_TYPE_VIDEO);
             }
 
             @Override
@@ -184,6 +187,7 @@ public class BdAd extends BaseAd {
             @Override
             public void onAdLoaded() {
                 loadListener();
+                reportAdLoad(sigPid, AdConfig.BD_AD_TYPE,AdConfig.AD_TYPE_VIDEO);
             }
 
             @Override
@@ -208,11 +212,12 @@ public class BdAd extends BaseAd {
             @Override
             public void onAdShow() {
                 showListener();
+                reportAdShow(sigPid, AdConfig.BD_AD_TYPE,AdConfig.AD_TYPE_FULL);
             }
 
             @Override
             public void onAdClick() {
-
+                reportAdClick(sigPid, AdConfig.BD_AD_TYPE,AdConfig.AD_TYPE_FULL);
             }
 
             @Override
@@ -223,6 +228,7 @@ public class BdAd extends BaseAd {
             @Override
             public void onAdFailed(String s) {
                 failListener();
+                reportAdLoadFail(sigPid, AdConfig.BD_AD_TYPE,AdConfig.AD_TYPE_FULL);
             }
 
             @Override
@@ -248,6 +254,7 @@ public class BdAd extends BaseAd {
             @Override
             public void onAdLoaded() {
                 loadListener();
+                reportAdLoad(sigPid, AdConfig.BD_AD_TYPE,AdConfig.AD_TYPE_FULL);
             }
         }, false);
         fullScreenVideoAd.load();

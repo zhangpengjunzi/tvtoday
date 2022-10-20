@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
-        android:name=".base.MyApplication"
+        android:name=".base.MyApplicationLike"
         android:allowBackup="true"
         android:allowClearUserData="true"
         android:hardwareAccelerated="true"
@@ -104,10 +104,6 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
 
-        <activity
-            android:name="com.tencent.bugly.beta.ui.BetaActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:theme="@android:style/Theme.Translucent" />
 
 
         <receiver android:name=".receiver.SearchReceiver">

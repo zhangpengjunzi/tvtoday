@@ -16,6 +16,7 @@ import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
 import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.nativeclass.MediaInfo;
 import com.aliyun.player.source.UrlSource;
+import com.bt.jrsdk.ads.AdConfig;
 import com.bt.jrsdk.bean.VideoAdInfo;
 import com.bt.jrsdk.config.Config;
 import com.bt.jrsdk.manager.AdListenerManager;
@@ -128,8 +129,8 @@ public class VideoActivity extends BaseActivity {
                         AdListenerManager.getInstance().getVideoListener(pid).onClick();
                     }
                     showTime = System.currentTimeMillis();
-                    reportClick(event.getRawX(), event.getRawY(), event.getPressure());
-                    go2WebActivity();
+                    reportClick(event.getRawX(), event.getRawY(), event.getPressure(), AdConfig.AD_TYPE_FULL);
+                    go2WebActivity(AdConfig.AD_TYPE_FULL);
                 }
             }
             return false;

@@ -11,12 +11,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
-import com.tencent.bugly.Bugly;
-
-import com.tencent.bugly.CrashModule;
-import com.tencent.bugly.b;
-import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.beta.UpgradeInfo;
 import com.today.player.base.App;
 import com.today.player.event.TopStateEvent;
 import com.today.player.util.ChannelUtil;
@@ -84,7 +78,7 @@ public class HttpRequest {
     //重试次数为3
     private static final int RETRY_COUNT = 3;
 
-    public void httpByteAsyn(final Context context, final String requestUrl, final int type, final YsRequestListener listener) {
+    public synchronized void httpByteAsyn(final Context context, final String requestUrl, final int type, final YsRequestListener listener) {
         threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {

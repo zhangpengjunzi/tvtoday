@@ -13,6 +13,7 @@ import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
 import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
 import com.aliyun.player.source.UrlSource;
 import com.bt.admanager.AdWeightManager;
+import com.bt.jrsdk.ads.AdConfig;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
 import com.lzy.okgo.utils.SaveManager;
@@ -236,8 +237,8 @@ public class AliPlayActivity extends BaseActivity {
 
             }
         };
-        playAd = new VideoPlayAd(this, "interaction", adListener);
-        pauseAd = new VideoSplashAd(this, "fullvideo", "3", splashAdListener);
+        playAd = new VideoPlayAd(this, AdConfig.AD_TYPE_VIDEO, adListener);
+        pauseAd = new VideoSplashAd(this, AdConfig.AD_TYPE_FULL, "3", splashAdListener);
         pauseAd.loadAd(getContent());
     }
 

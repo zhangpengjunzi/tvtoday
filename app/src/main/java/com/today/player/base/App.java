@@ -13,11 +13,6 @@ import androidx.multidex.MultiDexApplication;
 import com.kingja.loadsir.core.LoadSir;
 import com.orhanobut.hawk.Hawk;
 
-import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.beta.UpgradeInfo;
-import com.tencent.bugly.beta.interfaces.BetaPatchListener;
-import com.tencent.bugly.beta.upgrade.UpgradeListener;
 
 import com.today.player.callback.EmptyCallback;
 import com.today.player.callback.LoadingCallback;

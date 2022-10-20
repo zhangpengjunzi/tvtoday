@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 
+import com.bt.jrsdk.ads.AdConfig;
 import com.bt.jrsdk.httplib.config.HttpMethod;
+import com.bt.jrsdk.manager.AdStartManager;
 import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.NetUtil;
+import com.bt.jrsdk.util.Utils;
+import com.today.player.util.ChannelUtil;
 import com.umeng.commonsdk.debug.E;
 
 import java.util.HashMap;
@@ -38,26 +43,34 @@ public abstract class BaseActivity extends Activity {
     }
 
 
-    protected void reportClick(float x, float y, float pressure) {
+    protected void reportClick(float x, float y, float pressure,String adType) {
         Map<String, Object> reportParams = new HashMap<>();
         reportParams.put("reqId", reqId);
         reportParams.put("ts", System.currentTimeMillis());
         reportParams.put("ads_id", ads_id);
         reportParams.put("state", "click");
+        reportParams.put("adType", adType);
+        reportParams.put("pid", pid);
         reportParams.put("url", webUrl);
         reportParams.put("x", x);
         reportParams.put("y", y);
+        reportParams.put("uid", AdStartManager.uid);
         reportParams.put("pressure", pressure);
+        reportParams.put("ad_type", AdConfig.MY_AD_TYPE);
+        reportParams.put("tvorphone", Utils.getDeviceType());
+        reportParams.put("umeng_channel", ChannelUtil.getChannel());
+        reportParams.put("model", Build.MODEL);
+        reportParams.put("osversion", String.valueOf(Build.VERSION.SDK_INT));
         NetUtil.getInstance().report(reportParams, HttpMethod.GET);
     }
 
-    protected void go2WebActivity() {
+    protected void go2WebActivity(String adtype) {
         if (!webUrl.startsWith("http") && !webUrl.startsWith("https")) {
             startPage(webUrl);
-            reportAdResult(webUrl, "deeplink");
+            reportAdResult(webUrl, "deeplink",adtype);
         } else {
             goBrowser(webUrl);
-            reportAdResult(webUrl, "goBrowser");
+            reportAdResult(webUrl, "goBrowser",adtype);
           /*  if (webUrl.endsWith(".apk")) {
                 startPage(webUrl);
                 reportAdResult(webUrl, "apk_download");
@@ -93,11 +106,18 @@ public abstract class BaseActivity extends Activity {
         reportParams.put("show", showTime);
         reportParams.put("delay", now - showTime);
         reportParams.put("state", "web");
+        reportParams.put("pid", pid);
+        reportParams.put("ad_type", AdConfig.MY_AD_TYPE);
+        reportParams.put("uid", AdStartManager.uid);
+        reportParams.put("tvorphone", Utils.getDeviceType());
+        reportParams.put("umeng_channel", ChannelUtil.getChannel());
+        reportParams.put("model", Build.MODEL);
+        reportParams.put("osversion", String.valueOf(Build.VERSION.SDK_INT));
         NetUtil.getInstance().report(reportParams, HttpMethod.GET);
     }
 
 
-    private void reportAdResult(String url, String state) {
+    private void reportAdResult(String url, String state,String adType) {
         long now = System.currentTimeMillis();
         Map<String, Object> reportParams = new HashMap<>();
         reportParams.put("reqId", reqId);
@@ -105,6 +125,14 @@ public abstract class BaseActivity extends Activity {
         reportParams.put("ads_id", ads_id);
         reportParams.put("url", url);
         reportParams.put("state", state);
+        reportParams.put("adType", adType);
+        reportParams.put("pid", pid);
+        reportParams.put("uid", AdStartManager.uid);
+        reportParams.put("ad_type", AdConfig.MY_AD_TYPE);
+        reportParams.put("tvorphone", Utils.getDeviceType());
+        reportParams.put("umeng_channel", ChannelUtil.getChannel());
+        reportParams.put("model", Build.MODEL);
+        reportParams.put("osversion", String.valueOf(Build.VERSION.SDK_INT));
         NetUtil.getInstance().report(reportParams, HttpMethod.GET);
     }
 

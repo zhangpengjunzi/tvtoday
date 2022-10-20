@@ -37,7 +37,6 @@ import com.qq.e.ads.nativ.NativeUnifiedADData;
 import com.qq.e.ads.nativ.widget.NativeAdContainer;
 import com.qq.e.comm.constants.AdPatternType;
 import com.qq.e.comm.util.AdError;
-import com.tencent.bugly.proguard.H;
 import com.today.player.R;
 
 import java.util.ArrayList;

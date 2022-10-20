@@ -2,6 +2,7 @@ package com.bt.txad;
 
 import android.app.Activity;
 
+import com.bt.jrsdk.ads.AdConfig;
 import com.bt.jrsdk.ads.BaseAd;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
@@ -77,6 +78,7 @@ public class GdtNativeAdPreMovie extends BaseAd {
                         fullInterstitial.show(activity);
                     }
                 }
+
                 break;
             case BaseVideoAd.AD_REWARDVIDEO:
                 if (rewardVideoAD != null) {
@@ -120,6 +122,7 @@ public class GdtNativeAdPreMovie extends BaseAd {
                 if (videoAdListener != null) {
                     videoAdListener.onLoaded();
                 }
+                reportAdLoad(gdtPid, AdConfig.GDT_AD_TYPE,AdConfig.AD_TYPE_VIDEO);
             }
 
             @Override
@@ -135,6 +138,7 @@ public class GdtNativeAdPreMovie extends BaseAd {
                 if (videoAdListener != null) {
                     videoAdListener.onShow();
                 }
+                reportAdShow(gdtPid, AdConfig.GDT_AD_TYPE,AdConfig.AD_TYPE_VIDEO);
             }
 
             @Override
@@ -149,7 +153,7 @@ public class GdtNativeAdPreMovie extends BaseAd {
 
             @Override
             public void onADClick() {
-
+                reportAdClick(gdtPid, AdConfig.GDT_AD_TYPE,AdConfig.AD_TYPE_VIDEO);
             }
 
             @Override
@@ -174,6 +178,7 @@ public class GdtNativeAdPreMovie extends BaseAd {
                 if (mListener != null) {
                     mListener.noAd();
                 }
+                reportAdLoadFail(gdtPid, AdConfig.GDT_AD_TYPE,AdConfig.AD_TYPE_VIDEO);
             }
         });
         rewardVideoAD.loadAD();
@@ -215,6 +220,7 @@ public class GdtNativeAdPreMovie extends BaseAd {
                 if (videoAdListener != null) {
                     videoAdListener.onLoaded();
                 }
+                reportAdLoad(gdtPid, AdConfig.GDT_AD_TYPE,AdConfig.AD_TYPE_FULL);
             }
 
             @Override
@@ -227,11 +233,12 @@ public class GdtNativeAdPreMovie extends BaseAd {
                 if (mListener != null) {
                     mListener.noAd();
                 }
+                reportAdLoadFail(gdtPid, AdConfig.GDT_AD_TYPE,AdConfig.AD_TYPE_FULL);
             }
 
             @Override
             public void onADOpened() {
-
+                reportAdShow(gdtPid, AdConfig.GDT_AD_TYPE,AdConfig.AD_TYPE_FULL);
             }
 
             @Override
@@ -241,7 +248,7 @@ public class GdtNativeAdPreMovie extends BaseAd {
 
             @Override
             public void onADClicked() {
-
+                reportAdClick(gdtPid, AdConfig.GDT_AD_TYPE,AdConfig.AD_TYPE_FULL);
             }
 
             @Override

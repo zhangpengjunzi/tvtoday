@@ -2,6 +2,7 @@ package com.bt.jrsdk.ads;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.bt.jrsdk.httplib.HttpManager;
@@ -17,6 +18,7 @@ import com.bt.jrsdk.util.NetUtil;
 import com.bt.jrsdk.util.RandomUtil;
 import com.bt.jrsdk.util.Utils;
 import com.today.player.base.App;
+import com.today.player.util.ChannelUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -69,7 +71,6 @@ public abstract class BaseAd {
         intent.putExtra("pid", pid);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getActivity().startActivity(intent);
-        reportShow();
     }
 
     protected void downLoadPic(String url, PicDownloadListener listener) {
@@ -110,20 +111,94 @@ public abstract class BaseAd {
         reportParams.put("pid", pid);
         reportParams.put("adContent", content);
         reportParams.put("ts", System.currentTimeMillis());
-        reportParams.put("state", "req");
-
+        reportParams.put("state", "load");
+        reportParams.put("ad_type", AdConfig.MY_AD_TYPE);
+        reportParams.put("tvorphone", Utils.getDeviceType());
+        reportParams.put("umeng_channel", ChannelUtil.getChannel());
+        reportParams.put("model", Build.MODEL);
+        reportParams.put("osversion", String.valueOf(Build.VERSION.SDK_INT));
         NetUtil.getInstance().report(reportParams, HttpMethod.GET);
     }
 
-    protected void reportShow() {
+    protected void reportShow(String adType) {
         Map<String, Object> reportParams = new HashMap<>();
         reportParams.put("reqId", requestId);
+        reportParams.put("adType", adType);
+        reportParams.put("uid", AdStartManager.uid);
         reportParams.put("ads_id", ads_id);
+        reportParams.put("pid", pid);
         reportParams.put("ts", System.currentTimeMillis());
         reportParams.put("state", "show");
-
+        reportParams.put("ad_type", AdConfig.MY_AD_TYPE);
+        reportParams.put("tvorphone", Utils.getDeviceType());
+        reportParams.put("umeng_channel", ChannelUtil.getChannel());
+        reportParams.put("model", Build.MODEL);
+        reportParams.put("osversion", String.valueOf(Build.VERSION.SDK_INT));
         NetUtil.getInstance().report(reportParams, HttpMethod.GET);
     }
 
+
+    protected void reportAdLoad(String pid, String ad_Type,String adType) {
+        Map<String, Object> reportParams = new HashMap<>();
+        reportParams.put("uid", AdStartManager.uid);
+        reportParams.put("pid", pid);
+        reportParams.put("adContent", content);
+        reportParams.put("ts", System.currentTimeMillis());
+        reportParams.put("state", "load");
+        reportParams.put("ad_type", ad_Type);
+        reportParams.put("tvorphone", Utils.getDeviceType());
+        reportParams.put("umeng_channel", ChannelUtil.getChannel());
+        reportParams.put("model", Build.MODEL);
+        reportParams.put("osversion", String.valueOf(Build.VERSION.SDK_INT));
+        reportParams.put("adType", adType);
+        NetUtil.getInstance().report(reportParams, HttpMethod.GET);
+    }
+
+    protected void reportAdShow(String pid, String ad_Type,String adType) {
+        Map<String, Object> reportParams = new HashMap<>();
+        reportParams.put("uid", AdStartManager.uid);
+        reportParams.put("pid", pid);
+        reportParams.put("ts", System.currentTimeMillis());
+        reportParams.put("state", "show");
+        reportParams.put("ad_type", ad_Type);
+        reportParams.put("tvorphone", Utils.getDeviceType());
+        reportParams.put("umeng_channel", ChannelUtil.getChannel());
+        reportParams.put("model", Build.MODEL);
+        reportParams.put("osversion", String.valueOf(Build.VERSION.SDK_INT));
+        reportParams.put("adType", adType);
+        NetUtil.getInstance().report(reportParams, HttpMethod.GET);
+    }
+
+
+    protected void reportAdClick(String pid, String ad_Type,String adType) {
+        Map<String, Object> reportParams = new HashMap<>();
+        reportParams.put("uid", AdStartManager.uid);
+        reportParams.put("pid", pid);
+        reportParams.put("ts", System.currentTimeMillis());
+        reportParams.put("state", "click");
+        reportParams.put("ad_type", ad_Type);
+        reportParams.put("tvorphone", Utils.getDeviceType());
+        reportParams.put("umeng_channel", ChannelUtil.getChannel());
+        reportParams.put("model", Build.MODEL);
+        reportParams.put("osversion", String.valueOf(Build.VERSION.SDK_INT));
+        reportParams.put("adType", adType);
+        NetUtil.getInstance().report(reportParams, HttpMethod.GET);
+    }
+
+
+    protected void reportAdLoadFail(String pid, String ad_Type,String adType) {
+        Map<String, Object> reportParams = new HashMap<>();
+        reportParams.put("uid", AdStartManager.uid);
+        reportParams.put("pid", pid);
+        reportParams.put("ts", System.currentTimeMillis());
+        reportParams.put("state", "loadfail");
+        reportParams.put("ad_type", ad_Type);
+        reportParams.put("tvorphone", Utils.getDeviceType());
+        reportParams.put("umeng_channel", ChannelUtil.getChannel());
+        reportParams.put("model", Build.MODEL);
+        reportParams.put("osversion", String.valueOf(Build.VERSION.SDK_INT));
+        reportParams.put("adType", adType);
+        NetUtil.getInstance().report(reportParams, HttpMethod.GET);
+    }
 
 }
