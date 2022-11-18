@@ -117,7 +117,7 @@ public class InteractionAdActivity extends BaseActivity {
                 AdListenerManager.getInstance().getVideoListener(pid).onClick();
             }
             showTime = System.currentTimeMillis();
-            go2WebActivity(AdConfig.AD_TYPE_FULL);
+        //    go2WebActivity(AdConfig.AD_TYPE_FULL);
             LogUtil.d("ad click");
         }
     }

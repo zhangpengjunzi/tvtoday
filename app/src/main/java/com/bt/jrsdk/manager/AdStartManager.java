@@ -25,9 +25,9 @@ public class AdStartManager {
                 if (defaultProcess) {
                     hasInit = true;
                     Utils.getInstance().setContext(context.getApplicationContext());
-                 /*   if (TextUtils.isEmpty(uid)) {
+                    if (TextUtils.isEmpty(uid)) {
                         uid = getUser(context);
-                    }*/
+                    }
                     AdStartManager.uid = uid;
                     GDTAdSdk.init(context, "1200466434");
                 }
@@ -37,12 +37,12 @@ public class AdStartManager {
     }
 
 
- /*   public static String getUser(Context ctx) {
+    public static String getUser(Context ctx) {
         String serialNum = android.os.Build.SERIAL;
         String ANDROID_ID = Settings.System.getString(ctx.getContentResolver(), Settings.System.ANDROID_ID);
         String mUserID = serialNum + "-" + ANDROID_ID;
         return mUserID;
-    }*/
+    }
 
 
     public static Context getContext() {

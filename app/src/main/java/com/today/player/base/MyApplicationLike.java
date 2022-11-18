@@ -63,7 +63,7 @@ public class MyApplicationLike extends MultiDexApplication {
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
 
         jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(this, ChannelUtil.BASE_CHANNEL);
-       // jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(getApplication(), "test");
+      //  jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(this, "test");
 
         TTAdManagerHolder.init(this);
         initBdAd();

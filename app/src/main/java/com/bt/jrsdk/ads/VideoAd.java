@@ -138,12 +138,12 @@ public class VideoAd extends BaseAd {
     @Override
     public void showAd() {
         if (getActivity() != null && adInfo != null) {
+            reportShow(AdConfig.AD_TYPE_VIDEO);
             if (adInfo.getIsVideo() == 0) {
                 go2AdActivity(InteractionAdActivity.class);
             } else {
                 go2AdActivity(VideoActivity.class);
             }
-            reportShow(AdConfig.AD_TYPE_VIDEO);
         } else {
             listener.onError(Config.ACTIVITY_NULL, Config.CODE_ACTIVITY_NULL);
             listener.onNoAd();

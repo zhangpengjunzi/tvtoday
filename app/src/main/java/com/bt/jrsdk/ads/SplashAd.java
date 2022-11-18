@@ -142,12 +142,12 @@ public class SplashAd extends BaseAd {
     @Override
     public void showAd() {
         if (getActivity() != null && adInfo != null) {
+            reportShow(ad_type);
             if (adInfo.getIsVideo() == 0) {
                 go2AdActivity(SplashAdActivity.class);
             } else {
                 go2AdActivity(VideoFullActivity.class);
             }
-            reportShow(ad_type);
         } else {
             listener.onError(Config.ACTIVITY_NULL, Config.CODE_ACTIVITY_NULL);
             listener.onNoAd();
