@@ -32,12 +32,12 @@ public class VideoSplashAd extends BaseVideoAd {
     }
 
 
-    @Override
+ /*   @Override
     public GdtNativeAdPreMovie getGdtNativeAdPreMovie() {
         gdtNativeAdPreMovie = new GdtNativeAdPreMovie(activity, pid, this, 0, adKinds);
         gdtNativeAdPreMovie.setSplashListener(splashAdListener);
         return gdtNativeAdPreMovie;
-    }
+    }*/
 
     @Override
     public BaseAd getMyAd() {
@@ -46,7 +46,7 @@ public class VideoSplashAd extends BaseVideoAd {
         return ad;
     }
 
-    @Override
+  /*  @Override
     public TTAd getTTAd() {
         ttAd = new TTAd(activity, pid, this, pageType, adKinds);
         ttAd.setSplashListener(splashAdListener);
@@ -58,5 +58,5 @@ public class VideoSplashAd extends BaseVideoAd {
         bdAd = new BdAd(activity, pid, this, pageType, adKinds);
         bdAd.setSplashListener(splashAdListener);
         return bdAd;
-    }
+    }*/
 }

@@ -4,8 +4,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.aliyun.player.IPlayer;
 import com.aliyun.player.alivcplayerexpand.theme.Theme;
@@ -16,6 +21,9 @@ import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.ads.AdConfig;
 import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
+import com.jni.rmad.AdPortManager;
+import com.jni.rmad.M3U8ParseListener;
+import com.jni.rmad.MyNative;
 import com.lzy.okgo.utils.SaveManager;
 import com.today.player.R;
 import com.today.player.ad.VideoPlayAd;
@@ -28,6 +36,7 @@ import com.today.player.dkplayer.VideoAnalysis;
 import com.today.player.event.RefreshEvent;
 import com.today.player.util.ProgressManagerImpl;
 import com.upa.DownloadManager;
+import com.upa.VideoAdManager;
 import com.upa.http.HttpRequest;
 import com.upa.http.SSLSocketFactoryCompat;
 
@@ -43,6 +52,7 @@ import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -62,6 +72,7 @@ public class AliPlayActivity extends BaseActivity {
     private VideoSplashAd pauseAd;
     private String basePlb = "plb";
     private String playUrl;
+    private String playFrom;
     private boolean isShow = false;
     private UrlSource urlSource;
     private ProgressManagerImpl progressManager;
@@ -92,6 +103,7 @@ public class AliPlayActivity extends BaseActivity {
         mVideoView.requestFocus();
         mVideoView.setKeepScreenOn(true);
         mVideoView.setTheme(Theme.Blue);
+        mVideoView.setOperatorPlay(true);
         mVideoView.setAutoPlay(false);
         mVideoView.changeScreenMode(AliyunScreenMode.Full, false);
         mVideoView.setOnPreparedListener(new IPlayer.OnPreparedListener() {
@@ -244,6 +256,7 @@ public class AliPlayActivity extends BaseActivity {
 
     private void playSet() {
         EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_REFRESH, mVodInfo.playIndex));
+        playFrom = mVodInfo.fromList.get(mVodInfo.playFlag).name;
         playUrl = mVodInfo.seriesMap.get(mVodInfo.fromList.get(mVodInfo.playFlag).name).get(mVodInfo.playIndex).url;
         DownloadManager.getInstance().setPlayFlag(mVodInfo.fromList.get(mVodInfo.playFlag).name);
         StringBuilder sb = new StringBuilder();
@@ -422,18 +435,34 @@ public class AliPlayActivity extends BaseActivity {
         @Override
         public void a(String str, Map<String, String> map) {
             if (mVideoView != null) {
-                urlSource = new UrlSource();
-                urlSource.setUri(str);
-                currentPlayUrl = str;
-                long position = progressManager.getSavedProgress(str);
-                mVideoView.setLocalSource(urlSource);
-                if (position == 0) {
-                    mVideoView.start();
+                if (!TextUtils.isEmpty(playFrom) && playFrom.toLowerCase(Locale.ROOT).equals("lzm3u8") && playUrl.endsWith(".m3u8")&& AdPortManager.getInstance().isInitSuccess()) {
+                    String ad = VideoAdManager.getInstance().getVideoAds().get(VideoAdManager.getInstance().getPosition());
+                    if (!TextUtils.isEmpty(ad)) {
+                        ad = new String(Base64.decode(ad, Base64.URL_SAFE));
+                    }
+                    MyNative.parse(playUrl, ad, new
+                            M3U8ParseListener() {
+                                @Override
+                                public void onSuccess(String hex) {
+                                    VideoAdManager.getInstance().addPosition();
+                                    String url = "http://127.0.0.1:" + AdPortManager.getInstance().getPort() + "/" + hex + ".m3u8";
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            startPlayVideo(url);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFail() {
+                                    startPlayVideo(str);
+                                }
+                            });
                 } else {
-                    mVideoView.seekTo((int) position);
+                    startPlayVideo(str);
                 }
             }
-            f();
         }
 
         @Override
@@ -442,6 +471,21 @@ public class AliPlayActivity extends BaseActivity {
         }
 
 
+    }
+
+    private void startPlayVideo(String url) {
+        urlSource = new UrlSource();
+        urlSource.setUri(url);
+        currentPlayUrl = url;
+        long position = progressManager.getSavedProgress(url);
+        mVideoView.setLocalSource(urlSource);
+        if (position == 0) {
+            mVideoView.start();
+        } else {
+            Log.i("initad", position + " " + currentPlayUrl + " " + url);
+            mVideoView.seekTo((int) position);
+        }
+        f();
     }
 
     public class a implements VideoAnalysis.j {
@@ -489,6 +533,9 @@ public class AliPlayActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        if (!TextUtils.isEmpty(currentPlayUrl) && mVideoView.getDuration() != mVideoView.getVideoPosition()) {
+            progressManager.saveProgress(currentPlayUrl, mVideoView.getVideoPosition());
+        }
     }
 
     @Override
@@ -519,4 +566,11 @@ public class AliPlayActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        if (!TextUtils.isEmpty(currentPlayUrl) && mVideoView.getDuration() != mVideoView.getVideoPosition()) {
+            progressManager.saveProgress(currentPlayUrl, mVideoView.getVideoPosition());
+        }
+    }
 }

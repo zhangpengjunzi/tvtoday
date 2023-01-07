@@ -1,8 +1,8 @@
 package com.bt.admanager;
 
-import com.baidu.mobads.sdk.api.NativeResponse;
+/*import com.baidu.mobads.sdk.api.NativeResponse;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
-import com.qq.e.ads.nativ.NativeUnifiedADData;
+import com.qq.e.ads.nativ.NativeUnifiedADData;*/
 import com.today.player.ad.BaseVideoAd;
 
 import org.json.JSONArray;
@@ -16,9 +16,9 @@ import java.util.Map;
 public class AdWeightManager {
     private Map<String, Integer> weightMap = new HashMap<>();
     private List<String> adList = new ArrayList<>();
-    public List<NativeUnifiedADData> gdtAds = new ArrayList();
+   /* public List<NativeUnifiedADData> gdtAds = new ArrayList();
     public List<TTSplashAd> ttAds = new ArrayList<>();
-    public List<NativeResponse> bdAds = new ArrayList<>();
+    public List<NativeResponse> bdAds = new ArrayList<>();*/
     private int splashImageCount;
     private int gdtAdType;
     private boolean isPlayAd = true;//是否播放广告
@@ -79,10 +79,10 @@ public class AdWeightManager {
         splashImageCount++;
     }
 
-    public void setSplashAd(TTSplashAd ad) {
+  /*  public void setSplashAd(TTSplashAd ad) {
         ttAds.clear();
         ttAds.add(ad);
-    }
+    }*/
 
     public void setAdInfoArray(JSONArray jsonArray) {
         weightMap.clear();
@@ -153,7 +153,7 @@ public class AdWeightManager {
         }
     }
 
-    public boolean canJump() {
+  /*  public boolean canJump() {
         return gdtAds.size() > 0;
-    }
+    }*/
 }

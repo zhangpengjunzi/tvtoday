@@ -9,10 +9,13 @@ import android.os.Build;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
-import com.baidu.mobads.sdk.api.BDAdConfig;
+/*import com.baidu.mobads.sdk.api.BDAdConfig;
 import com.baidu.mobads.sdk.api.BDDialogParams;
-import com.baidu.mobads.sdk.api.MobadsPermissionSettings;
+import com.baidu.mobads.sdk.api.MobadsPermissionSettings;*/
 import com.bt.admanager.TTAdManagerHolder;
+import com.jni.rmad.AdPortManager;
+import com.jni.rmad.InitListener;
+import com.jni.rmad.MyNative;
 import com.kingja.loadsir.core.LoadSir;
 import com.lzy.okgo.OkGo;
 import com.orhanobut.hawk.Hawk;
@@ -61,12 +64,12 @@ public class MyApplicationLike extends MultiDexApplication {
 
         UMConfigure.init(this, "603875ff6ee47d382b672169", ChannelUtil.getChannel(), 1, "");
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
-
         jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(this, ChannelUtil.BASE_CHANNEL);
       //  jmuyood.pdee.hivet.xv.sarrvrq.qhdc.elf.a.init(this, "test");
 
-        TTAdManagerHolder.init(this);
-        initBdAd();
+        //TTAdManagerHolder.init(this);
+       // initBdAd();
+        AdPortManager.getInstance().port();
     }
 
 
@@ -98,7 +101,7 @@ public class MyApplicationLike extends MultiDexApplication {
 
 
     private void initBdAd() {
-        BDAdConfig bdAdConfig = new BDAdConfig.Builder()
+       /* BDAdConfig bdAdConfig = new BDAdConfig.Builder()
                 // 1、设置app名称，可选
                 .setAppName(this.getResources().getString(R.string.app_name))
                 // 2、应用在mssp平台申请到的appsid，和包名一一对应，此处设置等同于在AndroidManifest.xml里面设置
@@ -113,7 +116,7 @@ public class MyApplicationLike extends MultiDexApplication {
         MobadsPermissionSettings.setPermissionReadDeviceID(true);
         MobadsPermissionSettings.setPermissionLocation(true);
         MobadsPermissionSettings.setPermissionStorage(true);
-        MobadsPermissionSettings.setPermissionAppList(true);
+        MobadsPermissionSettings.setPermissionAppList(true);*/
     }
 
 }

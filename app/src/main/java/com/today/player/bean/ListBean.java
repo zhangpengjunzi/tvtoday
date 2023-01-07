@@ -154,6 +154,15 @@ public class ListBean {
         private String vod_plot_detail;
         private String vod_pic_screenshot;
         private String type_name;
+        private String vod_play_show;
+
+        public String getVod_play_show() {
+            return vod_play_show;
+        }
+
+        public void setVod_play_show(String vod_play_show) {
+            this.vod_play_show = vod_play_show;
+        }
 
         public int getVod_id() {
             return vod_id;

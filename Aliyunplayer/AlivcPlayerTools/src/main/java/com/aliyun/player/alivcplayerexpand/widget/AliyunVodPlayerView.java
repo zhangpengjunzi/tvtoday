@@ -2761,7 +2761,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme, View.
             if (NetWatchdog.is4GConnected(getContext())) {
                 if (mIsOperatorPlay) {
                     //运营商自动播放,则Toast提示后,继续播放
-                    ToastUtils.show(getContext(), R.string.alivc_operator_play);
+                 //   ToastUtils.show(getContext(), R.string.alivc_operator_play);
                     return false;
                 } else {
                     if (mTipsView != null) {
@@ -5117,7 +5117,8 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme, View.
     private int longLeft = 0;
     private static boolean isInSeek;
     private static long seekTime = 0;
-
+    //记录用户手指按下时间
+    private long seekKeyTime;
 
     private void initSeekHandler() {
         seekHandler = new SeekHandler();
@@ -5134,7 +5135,11 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme, View.
             super.handleMessage(msg);
             int what = msg.what;
             if (isInSeek) {
-                seekTime += 1500;
+                if (System.currentTimeMillis() - seekKeyTime > 2000) {
+                    seekTime += 10000;
+                } else {
+                    seekTime += 1500;
+                }
                 if (what == 22) {
                     mGestureDialogManager.updateSeekDialog(getDuration(), mCurrentPosition, seekTime, false);
                 } else {
@@ -5158,6 +5163,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme, View.
         if (action == 0) {
             if (keyCode == 21) {
                 if (isFirst) {
+                    getSeekKeyTime();
                     showSeekDialog(keyCode);
                     longLeft = (int) currentTimeMillis();
                     isFirst = false;
@@ -5165,6 +5171,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme, View.
                 }
             } else if (keyCode == 22) {
                 if (isFirst) {
+                    getSeekKeyTime();
                     showSeekDialog(keyCode);
                     longRight = (int) currentTimeMillis();
                     isFirst = false;
@@ -5192,6 +5199,12 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme, View.
         return super.dispatchKeyEvent(event);
     }
 
+    private void getSeekKeyTime() {
+        if (seekKeyTime == 0) {
+            seekKeyTime = System.currentTimeMillis();
+        }
+    }
+
 
     private void showSeekDialog(int eventCode) {
         mGestureDialogManager.showSeekDialog(this, (int) mCurrentPosition, getDuration(), eventCode == 21);
@@ -5213,11 +5226,13 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme, View.
         int totalSeekTime = (int) seekTime;
         if (keyCode == 21) {
             if (!isFirst) {
+                seekKeyTime = 0;
                 seekTo(dismissSeek());
                 isFirst = true;
             }
         } else if (keyCode == 22) {
             if (!isFirst) {
+                seekKeyTime = 0;
                 seekTo(dismissSeek());
                 isFirst = true;
             }

@@ -2,9 +2,9 @@ package com.bt.admanager;
 
 import android.content.Context;
 
-import com.bytedance.sdk.openadsdk.TTAdConfig;
+/*import com.bytedance.sdk.openadsdk.TTAdConfig;
 import com.bytedance.sdk.openadsdk.TTAdManager;
-import com.bytedance.sdk.openadsdk.TTAdSdk;
+import com.bytedance.sdk.openadsdk.TTAdSdk;*/
 
 
 /**
@@ -12,7 +12,7 @@ import com.bytedance.sdk.openadsdk.TTAdSdk;
  */
 public class TTAdManagerHolder {
 
-    private static final String TAG = "TTAdManagerHolder";
+  /*  private static final String TAG = "TTAdManagerHolder";
 
     private static boolean sInit;
 
@@ -59,5 +59,5 @@ public class TTAdManagerHolder {
                 .supportMultiProcess(false)//是否支持多进程
                 .needClearTaskReset()
                 .build();
-    }
+    }*/
 }

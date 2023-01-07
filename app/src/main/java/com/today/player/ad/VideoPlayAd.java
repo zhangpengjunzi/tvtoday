@@ -30,7 +30,7 @@ public class VideoPlayAd extends BaseVideoAd {
         return ad;
     }
 
-    @Override
+  /*  @Override
     public TTAd getTTAd() {
         ttAd = new TTAd(activity, pid, this, pageType, adKinds);
         ttAd.setVideoListener(adListener);
@@ -49,6 +49,6 @@ public class VideoPlayAd extends BaseVideoAd {
         gdtNativeAdPreMovie = new GdtNativeAdPreMovie(activity, pid, this, 1, adKinds);
         gdtNativeAdPreMovie.setVideoListener(adListener);
         return gdtNativeAdPreMovie;
-    }
+    }*/
 
 }

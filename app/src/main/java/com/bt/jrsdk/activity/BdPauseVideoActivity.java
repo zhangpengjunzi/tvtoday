@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.baidu.mobads.sdk.api.NativeResponse;
-import com.baidu.mobads.sdk.api.XNativeView;
+/*import com.baidu.mobads.sdk.api.NativeResponse;
+import com.baidu.mobads.sdk.api.XNativeView;*/
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.util.Utils;
@@ -23,9 +23,9 @@ import java.util.List;
 /**
  * 百度插屏
  */
-public class BdPauseVideoActivity extends Activity {
+public class BdPauseVideoActivity /*extends Activity*/ {
 
-    private NativeResponse ad;
+  /*  private NativeResponse ad;
     private XNativeView mVideoView;
     private ImageView adLogo, imageClose;
     private String pid;
@@ -102,5 +102,5 @@ public class BdPauseVideoActivity extends Activity {
         if (ad != null) {
             ad = null;
         }
-    }
+    }*/
 }

@@ -6,7 +6,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.bt.jrsdk.util.Utils;
-import com.qq.e.comm.managers.GDTAdSdk;
+/*import com.qq.e.comm.managers.GDTAdSdk;*/
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class AdStartManager {
                         uid = getUser(context);
                     }
                     AdStartManager.uid = uid;
-                    GDTAdSdk.init(context, "1200466434");
+                  //  GDTAdSdk.init(context, "1200466434");
                 }
             }
         }

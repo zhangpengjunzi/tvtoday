@@ -78,7 +78,7 @@ public class InteractionAdActivity extends BaseActivity {
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         LogUtil.d("Image Ad OnTouch");
-                        reportClick(event.getRawX(), event.getRawY(), event.getPressure(),AdConfig.AD_TYPE_FULL);
+                        reportClick(event.getRawX(), event.getRawY(), event.getPressure(), AdConfig.AD_TYPE_FULL);
                     }
                     return false;
                 }
@@ -117,7 +117,7 @@ public class InteractionAdActivity extends BaseActivity {
                 AdListenerManager.getInstance().getVideoListener(pid).onClick();
             }
             showTime = System.currentTimeMillis();
-        //    go2WebActivity(AdConfig.AD_TYPE_FULL);
+            go2WebActivity(AdConfig.AD_TYPE_FULL);
             LogUtil.d("ad click");
         }
     }

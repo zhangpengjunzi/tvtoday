@@ -16,14 +16,14 @@ import androidx.annotation.Nullable;
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.util.Utils;
-import com.bytedance.sdk.openadsdk.TTAdConstant;
+/*import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
-import com.bytedance.sdk.openadsdk.TTSplashAd;
+import com.bytedance.sdk.openadsdk.TTSplashAd;*/
 import com.today.player.R;
 
 public class TTAdPreMovieActivity extends Activity {
 
-    private TTSplashAd mSplashAd;
+   /* private TTSplashAd mSplashAd;
 
     private FrameLayout mSplashContainer;
     private final int MSG_IMAGE_START = 100;
@@ -206,6 +206,6 @@ public class TTAdPreMovieActivity extends Activity {
                     break;
             }
         }
-    }
+    }*/
 }
 

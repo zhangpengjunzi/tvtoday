@@ -12,10 +12,10 @@ import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
 import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.manager.AdObserver;
-import com.bytedance.sdk.openadsdk.AdSlot;
+/*import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
-import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
+import com.bytedance.sdk.openadsdk.TTRewardVideoAd;*/
 import com.today.player.ad.BaseVideoAd;
 import com.today.player.ad.GdtAdListener;
 import com.today.player.api.ApiConfig;
@@ -24,9 +24,9 @@ import com.today.player.bean.PlayerModel;
 import java.util.List;
 import java.util.Random;
 
-public class TTAd extends BaseAd {
+public class TTAd/* extends BaseAd*/ {
 
-    private SplashAdListener listener;
+   /* private SplashAdListener listener;
     private VideoAdListener videoAdListener;
     private GdtAdListener mListener;
     private int adType;
@@ -82,8 +82,8 @@ public class TTAd extends BaseAd {
                     }
                     break;
             }
-           /* AdWeightManager.getInstance().setGdtAdType(adType);
-            go2AdActivity(TTAdPreMovieActivity.class);*/
+           *//* AdWeightManager.getInstance().setGdtAdType(adType);
+            go2AdActivity(TTAdPreMovieActivity.class);*//*
         }
     }
 
@@ -117,14 +117,14 @@ public class TTAd extends BaseAd {
 
 
 
- /*switch (adKinds) {
+ *//*switch (adKinds) {
         case BaseVideoAd.AD_FULLVIDEO:
             break;
         case BaseVideoAd.AD_PAUSEVIDEO:
             break;
         case BaseVideoAd.AD_REWARDVIDEO:
             break;
-    }*/
+    }*//*
 
     private String getSigPid() {
         String gdtPid = "";
@@ -152,7 +152,7 @@ public class TTAd extends BaseAd {
 
 
     private void loadReward() {
-     /*   float splashWidthDp = 0;
+     *//*   float splashWidthDp = 0;
         float splashHeightDp = 0;
         splashWidthDp = UIUtils.getScreenWidthDp(App.getInstance());
         int screenHeightPx = UIUtils.getScreenHeight(App.getInstance());
@@ -161,7 +161,7 @@ public class TTAd extends BaseAd {
             float index = splashWidthDp;
             splashWidthDp = splashHeightDp;
             splashHeightDp = index;
-        }*/
+        }*//*
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(sigPid)
                 //模板广告需要设置期望个性化模板广告的大小,单位dp,激励视频场景，只要设置的值大于0即可
@@ -287,7 +287,7 @@ public class TTAd extends BaseAd {
 
 
     private void loadFullVideo() {
-       /* float splashWidthDp;
+       *//* float splashWidthDp;
         float splashHeightDp;
         if (adType != 0) {
             int splashWidthPx = AutoSizeUtils.pt2px(App.getInstance(), 800);
@@ -303,7 +303,7 @@ public class TTAd extends BaseAd {
                 splashWidthDp = splashHeightDp;
                 splashHeightDp = index;
             }
-        }*/
+        }*//*
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(sigPid)
                 //模板广告需要设置期望个性化模板广告的大小,单位dp,全屏视频场景，只要设置的值大于0即可
@@ -398,6 +398,6 @@ public class TTAd extends BaseAd {
         if (mListener != null) {
             mListener.noAd();
         }
-    }
+    }*/
 
 }

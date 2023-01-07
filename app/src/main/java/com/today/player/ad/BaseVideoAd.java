@@ -32,16 +32,16 @@ public abstract class BaseVideoAd implements GdtAdListener {
     protected boolean isReady;
     protected String content;
 
-    public abstract GdtNativeAdPreMovie getGdtNativeAdPreMovie();
+ //   public abstract GdtNativeAdPreMovie getGdtNativeAdPreMovie();
 
     public abstract BaseAd getMyAd();
 
-    public abstract TTAd getTTAd();
+   // public abstract TTAd getTTAd();
 
-    public abstract BdAd getBdAd();
+   // public abstract BdAd getBdAd();
 
     protected void setAdType() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O
+       /* if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O
                 || Utils.getDeviceType().equals("1")
                 || !AdWeightManager.getInstance().canGetAd()
                 || isEnd) {
@@ -51,7 +51,8 @@ public abstract class BaseVideoAd implements GdtAdListener {
         adType = AdWeightManager.getInstance().getCurrentAd(adKinds);
         if ((adType.equals(TT_AD) && !TTAdManagerHolder.isSuccess)) {
             adType = MD_AD;
-        }
+        }*/
+        adType = MD_AD;
     }
 
     protected void setAdKinds(int type) {
@@ -72,13 +73,13 @@ public abstract class BaseVideoAd implements GdtAdListener {
         setAdType();
         if (!TextUtils.isEmpty(adType)) {
             switch (adType) {
-                case GDT_AD:
+              /*  case GDT_AD:
                     gdtNativeAdPreMovie = getGdtNativeAdPreMovie();
                     if (gdtNativeAdPreMovie != null) {
                         this.content = content;
                         gdtNativeAdPreMovie.loadAd(content);
                     }
-                    break;
+                    break;*/
                 case MD_AD:
                     ad = getMyAd();
                     if (ad != null) {
@@ -86,7 +87,7 @@ public abstract class BaseVideoAd implements GdtAdListener {
                         ad.loadAd(content);
                     }
                     break;
-                case TT_AD:
+                /*case TT_AD:
                     ttAd = getTTAd();
                     if (ttAd != null) {
                         this.content = content;
@@ -99,7 +100,7 @@ public abstract class BaseVideoAd implements GdtAdListener {
                         this.content = content;
                         bdAd.loadAd(content);
                     }
-                    break;
+                    break;*/
             }
         } else {
             ad = getMyAd();
@@ -113,17 +114,17 @@ public abstract class BaseVideoAd implements GdtAdListener {
     public void showAd() {
         if (!TextUtils.isEmpty(adType)) {
             switch (adType) {
-                case GDT_AD:
+               /* case GDT_AD:
                     if (gdtNativeAdPreMovie != null) {
                         gdtNativeAdPreMovie.showAd();
                     }
-                    break;
+                    break;*/
                 case MD_AD:
                     if (ad != null) {
                         ad.showAd();
                     }
                     break;
-                case TT_AD:
+              /*  case TT_AD:
                     if (ttAd != null) {
                         ttAd.showAd();
                     }
@@ -132,7 +133,7 @@ public abstract class BaseVideoAd implements GdtAdListener {
                     if (bdAd != null) {
                         bdAd.showAd();
                     }
-                    break;
+                    break;*/
             }
         } else {
             if (ad != null) {
@@ -151,14 +152,14 @@ public abstract class BaseVideoAd implements GdtAdListener {
             ad.recycle();
             ad = null;
         }
-        if (gdtNativeAdPreMovie != null) {
+       /* if (gdtNativeAdPreMovie != null) {
             gdtNativeAdPreMovie.recycle();
             ad = null;
         }
         if (ttAd != null) {
             ttAd.recycle();
             ttAd = null;
-        }
+        }*/
     }
 
     @Override

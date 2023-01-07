@@ -8,12 +8,12 @@ import com.bt.jrsdk.listener.SplashAdListener;
 import com.bt.jrsdk.listener.VideoAdListener;
 import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.manager.AdObserver;
-import com.qq.e.ads.cfg.VideoOption;
+/*import com.qq.e.ads.cfg.VideoOption;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialADListener;
 import com.qq.e.ads.rewardvideo.RewardVideoAD;
 import com.qq.e.ads.rewardvideo.RewardVideoADListener;
-import com.qq.e.comm.util.AdError;
+import com.qq.e.comm.util.AdError;*/
 import com.today.player.ad.BaseVideoAd;
 import com.today.player.ad.GdtAdListener;
 import com.today.player.api.ApiConfig;
@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class GdtNativeAdPreMovie extends BaseAd {
-    private RewardVideoAD rewardVideoAD;
+public class GdtNativeAdPreMovie /*extends BaseAd*/ {
+  /*  private RewardVideoAD rewardVideoAD;
     private UnifiedInterstitialAD fullInterstitial;
 
     private SplashAdListener listener;
@@ -293,5 +293,5 @@ public class GdtNativeAdPreMovie extends BaseAd {
         option = builder.setAutoPlayMuted(false)
                 .build();
         fullInterstitial.setVideoOption(option);
-    }
+    }*/
 }

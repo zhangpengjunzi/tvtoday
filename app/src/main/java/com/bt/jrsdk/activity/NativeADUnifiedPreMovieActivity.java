@@ -27,7 +27,7 @@ import com.bt.jrsdk.manager.AdListenerManager;
 import com.bt.jrsdk.manager.AdStartManager;
 import com.bt.jrsdk.util.NetUtil;
 import com.bt.jrsdk.util.Utils;
-import com.qq.e.ads.cfg.VideoOption;
+/*import com.qq.e.ads.cfg.VideoOption;
 import com.qq.e.ads.nativ.MediaView;
 import com.qq.e.ads.nativ.NativeADEventListener;
 import com.qq.e.ads.nativ.NativeADMediaListener;
@@ -36,7 +36,7 @@ import com.qq.e.ads.nativ.NativeUnifiedAD;
 import com.qq.e.ads.nativ.NativeUnifiedADData;
 import com.qq.e.ads.nativ.widget.NativeAdContainer;
 import com.qq.e.comm.constants.AdPatternType;
-import com.qq.e.comm.util.AdError;
+import com.qq.e.comm.util.AdError;*/
 import com.today.player.R;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ import java.util.Map;
 
 public class NativeADUnifiedPreMovieActivity extends Activity {
 
-    private AQuery mAQuery;
+  /*  private AQuery mAQuery;
     private NativeUnifiedADData mAdData;
     private H mHandler = new H();
     private static final int MSG_INIT_AD = 0;
@@ -368,5 +368,5 @@ public class NativeADUnifiedPreMovieActivity extends Activity {
             tv_jump.setVisibility(View.GONE);
             mCloseButton.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 }

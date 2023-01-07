@@ -23,6 +23,12 @@ android {
             dirs 'libs'
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {

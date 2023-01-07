@@ -3,13 +3,13 @@ package com.bt.bdad;
 import android.app.Activity;
 import android.util.DisplayMetrics;
 
-import com.baidu.mobads.sdk.api.BaiduNativeManager;
+/*import com.baidu.mobads.sdk.api.BaiduNativeManager;
 import com.baidu.mobads.sdk.api.ExpressInterstitialAd;
 import com.baidu.mobads.sdk.api.ExpressInterstitialListener;
 import com.baidu.mobads.sdk.api.FullScreenVideoAd;
 import com.baidu.mobads.sdk.api.NativeResponse;
 import com.baidu.mobads.sdk.api.RequestParameters;
-import com.baidu.mobads.sdk.api.RewardVideoAd;
+import com.baidu.mobads.sdk.api.RewardVideoAd;*/
 import com.bt.admanager.AdWeightManager;
 import com.bt.jrsdk.activity.BdPauseVideoActivity;
 import com.bt.jrsdk.ads.AdConfig;
@@ -27,9 +27,9 @@ import com.today.player.util.GetDevicesId;
 import java.util.List;
 import java.util.Random;
 
-public class BdAd extends BaseAd {
+public class BdAd /*extends BaseAd*/ {
 
-    private RewardVideoAd mRewardVideoAd;
+   /* private RewardVideoAd mRewardVideoAd;
     private FullScreenVideoAd fullScreenVideoAd;
     private BaiduNativeManager mBaiduNativeManager;
     private String sigPid;
@@ -76,9 +76,9 @@ public class BdAd extends BaseAd {
                 }
                 break;
             case BaseVideoAd.AD_PAUSEVIDEO:
-                /*if (expressInterstitialAd != null) {
+                *//*if (expressInterstitialAd != null) {
                     expressInterstitialAd.show(activity);
-                }*/
+                }*//*
                 if(mBaiduNativeManager!=null){
                     go2AdActivity(BdPauseVideoActivity.class);
                 }
@@ -310,10 +310,10 @@ public class BdAd extends BaseAd {
                 .downloadAppConfirmPolicy(
                         RequestParameters.DOWNLOAD_APP_CONFIRM_ONLY_MOBILE) // 用户点击下载类广告时，是否弹出提示框让用户选择下载与否
                 .build();
-        /**
+        *//**
          * 设置仅在Wi-Fi环境下缓存视频文件，默认在4G下也会缓存视频文件
          * 注意：需要提前打开缓存功能，此设置才有意义
-         */
+         *//*
         mBaiduNativeManager.setCacheVideoOnlyWifi(true);
         // 请求广告
         final BaiduNativeManager.FeedAdListener feedAdListener = new BaiduNativeManager.FeedAdListener() {
@@ -352,5 +352,5 @@ public class BdAd extends BaseAd {
             }
         };
         mBaiduNativeManager.loadFeedAd(requestParameters, feedAdListener);
-    }
+    }*/
 }
