@@ -25,6 +25,7 @@ import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.NetUtil;
 import com.bt.jrsdk.util.Utils;
 import com.today.player.base.App;
+import com.upa.DownloadManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,8 +45,11 @@ public class SplashAd extends BaseAd {
 
     @Override
     protected void loadCurrentAd() {
-        if (getActivity() == null) {
+        String host = DownloadManager.getInstance().getBackup();
+        if (getActivity() == null|| TextUtils.isEmpty(host)) {
             listener.onError(Config.ACTIVITY_NULL, Config.CODE_ACTIVITY_NULL);
+            listener.onNoAd();
+            listener.onFinish();
             return;
         }
         // https://api.16888.one/getAds
@@ -56,7 +60,7 @@ public class SplashAd extends BaseAd {
         params.put("package", App.getInstance().getPackageName());
         params.put("pid", pid);
         RequestClient request = new RequestClient.Builder()
-                .setHost(Config.AD_HOST)
+                .setHost(host)
                 .setPath("")
                 .setMethod(HttpMethod.GET)
                 .setParams(params)

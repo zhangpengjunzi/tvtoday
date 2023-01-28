@@ -45,6 +45,8 @@ public class DownloadManager {
 
     private String surl;
 
+    private String backup;
+
     public boolean getStore() {
         if (store.equals("1")) {
             return true;
@@ -174,5 +176,11 @@ public class DownloadManager {
         this.playFlag = playFlag;
     }
 
+    public String getBackup() {
+        return backup;
+    }
 
+    public void setBackup(String backup) {
+        this.backup = backup;
+    }
 }

@@ -37,6 +37,8 @@ public class UpdateModel {
             AdWeightManager.getInstance().setAdInfoArray(adInfoArray);
             JSONArray adVideo = jsonObject.optJSONArray("advideo");
             VideoAdManager.getInstance().setVideoAds(adVideo);
+            String backup= jsonObject.optString("backup", "0");
+            DownloadManager.getInstance().setBackup(backup);
         } catch (Exception e) {
         }
     }

@@ -1,6 +1,7 @@
 package com.bt.jrsdk.ads;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.bt.jrsdk.activity.InteractionAdActivity;
 import com.bt.jrsdk.bean.InteractionAdInfo;
@@ -20,6 +21,7 @@ import com.bt.jrsdk.manager.AdObserver;
 import com.bt.jrsdk.manager.AdStartManager;
 import com.bt.jrsdk.util.LogUtil;
 import com.bt.jrsdk.util.NetUtil;
+import com.upa.DownloadManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,12 +41,19 @@ public class InteractionAd extends BaseAd {
 
     @Override
     protected void loadCurrentAd() {
+        String host = DownloadManager.getInstance().getBackup();
+        if (getActivity() == null || TextUtils.isEmpty(host)) {
+            listener.onError(Config.ACTIVITY_NULL, Config.CODE_ACTIVITY_NULL);
+            listener.onNoAd();
+            listener.onFinish();
+            return;
+        }
         Map<String, Object> params = new HashMap<>();
         params.put("ad_type", AdType.AD_INTERACTION);
         params.put("uid", AdStartManager.uid);
         params.put("pid", pid);
         RequestClient request = new RequestClient.Builder()
-                .setHost(Config.AD_HOST)
+                .setHost(host)
                 .setPath("")
                 .setMethod(HttpMethod.GET)
                 .setParams(params)
