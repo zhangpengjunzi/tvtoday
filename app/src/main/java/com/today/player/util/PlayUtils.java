@@ -6,7 +6,6 @@ import com.orhanobut.hawk.Hawk;
 import tv.danmaku.ijk.media.player.IjkLibLoader;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory;
-import xyz.doikki.videoplayer.ijk.IjkPlayerFactory;
 
 import xyz.doikki.videoplayer.player.PlayerFactory;
 import xyz.doikki.videoplayer.player.VideoView;
@@ -22,7 +21,6 @@ public class PlayUtils {
         RenderViewFactory renderViewFactory;
         int intValue = Hawk.get(HawkConfig.PLAY_TYPE, 0);
         if (intValue == 1) {
-            playerFactory = IjkPlayerFactory.create();
             try {
                 IjkMediaPlayer.loadLibrariesOnce(new IjkLibLoader() {
                     @Override
@@ -41,9 +39,9 @@ public class PlayUtils {
         } else {
             renderViewFactory = new bi();
         }
-        videoView.setPlayerFactory(playerFactory);
+//        videoView.setPlayerFactory(playerFactory);
         videoView.setRenderViewFactory(renderViewFactory);
-        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setPlayerFactory(playerFactory).setRenderViewFactory(renderViewFactory).build());
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setRenderViewFactory(renderViewFactory).build());
     }
 
     public static String a(byte[] bArr, String str) {
@@ -60,7 +58,7 @@ public class PlayUtils {
         RenderViewFactory renderViewFactory;
         int intValue = Hawk.get(HawkConfig.PLAY_TYPE, 0);
         if (intValue == 1) {
-            playerFactory = IjkPlayerFactory.create();
+//            playerFactory = IjkPlayerFactory.create();
             try {
                 IjkMediaPlayer.loadLibrariesOnce(new IjkLibLoader() {
                     @Override
@@ -79,7 +77,7 @@ public class PlayUtils {
         } else {
             renderViewFactory = new bi();
         }
-        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setPlayerFactory(playerFactory).setRenderViewFactory(renderViewFactory).build());
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder().setScreenScaleType(0).setRenderViewFactory(renderViewFactory).build());
     }
 
 

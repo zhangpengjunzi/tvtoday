@@ -149,7 +149,7 @@ public class DetailActivity extends BaseActivity {
                     insertVod(sourceUrl, vodInfo);
                     bundle.putSerializable("VodInfo", vodInfo);
                     bundle.putSerializable("sourceKey", sourceKey);
-                    jumpActivity(AliPlayActivity.class, bundle);
+                    jumpActivity(GSYPlayActivity.class, bundle);
                 }
             }
         });
@@ -210,7 +210,7 @@ public class DetailActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("VodInfo", vodInfo);
                     bundle.putSerializable("sourceKey", sourceKey);
-                    jumpActivity(AliPlayActivity.class, bundle);
+                    jumpActivity(GSYPlayActivity.class, bundle);
                 }
             }
         });

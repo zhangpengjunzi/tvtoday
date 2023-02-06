@@ -33,6 +33,6 @@ public class Config {
     /**
      * true是 打带验证码的包，
      */
-    public static final boolean IS_GOOGLE_AAB = false;
+    public static final boolean IS_GOOGLE_AAB = true;
 
 }
