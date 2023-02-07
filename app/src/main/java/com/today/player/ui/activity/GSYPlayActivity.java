@@ -2,11 +2,13 @@ package com.today.player.ui.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -115,8 +117,7 @@ public class GSYPlayActivity extends BaseActivity {
         mVideoView.setLive(false);
         mVideoView.requestFocus();
         mVideoView.setKeepScreenOn(true);
-        //不需要屏幕旋转
-        mVideoView.setNeedOrientationUtils(false);
+        mVideoView.setIfCurrentIsFullscreen(true);
         VideoOptionModel videoOptionModel =
                 new VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "protocol_whitelist", "crypto,file,http,https,tcp,tls,udp,rtmp,rtsp");
         List<VideoOptionModel> list = new ArrayList<>();
@@ -126,14 +127,9 @@ public class GSYPlayActivity extends BaseActivity {
         mVideoView.getBackButton().setVisibility(View.GONE);
         //外部辅助的旋转，帮助全屏
         orientationUtils = new OrientationUtils(this, mVideoView);
-
+        orientationUtils.setScreenType(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         gsyVideoOption = new GSYVideoOptionBuilder();
-        mVideoView.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mVideoView.getFullscreenButton().setOnClickListener(v -> finish());
 
         setLoadSir(mVideoView);
     }
@@ -439,66 +435,15 @@ public class GSYPlayActivity extends BaseActivity {
                         .setLockLand(true)
                         .setAutoFullWithSize(false)
                         .setShowFullAnimation(false)
-                        .setNeedLockFull(true)
+                        .setNeedLockFull(false)
                         .setNeedOrientationUtils(false)
                         .setUrl(str)
-//                .setMapHeadData(header)
                         .setCacheWithPlay(false)
                         .setStartAfterPrepared(true)
                         .setSurfaceErrorPlay(false)
                         .setThumbPlay(true)
                         .setVideoTitle(mTitle)
-                        .setVideoAllCallBack(new GSYSampleCallBack() {
-                            @Override
-                            public void onPrepared(String url, Object... objects) {
-                                Debuger.printfError("***** onPrepared **** " + objects[0]);
-                                Debuger.printfError("***** onPrepared **** " + objects[1]);
-                                super.onPrepared(url, objects);
-                                //开始播放了才能旋转和全屏
-                                orientationUtils.setEnable(mVideoView.isRotateWithSystem());
-                                isPlay = true;
-
-                            }
-
-                            @Override
-                            public void onEnterFullscreen(String url, Object... objects) {
-                                super.onEnterFullscreen(url, objects);
-                                Debuger.printfError("***** onEnterFullscreen **** " + objects[0]);//title
-                                Debuger.printfError("***** onEnterFullscreen **** " + objects[1]);//当前全屏player
-                            }
-
-                            @Override
-                            public void onAutoComplete(String url, Object... objects) {
-                                super.onAutoComplete(url, objects);
-                            }
-
-                            @Override
-                            public void onClickStartError(String url, Object... objects) {
-                                super.onClickStartError(url, objects);
-                            }
-
-                            @Override
-                            public void onQuitFullscreen(String url, Object... objects) {
-                                super.onQuitFullscreen(url, objects);
-                                Debuger.printfError("***** onQuitFullscreen **** " + objects[0]);//title
-                                Debuger.printfError("***** onQuitFullscreen **** " + objects[1]);//当前非全屏player
-
-                                // ------- ！！！如果不需要旋转屏幕，可以不调用！！！-------
-                                // 不需要屏幕旋转，还需要设置 setNeedOrientationUtils(false)
-//                                if (orientationUtils != null) {
-//                                    orientationUtils.backToProtVideo();
-//                                }
-                            }
-
-                        })
-                        .setGSYVideoProgressListener(new GSYVideoProgressListener() {
-                            @Override
-                            public void onProgress(long progress, long secProgress, long currentPosition, long duration) {
-                                Debuger.printfLog(" progress " + progress + " secProgress " + secProgress + " currentPosition " + currentPosition + " duration " + duration);
-                            }
-                        })
                         .build(mVideoView);
-
                 mVideoView.startPlayLogic();
             }
 
@@ -573,9 +518,18 @@ public class GSYPlayActivity extends BaseActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-//        if (mVideoView != null && !mVideoView.isIfCurrentIsFullscreen()) {
-//            return super.dispatchKeyEvent(event);
-//        }
+        Log.e("debug_", "dispatchKeyEvent getKeyCode: " + event.getKeyCode() + " getAction: " + event.getAction());
+        if (event.getAction() == KeyEvent.ACTION_DOWN && (KeyEventUtil.isUpKey(event) || KeyEventUtil.isDownKey(event))) {
+            mVideoView.setFocusable(false);
+            mVideoView.showBottomPopWindow(findViewById(R.id.gsy_play_linear));
+        } else if (KeyEventUtil.isBackKey(event)) {
+            if (mVideoView.dismissBottomPopWindow()) {
+                return true;
+            }
+        }
+        if (!mVideoView.isFocusable()) {
+            return true;
+        }
         if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEventUtil.isLeftKey(event)) {
             mVideoView.customTouchSurfaceMove(false);
         } else if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEventUtil.isRightKey(event)) {
@@ -635,15 +589,6 @@ public class GSYPlayActivity extends BaseActivity {
         if (pauseAd != null) {
             pauseAd.recycler();
             pauseAd = null;
-        }
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        //如果旋转了就全屏
-        if (isPlay && !isPause) {
-            mVideoView.onConfigurationChanged(this, newConfig, orientationUtils, true, true);
         }
     }
 

@@ -3,13 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/android/.gradle/caches/transforms-2/files-2.1/dee8ec08952160b9dda32594587d9b9e/jetified-gsyVideoPlayer-java-v8.3.4-release-jitpack/res/layout/video_brightness.xml" value="0.12760416666666666" />
+        <entry key="..\:/android/.gradle/caches/transforms-2/files-2.1/dee8ec08952160b9dda32594587d9b9e/jetified-gsyVideoPlayer-java-v8.3.4-release-jitpack/res/layout/video_layout_ad.xml" value="0.12760416666666666" />
+        <entry key="..\:/android/.gradle/caches/transforms-2/files-2.1/dee8ec08952160b9dda32594587d9b9e/jetified-gsyVideoPlayer-java-v8.3.4-release-jitpack/res/layout/video_layout_custom.xml" value="0.12760416666666666" />
+        <entry key="..\:/android/.gradle/caches/transforms-2/files-2.1/dee8ec08952160b9dda32594587d9b9e/jetified-gsyVideoPlayer-java-v8.3.4-release-jitpack/res/layout/video_layout_normal.xml" value="0.12760416666666666" />
+        <entry key="..\:/android/.gradle/caches/transforms-2/files-2.1/dee8ec08952160b9dda32594587d9b9e/jetified-gsyVideoPlayer-java-v8.3.4-release-jitpack/res/layout/video_layout_standard.xml" value="0.12760416666666666" />
+        <entry key="..\:/android/.gradle/caches/transforms-2/files-2.1/dee8ec08952160b9dda32594587d9b9e/jetified-gsyVideoPlayer-java-v8.3.4-release-jitpack/res/layout/video_progress_dialog.xml" value="0.12760416666666666" />
+        <entry key="..\:/android/.gradle/caches/transforms-2/files-2.1/dee8ec08952160b9dda32594587d9b9e/jetified-gsyVideoPlayer-java-v8.3.4-release-jitpack/res/layout/video_volume_dialog.xml" value="0.12760416666666666" />
         <entry key="..\:/code/ws/github/tvtoday/Aliyunplayer/AlivcPlayerTools/src/main/res/layout/alivc_dialog_gesture.xml" value="0.1421875" />
         <entry key="..\:/code/ws/github/tvtoday/Aliyunplayer/AlivcPlayerTools/src/main/res/layout/alivc_player_download_cache_list_item.xml" value="0.1" />
         <entry key="..\:/code/ws/github/tvtoday/Aliyunplayer/AlivcPlayerTools/src/main/res/layout/alivc_view_control.xml" value="0.109375" />
+        <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/drawable/bottom_select_shape1.xml" value="0.1025" />
+        <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/drawable/bottom_shape.xml" value="0.1025" />
+        <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/drawable/bottom_shape1.xml" value="0.1025" />
+        <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/drawable/button_bg.xml" value="0.1025" />
+        <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/drawable/model_dialog_bugly_bg.xml" value="0.1025" />
+        <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/drawable/remote_dialog_bg.xml" value="0.1025" />
         <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/layout/activity_ali_play.xml" value="0.1" />
         <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/layout/activity_detail.xml" value="0.21784420289855072" />
         <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/layout/activity_play.xml" value="0.1" />
+        <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/layout/dialog_bottom_speed.xml" value="0.12760416666666666" />
         <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/layout/dkplayer_layout_simon_vod_control_view.xml" value="0.21302083333333333" />
         <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/layout/sample_tv_player_land.xml" value="0.14739583333333334" />
         <entry key="..\:/code/ws/github/tvtoday/app/src/main/res/layout/sample_tv_player_normal.xml" value="0.11041666666666666" />
