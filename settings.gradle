@@ -4,3 +4,6 @@ rootProject.name = "TVMovie"
 include ':AliyunVideoCommon'
 include ':AliyunPlayerBase'
 include ':Aliyunplayer:AlivcPlayerTools'
+include ':ijkplayer-arm64'
+include ':gsylib'
+include ':ijkplayer-armv7a'

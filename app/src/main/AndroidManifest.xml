@@ -19,6 +19,7 @@
     <application
         android:name=".base.MyApplicationLike"
         android:allowBackup="true"
+        android:allowNativeHeapPointerTagging="false"
         android:allowClearUserData="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/app_icon"
